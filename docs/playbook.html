@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Weekly Playbook - FloraFile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed": "#141e1b",
+                "on-error": "#690005",
+                "secondary-fixed-dim": "#a5d0bb",
+                "on-tertiary-fixed-variant": "#3e4945",
+                "on-surface-variant": "#bacbbd",
+                "on-background": "#e5e2e1",
+                "surface": "#131313",
+                "on-secondary": "#0d3728",
+                "error": "#ffb4ab",
+                "on-tertiary": "#28332f",
+                "primary-fixed-dim": "#00e390",
+                "background": "#131313",
+                "on-secondary-container": "#94beaa",
+                "primary-fixed": "#53ffab",
+                "error-container": "#93000a",
+                "surface-container": "#201f1f",
+                "primary": "#aeffcc",
+                "on-primary-fixed-variant": "#005231",
+                "inverse-surface": "#e5e2e1",
+                "outline-variant": "#3b4a40",
+                "tertiary": "#e5f0eb",
+                "inverse-on-surface": "#313030",
+                "surface-tint": "#00e390",
+                "on-primary": "#003920",
+                "surface-bright": "#393939",
+                "tertiary-fixed-dim": "#bec9c4",
+                "on-primary-container": "#00673f",
+                "inverse-primary": "#006d42",
+                "outline": "#849588",
+                "surface-container-lowest": "#0e0e0e",
+                "on-tertiary-container": "#515c58",
+                "primary-container": "#22ee99",
+                "surface-container-highest": "#353534",
+                "tertiary-container": "#c9d4cf",
+                "on-primary-fixed": "#002111",
+                "on-error-container": "#ffdad6",
+                "surface-container-high": "#2a2a2a",
+                "on-secondary-fixed": "#002115",
+                "secondary": "#a5d0bb",
+                "on-secondary-fixed-variant": "#264e3e",
+                "surface-dim": "#131313",
+                "secondary-fixed": "#c0ecd6",
+                "secondary-container": "#264e3e",
+                "surface-container-low": "#1c1b1b",
+                "on-surface": "#e5e2e1",
+                "surface-variant": "#353534",
+                "tertiary-fixed": "#dae5e0"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "section-gap": "64px",
+                "container-margin-desktop": "48px",
+                "base": "8px",
+                "container-margin-mobile": "20px",
+                "gutter": "16px",
+                "container-max": "1200px",
+                "margin-mobile": "20px",
+                "margin-desktop": "40px",
+                "unit": "4px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Quicksand"
+                ],
+                "body-lg": [
+                        "Quicksand"
+                ],
+                "label-md": [
+                        "Quicksand"
+                ],
+                "label-sm": [
+                        "Quicksand"
+                ],
+                "headline-lg": [
+                        "Quicksand"
+                ],
+                "body-md": [
+                        "Quicksand"
+                ],
+                "headline-xl": [
+                        "Quicksand"
+                ],
+                "headline-lg-mobile": [
+                        "Quicksand"
+                ],
+                "body-sm": [
+                        "Quicksand"
+                ],
+                "display-lg": ["Quicksand"]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "12px",
+                                "letterSpacing": "0.08em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-xl": [
+                        "40px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+        }
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24 md:pb-0 font-body-md">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-surface-dim flat no shadows flex justify-between items-center px-margin-desktop py-4 w-full max-w-container-max mx-auto hidden md:flex sticky top-0 z-40 transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-6">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">FloraFile</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors font-headline-md text-headline-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors font-headline-md text-headline-md" href="#">My Plants</a>
+<a class="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary dark:border-primary-fixed pb-1 font-headline-md text-headline-md" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary-fixed hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a serene young woman surrounded by soft, natural sunlight filtering through green foliage. The aesthetic is bright, airy, and organic, embodying a calm, nurturing light-mode vibe with soft sage and crisp white background tones. The overall mood is peaceful and expertly serene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcHxDUwrLRQ7W3ozM74V4xAkU6e7QrfiDXttSPWpwyNTKBCyeXjtXS0EWli-nTsa8L0HIU9W0AbAB82k3qtbFB4eydJsym0ZTqxFsACQQM37EefnUQQJiTU0K6skDeQ6aklkCqoSienRA_bwyTWZsSjzdTAZ2JrYWsmEqZ1WHFsdGFzOJm5PY0kjf3EB-BNJ19vV0LM4jQIZljQIx3d389lOILhEurXxQaQcb6N_dMRvynhCfKeYpgbEuJviMRcLz1VYufmOcXI3Z2"/>
+</div>
+</div>
+</header>
+<!-- Mobile Header (Visible only on mobile) -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile py-4 sticky top-0 bg-background/80 backdrop-blur-md z-40">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">FloraFile</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a serene young woman surrounded by soft, natural sunlight filtering through green foliage. The aesthetic is bright, airy, and organic, embodying a calm, nurturing light-mode vibe with soft sage and crisp white background tones. The overall mood is peaceful and expertly serene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXKgJb9-pau8e9kqH3trBJwkuSCRKun-ucaTXIH4w0WORckcWvx3ZPM0ezPr7ztYWciXrrOVv0EzfVnt9F1xzRJQiLsRrB_Exz_0Q3Nr5poWxVGTZeAyL1MXAi4xT5-5BISfDdhzhHOePEmANQ19S00UHMzlZh23v4N2qykPbBdTRIVwF_sM9-wPyeyPtobnFGpF8_kc-KVS1OQtMQkbMFAkznIk941ds5DsXxtlQKC8NAgCEjpFLhFT5wqo67OuMDvE6P7un56Oyg"/>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Weekly Playbook</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Your care schedule for the week of Oct 24.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+                Sync to Calendar
+            </button>
+</div>
+<!-- Weekly Tip Card -->
+<div class="bg-surface-container-low rounded-xl p-6 mb-8 border border-outline-variant/30 flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary-container text-[24px]">wb_sunny</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Weather Context</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">It's a notably dry week with low humidity. Consider misting your tropicals like the Monstera and Ferns an extra time between regular waterings.</p>
+</div>
+</div>
+<!-- Calendar Vis & Chores Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Week Overview (Left Column Desktop) -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">The Week Ahead</h2>
+<!-- Day Pills -->
+<div class="flex flex-col gap-3">
+<!-- Past Day -->
+<div class="flex items-center gap-4 opacity-50">
+<div class="w-12 h-12 rounded-full bg-surface-container flex flex-col items-center justify-center shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">MON</span>
+<span class="font-label-md text-label-md text-on-surface-variant">23</span>
+</div>
+<div class="flex-1 bg-surface-container rounded-lg p-3 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant line-through">2 Tasks Completed</span>
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+</div>
+</div>
+<!-- Active Day -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex flex-col items-center justify-center shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm">TUE</span>
+<span class="font-label-md text-label-md">24</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-primary/20 rounded-lg p-3 shadow-[0_4px_12px_rgba(27,67,50,0.04)]">
+<span class="font-body-md text-body-md text-primary font-medium">3 Tasks Today</span>
+</div>
+</div>
+<!-- Future Day (Task) -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex flex-col items-center justify-center shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">WED</span>
+<span class="font-label-md text-label-md text-on-surface">25</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-3">
+<span class="font-body-md text-body-md text-on-surface">1 Task</span>
+</div>
+</div>
+<!-- Future Day (Clear) -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex flex-col items-center justify-center shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">THU</span>
+<span class="font-label-md text-label-md text-on-surface">26</span>
+</div>
+<div class="flex-1 bg-transparent p-3">
+<span class="font-body-md text-body-md text-outline">Clear schedule</span>
+</div>
+</div>
+<!-- Future Day (Task) -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex flex-col items-center justify-center shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">FRI</span>
+<span class="font-label-md text-label-md text-on-surface">27</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-3">
+<span class="font-body-md text-body-md text-on-surface">2 Tasks</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Chores List (Right Column Desktop) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Tuesday Group -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(27,67,50,0.04)] border border-outline-variant/20 overflow-hidden">
+<div class="bg-primary/5 px-6 py-4 border-b border-primary/10 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Tuesday, Oct 24 <span class="font-body-md text-body-md text-on-surface-variant ml-2 font-normal">Today</span></h3>
+</div>
+<div class="divide-y divide-surface-container">
+<!-- Chore Item -->
+<div class="p-6 flex items-start gap-4 hover:bg-surface-container-low/50 transition-colors">
+<button class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center hover:border-primary shrink-0 mt-1 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-transparent hover:text-primary/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline-md text-headline-md text-on-surface">Water Boston Fern</h4>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm">Watering</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Check soil moisture first; top inch should be dry.</p>
+<div class="flex gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="Fern" class="w-full h-full object-cover" data-alt="A lush Boston Fern plant in a clean, minimalist terracotta pot sitting on a light oak wooden table. The lighting is soft, natural daylight typical of a bright indoor conservatory. The overall aesthetic is organic minimalism with soft sage and cream tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMokMAGDwGKc9Uyeod42_XK5SSURfQiW2ltC-RAYAqJASAtYqoZMUUc5qMA5oq2VGHTPatjhbGbGkxoE9IzEenNHbDuxesdt7W80n5I6kbvVn_4AL1jxwX8jZ7fNZPcwebcrYOXBbTIeyCX1gLkV-j5fqSJevRfP3Uh7DHsBxJE2Yddsv-oIidlD9VIAexdXmKDntGQ4r6wi9I66UxlX6s0hSNFduzeRZU52YsgSVEYdsFNcgPEA71syu6M0JgGSpfUHRKNrPFQDPq"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Chore Item -->
+<div class="p-6 flex items-start gap-4 hover:bg-surface-container-low/50 transition-colors">
+<button class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center hover:border-primary shrink-0 mt-1 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-transparent hover:text-primary/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline-md text-headline-md text-on-surface">Mist Monstera</h4>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Misting</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Focus on the newer leaves and aerial roots.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Wednesday Group -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(27,67,50,0.04)] border border-outline-variant/20 overflow-hidden opacity-80">
+<div class="bg-surface-container-low px-6 py-4 border-b border-outline-variant/20 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Wednesday, Oct 25</h3>
+</div>
+<div class="divide-y divide-surface-container">
+<!-- Chore Item -->
+<div class="p-6 flex items-start gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center shrink-0 mt-1">
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline-md text-headline-md text-on-surface">Rotate Fiddle Leaf Fig</h4>
+<span class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Maintenance</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Rotate 90 degrees to ensure even growth towards the light.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(27,67,50,0.04)] shadow-sm fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-3 md:hidden rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]">potted_plant</span>
+<span class="font-label-md text-label-md mt-1">Garden</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]">photo_camera</span>
+<span class="font-label-md text-label-md mt-1">Identify</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-5 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-label-md text-label-md mt-1">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="font-label-md text-label-md mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

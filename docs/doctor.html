@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Plant Doctor - FloraFile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed": "#141e1b",
+                "on-error": "#690005",
+                "secondary-fixed-dim": "#a5d0bb",
+                "on-tertiary-fixed-variant": "#3e4945",
+                "on-surface-variant": "#bacbbd",
+                "on-background": "#e5e2e1",
+                "surface": "#131313",
+                "on-secondary": "#0d3728",
+                "error": "#ffb4ab",
+                "on-tertiary": "#28332f",
+                "primary-fixed-dim": "#00e390",
+                "background": "#131313",
+                "on-secondary-container": "#94beaa",
+                "primary-fixed": "#53ffab",
+                "error-container": "#93000a",
+                "surface-container": "#201f1f",
+                "primary": "#aeffcc",
+                "on-primary-fixed-variant": "#005231",
+                "inverse-surface": "#e5e2e1",
+                "outline-variant": "#3b4a40",
+                "tertiary": "#e5f0eb",
+                "inverse-on-surface": "#313030",
+                "surface-tint": "#00e390",
+                "on-primary": "#003920",
+                "surface-bright": "#393939",
+                "tertiary-fixed-dim": "#bec9c4",
+                "on-primary-container": "#00673f",
+                "inverse-primary": "#006d42",
+                "outline": "#849588",
+                "surface-container-lowest": "#0e0e0e",
+                "on-tertiary-container": "#515c58",
+                "primary-container": "#22ee99",
+                "surface-container-highest": "#353534",
+                "tertiary-container": "#c9d4cf",
+                "on-primary-fixed": "#002111",
+                "on-error-container": "#ffdad6",
+                "surface-container-high": "#2a2a2a",
+                "on-secondary-fixed": "#002115",
+                "secondary": "#a5d0bb",
+                "on-secondary-fixed-variant": "#264e3e",
+                "surface-dim": "#131313",
+                "secondary-fixed": "#c0ecd6",
+                "secondary-container": "#264e3e",
+                "surface-container-low": "#1c1b1b",
+                "on-surface": "#e5e2e1",
+                "surface-variant": "#353534",
+                "tertiary-fixed": "#dae5e0"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "section-gap": "64px",
+                "container-margin-desktop": "48px",
+                "base": "8px",
+                "container-margin-mobile": "20px",
+                "gutter": "16px",
+                "container-max": "1200px",
+                "unit": "4px",
+                "margin-mobile": "20px",
+                "margin-desktop": "40px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Quicksand"
+                ],
+                "body-lg": [
+                        "Quicksand"
+                ],
+                "label-md": [
+                        "Quicksand"
+                ],
+                "label-sm": [
+                        "Quicksand"
+                ],
+                "headline-lg": [
+                        "Quicksand"
+                ],
+                "body-md": [
+                        "Quicksand"
+                ],
+                "headline-xl": [
+                        "Quicksand"
+                ],
+                "headline-lg-mobile": [
+                        "Quicksand"
+                ],
+                "body-sm": [
+                        "Quicksand"
+                ],
+                "display-lg": [
+                        "Quicksand"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "12px",
+                                "letterSpacing": "0.08em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-xl": [
+                        "40px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+          font-family: 'Material Symbols Outlined';
+          font-weight: normal;
+          font-style: normal;
+          font-size: 24px;
+          line-height: 1;
+          letter-spacing: normal;
+          text-transform: none;
+          display: inline-block;
+          white-space: nowrap;
+          word-wrap: normal;
+          direction: ltr;
+          -webkit-font-feature-settings: 'liga';
+          -webkit-font-smoothing: antialiased;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar (Hidden on Mobile, Visible on Desktop) -->
+<header class="hidden md:flex docked full-width top-0 bg-background dark:bg-surface-dim flat no shadows transition-all duration-200 ease-in-out z-40 relative">
+<div class="flex justify-between items-center px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">FloraFile</div>
+<nav class="flex gap-8 items-center">
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors" href="#">Home</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors" href="#">My Plants</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors" href="#">Schedule</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a young person with clear skin, looking directly at the camera. Soft, natural light illuminates their face, creating a warm, organic aesthetic. The background is slightly blurred and features subtle hints of greenery, connecting with the overarching digital gardening theme of the UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcXOxE5G6EAK8hCMXKbf9z6dZ_tWH10nVG2lBBZ0D1qi9kosbqFLD3l8iUd6Z_KlUn92AvZQbQDnSbrhEDEn-jkpoL_1DwE-BqInzAXrFj2u7F5wW205bZSEMA6lY8vRGKDd842734yw0BaYjX7mi2KnG2C3CaTfv8TNE4WFRLu8yjX6OiHSKKvs9zflaJtQeAWC5dFdJeR8Egm-wYMxKuPmQWE4oxJxiXOSEOvaWYOj1sXOPEEf7TtVmB-ZZI54IQuzibV6AlhY0b"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 mb-24 md:mb-8">
+<!-- Header Section -->
+<section class="mb-12 max-w-2xl">
+<h1 class="font-display-lg text-display-lg text-primary mb-4">Plant Doctor</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Snap a photo of the problem area to diagnose what's wrong with your leafy friend. We'll analyze the symptoms and create a recovery plan.</p>
+</section>
+<!-- Diagnostic Workspace (Bento Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Viewfinder / Image Area -->
+<div class="lg:col-span-7">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container group border border-surface-variant">
+<!-- Photo Content -->
+<img alt="Sick plant leaf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A close-up macro shot of a Monstera Deliciosa leaf showing clear signs of distress. The edges are browning and crispy, and there is a distinct yellow halo around the damaged areas. The lighting is diffused, mimicking a bright indoor conservatory setting. The organic textures of the leaf veins contrast with the smooth, cream-colored background, fitting perfectly within the digital gardening aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlWp60krKL8WzekIXFUNyVcUw6p9Gfnfugvfbt3SnOAbH3nofzrvtetvvBK_rdAH15TfCGFbeIMCMJFngAU6csiVrhFxvmSmKAsiWw8p7-uUC7SLGUlHMM0QHGmvpp1hkOr76DLI89MDQ44b2-s8Qh-S-Saq-l25NcHM_AY2387MSTZ3gjq-rZJW_9EFD4USZa7q4rjXmghGuuTCk2bjvRh40CYysX71qLAQeJEDBZ7sMJnBysMC_tngfnO4d7Wc1yLzKTlteGSGbQ"/>
+<!-- Viewfinder Overlay (Simulated) -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border-2 border-dashed border-primary/50 rounded-lg"></div>
+<div class="absolute top-4 right-4 bg-background/80 backdrop-blur-sm rounded-full p-2 text-primary">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<!-- Scan Action Overlay -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="document_scanner" data-weight="fill" style="font-variation-settings: 'FILL' 1;">document_scanner</span>
+                            Analyze Photo
+                        </button>
+</div>
+</div>
+</div>
+<!-- Right: Diagnosis Panel -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Status Card -->
+<div class="bg-surface rounded-xl p-6 border border-surface-variant">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase tracking-wider">Diagnosis</span>
+<h2 class="font-headline-md text-headline-md text-on-background">Root Rot (Overwatering)</h2>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        The yellowing leaves, combined with soft, drooping stems, suggest the roots are sitting in too much water and unable to breathe.
+                    </p>
+<div class="h-px w-full bg-surface-variant mb-6"></div>
+<!-- Recovery Plan -->
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="medical_services">medical_services</span>
+                         Recovery Plan
+                    </h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-sm text-label-sm">1</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-background block">Check Drainage</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ensure the pot has holes and isn't sitting in standing water.</span>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-sm text-label-sm">2</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-background block">Hold Water for 14 Days</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Allow the top 3 inches of soil to dry completely.</span>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-sm text-label-sm">3</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-background block">Remove Damaged Leaves</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Prune the yellowing leaves to redirect energy to roots.</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Recommended Care Kit Section -->
+<section class="mt-16">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Recommended Care Kit</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+<!-- Product Card 1 -->
+<div class="bg-surface rounded-lg overflow-hidden border border-surface-variant group cursor-pointer hover:border-outline-variant transition-colors">
+<div class="aspect-square bg-surface-container relative overflow-hidden">
+<img alt="Moisture Meter" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 hover:opacity-100" data-alt="A sleek, modern soil moisture meter resting on a clean, soft sage-colored surface. The device has a minimalist design with a metallic probe and a clear digital display. Soft, diffused lighting creates a serene, clinical yet organic feel, consistent with the Leafy Friend digital gardening aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhJ8y4ySJqi1N8zLTg4yMTejOLGciUvnMRWrX0R_f-c-mmCmFHdp9uS7GIuEfFja4gshYVbBAH9GFDRxkfSxf4Eqj4owrD7s9lSfVljW_qeVSeDmzywrKEWgNLtmjUMEHA8iN59kJI7joPOXKFi2FLDuEHMbeHmn4NmtKt5qTnoWNUg_zQt5b9BqO9S_0cQTIWfySSdvr-Ln6td6B4uwuHTP357x8or7KFHX_S1MFt7z8XBxPXCGzaW8Xe0fa1H_ePx_wMMnUSJTYH"/>
+</div>
+<div class="p-4">
+<span class="font-label-sm text-label-sm text-primary mb-1 block">Tool</span>
+<h4 class="font-label-md text-label-md text-on-background line-clamp-1">Digital Moisture Meter</h4>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">$18.00</span>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface rounded-lg overflow-hidden border border-surface-variant group cursor-pointer hover:border-outline-variant transition-colors">
+<div class="aspect-square bg-surface-container relative overflow-hidden">
+<img alt="Well-draining Soil" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 hover:opacity-100" data-alt="A minimalist, eco-friendly kraft paper bag of premium potting soil sitting on a white background. Small bits of perlite and organic matter are visible spilled neatly around the base. The lighting is bright and airy, emphasizing the natural textures of the packaging and soil, fitting the organic minimalism style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCue2DOTHqzNlitRbioF6eQN2qxwvrIuzc4dbTOTM0YDQY1eJHCq2BYGdgaARxTccMcB9Qof43UtcjPCRtt9z58RaPqpRSVAKwai6wZtc3fcxr-t_Q63BJs2jx2IZbCkniK7UzK93TN5D_9-dEPyM8GU_ytlI35VIYIe8DXsdzqycUEwFeodTLob6NUN5r7R0El67fLBnjMoJ6gXrtwnsnlwrup9lb_vqB_9qVzLU6kmcqn0cqnH1UIfHVoi5OcQxfMbAYf7Y_LPjXZ"/>
+</div>
+<div class="p-4">
+<span class="font-label-sm text-label-sm text-primary mb-1 block">Supplies</span>
+<h4 class="font-label-md text-label-md text-on-background line-clamp-1">Aroid Potting Mix</h4>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">$24.00</span>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on Mobile, Hidden on Desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile py-3 bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,0,0,0.2)] docked full-width bottom-0 rounded-t-xl scale-95 active:scale-90 transition-transform duration-150 border-t border-surface-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="potted_plant">potted_plant</span>
+<span class="font-label-sm text-label-sm">Garden</span>
+</a>
+<!-- 'Identify' represents Plant Doctor/Diagnostic functionality perfectly -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-5 py-1 shadow-sm" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="photo_camera" data-weight="fill" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+<span class="font-label-sm text-label-sm font-semibold">Identify</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full transition-colors group" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+</body></html>

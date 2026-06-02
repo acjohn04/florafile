@@ -60,7 +60,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/better-sqlite3 ./nod
 RUN npm install prisma dotenv typescript ts-node
 RUN chown -R nextjs:nodejs /app/node_modules /app/package.json /app/package-lock.json
 
-USER nextjs
+
 
 EXPOSE 3000
 ENV PORT=3000

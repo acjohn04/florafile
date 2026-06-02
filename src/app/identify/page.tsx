@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/ImageUploader";
 import { CareSummaryGrid } from "@/components/CareSummaryGrid";
 import { Icon } from "@/components/Icon";
+import { useTranslation } from "@/i18n/client";
 
 export default function IdentifyPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +31,7 @@ export default function IdentifyPage() {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Failed to identify plant");
+        throw new Error(err.error || t.identify.failedError);
       }
 
       const data = await res.json();
@@ -43,20 +45,20 @@ export default function IdentifyPage() {
 
   const handleSaveToGarden = () => {
     if (!result) return;
-    
+
     sessionStorage.setItem("florafile_new_plant", JSON.stringify(result));
     if (capturedImage) {
       sessionStorage.setItem("florafile_new_image", capturedImage);
     }
-    
+
     router.push("/confirm");
   };
 
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <header className="text-center mb-8">
-        <h1 className="text-3xl font-heading font-bold text-on-surface">Identify Plant</h1>
-        <p className="text-on-surface-variant mt-2">Take a photo of a plant to identify it and get care instructions.</p>
+        <h1 className="text-3xl font-heading font-bold text-on-surface">{t.identify.title}</h1>
+        <p className="text-on-surface-variant mt-2">{t.identify.subtitle}</p>
       </header>
 
       <ImageUploader onImageSelect={handleImageSelect} isProcessing={isProcessing} />
@@ -76,9 +78,6 @@ export default function IdentifyPage() {
                 <Icon name="psychology" className="text-2xl" />
               </div>
               <div>
-                <div className="inline-flex items-center gap-1 bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide mb-2">
-                  <Icon name="auto_awesome" className="text-[14px]" /> AI Match
-                </div>
                 <h2 className="text-2xl font-heading font-bold text-on-surface">{result.commonName}</h2>
                 <p className="text-on-surface-variant italic">{result.scientificName}</p>
               </div>
@@ -86,18 +85,18 @@ export default function IdentifyPage() {
 
             <p className="mt-4 text-on-surface">{result.description}</p>
 
-            <CareSummaryGrid 
+            <CareSummaryGrid
               light={result.light}
               water={result.water}
               toxicity={result.toxicity}
               careLevel={result.careLevel}
             />
 
-            <button 
+            <button
               onClick={handleSaveToGarden}
               className="w-full mt-6 bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors"
             >
-              <Icon name="add" /> Add to My Garden
+              <Icon name="add" /> {t.identify.addToGarden}
             </button>
           </div>
         </div>

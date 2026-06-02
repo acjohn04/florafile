@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Icon } from "./Icon";
 import { StatusBadge } from "./StatusBadge";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/i18n/client";
 
 interface PlantCardProps {
   plant: {
@@ -20,11 +21,12 @@ interface PlantCardProps {
 
 export function PlantCard({ plant }: PlantCardProps) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (confirm("Are you sure you want to delete this plant?")) {
+    if (confirm(t.components.plantCard.deleteConfirm)) {
       try {
         await fetch(`/api/plants/${plant.id}`, { method: "DELETE" });
         router.refresh();

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Icon } from "./Icon";
+import { useTranslation } from "@/i18n/client";
 
 interface ImageUploaderProps {
   onImageSelect: (base64: string, mimeType: string, file: File) => void;
@@ -9,6 +10,7 @@ interface ImageUploaderProps {
 }
 
 export function ImageUploader({ onImageSelect, isProcessing }: ImageUploaderProps) {
+  const { t } = useTranslation();
   const [dragActive, setDragActive] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -94,7 +96,7 @@ export function ImageUploader({ onImageSelect, isProcessing }: ImageUploaderProp
           <img src={preview} alt="Upload preview" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 text-white">
-              <Icon name="cameraswitch" /> Retake Photo
+              <Icon name="cameraswitch" /> {t.components.imageUploader.retakePhoto}
             </div>
           </div>
           {isProcessing && (
@@ -102,7 +104,7 @@ export function ImageUploader({ onImageSelect, isProcessing }: ImageUploaderProp
               <div className="scan-line" />
               <div className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center">
                 <div className="glass-panel px-6 py-3 rounded-2xl flex items-center gap-3 text-primary animate-pulse">
-                  <Icon name="search" /> Analyzing Plant...
+                  <Icon name="search" /> {t.components.imageUploader.analyzing}
                 </div>
               </div>
             </div>
@@ -114,8 +116,8 @@ export function ImageUploader({ onImageSelect, isProcessing }: ImageUploaderProp
             <Icon name="add_a_photo" className="text-3xl" />
           </div>
           <div>
-            <p className="text-on-surface font-medium text-lg">Tap to Snap or Upload</p>
-            <p className="text-on-surface-variant text-sm mt-1">Make sure the leaves are clearly visible</p>
+            <p className="text-on-surface font-medium text-lg">{t.components.imageUploader.tapToSnap}</p>
+            <p className="text-on-surface-variant text-sm mt-1">{t.components.imageUploader.makeSureLeavesVisible}</p>
           </div>
         </div>
       )}

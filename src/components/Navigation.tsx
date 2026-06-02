@@ -3,15 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "./Icon";
+import { useTranslation } from "@/i18n/client";
 
 export function Navigation() {
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   const navItems = [
-    { name: "Garden", path: "/", icon: "potted_plant" },
-    { name: "Identify", path: "/identify", icon: "photo_camera" },
-    { name: "Schedule", path: "/playbook", icon: "calendar_month" },
-    { name: "Doctor", path: "/doctor", icon: "medical_services" },
+    { name: t.navigation.garden, path: "/", icon: "potted_plant" },
+    { name: t.navigation.identify, path: "/identify", icon: "photo_camera" },
+    { name: t.navigation.schedule, path: "/playbook", icon: "calendar_month" },
+    { name: t.navigation.doctor, path: "/doctor", icon: "medical_services" },
   ];
 
   return (
@@ -70,7 +72,7 @@ export function Navigation() {
           <div className={`w-16 h-8 flex items-center justify-center rounded-full transition-colors ${pathname.startsWith("/doctor") ? "bg-primary-container/20" : ""}`}>
             <Icon name="medical_services" filled={pathname.startsWith("/doctor")} />
           </div>
-          <span className="text-[10px] font-medium">Doctor</span>
+          <span className="text-[10px] font-medium">{t.navigation.doctor}</span>
         </Link>
       </nav>
     </>

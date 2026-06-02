@@ -1,14 +1,16 @@
 import { Icon } from "./Icon";
+import { useTranslation } from "@/i18n/client";
 
 export function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   let config = { bg: "bg-surface-container", text: "text-on-surface", icon: "help", label: status };
 
   if (status === "healthy") {
-    config = { bg: "bg-primary-container", text: "text-on-primary-container", icon: "check_circle", label: "Healthy" };
+    config = { bg: "bg-primary-container", text: "text-on-primary-container", icon: "check_circle", label: t.components.statusBadge.healthy };
   } else if (status === "needs_water") {
-    config = { bg: "bg-tertiary-container", text: "text-on-tertiary-container", icon: "water_drop", label: "Needs Water" };
+    config = { bg: "bg-tertiary-container", text: "text-on-tertiary-container", icon: "water_drop", label: t.components.statusBadge.needsWater };
   } else if (status === "prune_soon") {
-    config = { bg: "bg-secondary-container", text: "text-on-secondary-container", icon: "content_cut", label: "Prune Soon" };
+    config = { bg: "bg-secondary-container", text: "text-on-secondary-container", icon: "content_cut", label: t.components.statusBadge.pruneSoon };
   }
 
   return (

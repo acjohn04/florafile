@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { PlantCard } from "@/components/PlantCard";
 import { prisma } from "@/lib/db";
+import { getDictionary } from "@/i18n";
 
 export const dynamic = 'force-dynamic';
 
@@ -9,13 +10,18 @@ export default async function Dashboard() {
   const plants = await prisma.plant.findMany({
     orderBy: { createdAt: "desc" }
   });
+  const t = await getDictionary();
 
   return (
     <div className="space-y-8">
       <header className="flex items-end justify-between">
         <div>
-          <h1 className="text-3xl font-heading font-bold text-on-surface">My Conservatory</h1>
-          <p className="text-on-surface-variant mt-1">{plants.length} {plants.length === 1 ? 'plant' : 'plants'} thriving</p>
+          <h1 className="text-3xl font-heading font-bold text-on-surface">{t.dashboard.title}</h1>
+          <p className="text-on-surface-variant mt-1">
+            {t.dashboard.plantsThriving
+              .replace('{count}', plants.length.toString())
+              .replace('{plantWord}', plants.length === 1 ? t.dashboard.plantsThrivingSingle : t.dashboard.plantsThrivingPlural)}
+          </p>
         </div>
       </header>
 
@@ -26,8 +32,8 @@ export default async function Dashboard() {
             <div className="w-12 h-12 bg-on-primary-container/10 rounded-2xl flex items-center justify-center mb-4">
               <Icon name="add_a_photo" className="text-2xl" />
             </div>
-            <h2 className="text-xl font-heading font-bold mb-2">Add New Plant</h2>
-            <p className="text-sm opacity-90">Snap a photo and AI will identify it instantly.</p>
+            <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.addNewPlant}</h2>
+            <p className="text-sm opacity-90">{t.dashboard.addNewPlantDesc}</p>
           </div>
           <Icon name="eco" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
         </Link>
@@ -37,8 +43,8 @@ export default async function Dashboard() {
             <div className="w-12 h-12 bg-on-secondary-container/10 rounded-2xl flex items-center justify-center mb-4">
               <Icon name="auto_awesome" className="text-2xl" />
             </div>
-            <h2 className="text-xl font-heading font-bold mb-2">Weekly Playbook</h2>
-            <p className="text-sm opacity-90">Your smart schedule for watering and care.</p>
+            <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.weeklyPlaybook}</h2>
+            <p className="text-sm opacity-90">{t.dashboard.weeklyPlaybookDesc}</p>
           </div>
           <Icon name="calendar_month" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
         </Link>
@@ -46,16 +52,16 @@ export default async function Dashboard() {
 
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-heading font-bold text-on-surface">Inventory</h2>
+          <h2 className="text-xl font-heading font-bold text-on-surface">{t.dashboard.inventory}</h2>
         </div>
         
         {plants.length === 0 ? (
           <div className="text-center py-12 bg-surface-container-low rounded-3xl border border-surface-container border-dashed">
             <Icon name="potted_plant" className="text-6xl text-surface-container-highest mb-4" />
-            <h3 className="text-lg font-medium text-on-surface mb-2">No plants yet</h3>
-            <p className="text-on-surface-variant mb-6">Start building your digital garden.</p>
+            <h3 className="text-lg font-medium text-on-surface mb-2">{t.dashboard.noPlantsTitle}</h3>
+            <p className="text-on-surface-variant mb-6">{t.dashboard.noPlantsDesc}</p>
             <Link href="/identify" className="bg-primary text-on-primary px-6 py-3 rounded-full font-bold inline-block">
-              Add your first plant
+              {t.dashboard.addFirstPlant}
             </Link>
           </div>
         ) : (

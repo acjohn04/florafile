@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { ImageUploader } from "@/components/ImageUploader";
 import { Icon } from "@/components/Icon";
+import { useTranslation } from "@/i18n/client";
 
 export default function DoctorPage() {
+  const { t } = useTranslation();
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export default function DoctorPage() {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Failed to diagnose plant");
+        throw new Error(err.error || t.doctor.failedError);
       }
 
       const data = await res.json();
@@ -42,8 +44,8 @@ export default function DoctorPage() {
         <div className="inline-flex items-center justify-center w-16 h-16 bg-error-container text-on-error-container rounded-full mb-4">
           <Icon name="medical_services" className="text-3xl" />
         </div>
-        <h1 className="text-3xl font-heading font-bold text-on-surface">Plant Doctor</h1>
-        <p className="text-on-surface-variant mt-2">Take a photo of a sick plant to get an AI diagnosis and recovery plan.</p>
+        <h1 className="text-3xl font-heading font-bold text-on-surface">{t.doctor.title}</h1>
+        <p className="text-on-surface-variant mt-2">{t.doctor.subtitle}</p>
       </header>
 
       <ImageUploader onImageSelect={handleImageSelect} isProcessing={isProcessing} />
@@ -68,7 +70,7 @@ export default function DoctorPage() {
               </div>
               <div>
                 <div className="inline-flex items-center gap-1 bg-surface-container text-on-surface px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide mb-2">
-                  Severity: {result.severity}
+                  {t.doctor.severity}: {result.severity}
                 </div>
                 <h2 className="text-2xl font-heading font-bold text-on-surface">{result.diagnosisName}</h2>
               </div>
@@ -76,14 +78,14 @@ export default function DoctorPage() {
 
             <div className="mb-6">
               <h3 className="font-bold text-on-surface mb-2 flex items-center gap-2">
-                <Icon name="info" className="text-primary" /> What's Happening
+                <Icon name="info" className="text-primary" /> {t.doctor.whatsHappening}
               </h3>
               <p className="text-on-surface-variant leading-relaxed">{result.description}</p>
             </div>
 
             <div>
               <h3 className="font-bold text-on-surface mb-3 flex items-center gap-2">
-                <Icon name="healing" className="text-primary" /> Recovery Plan
+                <Icon name="healing" className="text-primary" /> {t.doctor.recoveryPlan}
               </h3>
               <ol className="space-y-3">
                 {result.recoverySteps.map((step: string, i: number) => (

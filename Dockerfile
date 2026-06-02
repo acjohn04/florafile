@@ -53,12 +53,18 @@ ENV DATABASE_URL="file:/app/data/prod.db"
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Next.js standalone output often fails to bundle native C++ modules
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+
+# Install prisma CLI and config dependencies to evaluate prisma.config.ts
+RUN npm install prisma dotenv typescript ts-node
+RUN chown -R nextjs:nodejs /app/node_modules /app/package.json /app/package-lock.json
+
 USER nextjs
 
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Note: In a real production setup, migrations should be applied before starting the server.
-# For simplicity, we just run the server here.
-CMD ["node", "server.js"]
+# Apply migrations before starting the server to ensure database is created and ready
+CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]

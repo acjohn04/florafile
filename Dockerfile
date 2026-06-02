@@ -20,6 +20,7 @@ COPY . .
 
 # Environment variables must be present at build time
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="file:./dev.db"
 
 RUN npx prisma generate
 RUN npm run build

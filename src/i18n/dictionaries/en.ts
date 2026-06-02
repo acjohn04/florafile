@@ -95,5 +95,15 @@ export const en = {
       needsWater: "Needs Water",
       pruneSoon: "Prune Soon"
     }
+  },
+  plantDetail: {
+    editTitle: "Edit Plant",
+    nicknameLabel: "Nickname",
+    locationLabel: "Location",
+    saveButton: "Save Changes",
+    savingButton: "Saving...",
+    failedSave: "Failed to save changes",
+    successSave: "Changes saved successfully",
+    backToDashboard: "Back to Dashboard"
   }
 };

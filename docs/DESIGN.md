@@ -1,5 +1,5 @@
 ---
-name: Leafy Friend
+name: Florafile
 colors:
   surface: '#fbf9f4'
   surface-dim: '#dbdad5'

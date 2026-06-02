@@ -1,0 +1,63 @@
+// FloraFile — Prisma Schema
+// Database: SQLite (file-based, zero infrastructure)
+// Note: Prisma v7 — url is configured in prisma.config.ts, not here.
+
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+/// A plant in the user's collection.
+model Plant {
+  id             String   @id @default(cuid())
+  nickname       String
+  commonName     String
+  scientificName String
+  imageUrl       String?
+  room           String
+  light          String?
+  water          String?
+  toxicity       String?
+  careLevel      String?
+  description    String?
+  status         String   @default("healthy") // healthy | needs_water | prune_soon
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  tasks          Task[]
+
+  @@map("plants")
+}
+
+/// A care task assigned to a plant for a specific day of the week.
+model Task {
+  id          String   @id @default(cuid())
+  plantId     String
+  plant       Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  type        String   // water | mist | rotate | prune | fertilize
+  label       String
+  description String?
+  dayOfWeek   Int      // 0=Sun … 6=Sat
+  completed   Boolean  @default(false)
+  weekStart   DateTime // ISO date of the Monday this task belongs to
+  createdAt   DateTime @default(now())
+
+  @@map("tasks")
+}
+
+/// A Gemini-generated diagnosis for a sick plant.
+model Diagnosis {
+  id            String   @id @default(cuid())
+  plantId       String?
+  imageUrl      String?
+  diagnosisName String
+  severity      String   // low | medium | high
+  description   String
+  recoverySteps String   // JSON array stored as text
+  createdAt     DateTime @default(now())
+
+  @@map("diagnoses")
+}

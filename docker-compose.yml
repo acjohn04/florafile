@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  florafile:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - florafile_data:/app/data
+    environment:
+      - DATABASE_URL=file:/app/data/prod.db
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    restart: unless-stopped
+
+volumes:
+  florafile_data:

@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { TaskItem } from "@/components/TaskItem";
 import { useTranslation } from "@/i18n/client";
+import type { Task } from "@/types";
 
 export default function PlaybookPage() {
   const { t } = useTranslation();
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeDay, setActiveDay] = useState(new Date().getDay());
 
@@ -34,6 +36,7 @@ export default function PlaybookPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTasks();
   }, []);
 
@@ -70,12 +73,24 @@ export default function PlaybookPage() {
           <h1 className="text-3xl font-heading font-bold text-on-surface">{t.playbook.title}</h1>
           <p className="text-on-surface-variant mt-1">{t.playbook.subtitle}</p>
         </div>
-        <a 
-          href="/api/playbook/export"
-          className="bg-surface-container-high text-on-surface px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-surface-container-highest transition-colors"
-        >
-          <Icon name="calendar_month" /> {t.playbook.sync}
-        </a>
+        <div className="flex items-center gap-2">
+          {tasks.length > 0 && (
+            <button
+              onClick={handleGenerate}
+              disabled={loading}
+              className="bg-surface-container-high text-on-surface px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-surface-container-highest transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              <Icon name="refresh" /> {t.playbook.update}
+            </button>
+          )}
+          <Link 
+            href="/api/playbook/export"
+            target="_blank"
+            className="bg-surface-container-high text-on-surface px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-surface-container-highest transition-colors"
+          >
+            <Icon name="calendar_month" /> {t.playbook.sync}
+          </Link>
+        </div>
       </header>
 
       {loading ? (
@@ -87,7 +102,7 @@ export default function PlaybookPage() {
           <p className="text-on-surface-variant mb-6">{t.playbook.noPlaybookDesc}</p>
           <button 
             onClick={handleGenerate}
-            className="bg-primary text-on-primary px-6 py-3 rounded-full font-bold inline-block hover:bg-primary-fixed transition-colors"
+            className="bg-primary text-on-primary px-6 py-3 rounded-full font-bold inline-block hover:bg-primary-fixed transition-colors cursor-pointer"
           >
             {t.playbook.generateButton}
           </button>
@@ -104,7 +119,7 @@ export default function PlaybookPage() {
                 <button
                   key={day}
                   onClick={() => setActiveDay(idx)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-2xl whitespace-nowrap transition-colors flex-shrink-0 md:w-full
+                  className={`flex items-center justify-between px-4 py-3 rounded-2xl whitespace-nowrap transition-colors flex-shrink-0 md:w-full cursor-pointer
                     ${isActive ? 'bg-primary-container text-on-primary-container font-bold' : 'bg-surface-container-low text-on-surface hover:bg-surface-container'}
                   `}
                 >

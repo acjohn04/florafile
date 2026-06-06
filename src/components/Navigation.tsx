@@ -13,7 +13,6 @@ export function Navigation() {
     { name: t.navigation.garden, path: "/", icon: "potted_plant" },
     { name: t.navigation.identify, path: "/identify", icon: "photo_camera" },
     { name: t.navigation.schedule, path: "/playbook", icon: "calendar_month" },
-    { name: t.navigation.doctor, path: "/doctor", icon: "medical_services" },
   ];
 
   return (
@@ -31,32 +30,32 @@ export function Navigation() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex items-center gap-2 font-medium transition-colors ${isActive ? "text-primary" : "text-on-surface-variant hover:text-on-surface"}`}
+                className={`flex items-center gap-2 font-medium transition-colors cursor-pointer ${isActive ? "text-primary" : "text-on-surface-variant hover:text-on-surface"}`}
               >
                 <Icon name={item.icon} filled={isActive} />
                 <span>{item.name}</span>
               </Link>
             );
           })}
-          <div className="w-px h-6 bg-surface-container-high mx-2" />
-          <button className="text-on-surface-variant hover:text-on-surface transition-colors">
+          {/* <div className="w-px h-6 bg-surface-container-high mx-2" />
+          <button className="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
             <Icon name="notifications" />
           </button>
           <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold ml-2">
             U
-          </div>
+          </div> */}
         </div>
       </nav>
 
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-surface-container h-20 px-6 flex items-center justify-between pb-safe">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-surface-container h-20 px-6 flex items-center justify-around pb-safe">
         {navItems.map((item) => {
           const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
           return (
             <Link
               key={item.path}
               href={item.path}
-              className={`flex flex-col items-center gap-1 ${isActive ? "text-primary" : "text-on-surface-variant"}`}
+              className={`flex flex-col items-center gap-1 cursor-pointer ${isActive ? "text-primary" : "text-on-surface-variant"}`}
             >
               <div className={`w-16 h-8 flex items-center justify-center rounded-full transition-colors ${isActive ? "bg-primary-container/20" : ""}`}>
                 <Icon name={item.icon} filled={isActive} />
@@ -65,15 +64,6 @@ export function Navigation() {
             </Link>
           );
         })}
-        <Link
-          href="/doctor"
-          className={`flex flex-col items-center gap-1 ${pathname.startsWith("/doctor") ? "text-primary" : "text-on-surface-variant"}`}
-        >
-          <div className={`w-16 h-8 flex items-center justify-center rounded-full transition-colors ${pathname.startsWith("/doctor") ? "bg-primary-container/20" : ""}`}>
-            <Icon name="medical_services" filled={pathname.startsWith("/doctor")} />
-          </div>
-          <span className="text-[10px] font-medium">{t.navigation.doctor}</span>
-        </Link>
       </nav>
     </>
   );

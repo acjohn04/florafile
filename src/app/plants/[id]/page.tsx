@@ -13,13 +13,18 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  // Passing only necessary data to client component
+  // Passing plant data including diagnosis fields to client component
   const plantData = {
     id: plant.id,
     nickname: plant.nickname,
     room: plant.room,
     imageUrl: plant.imageUrl,
-    commonName: plant.commonName
+    commonName: plant.commonName,
+    status: plant.status,
+    diagnosisName: plant.diagnosisName,
+    severity: plant.severity,
+    diagnosisDescription: plant.diagnosisDescription,
+    recoverySteps: plant.recoverySteps,
   };
 
   return (

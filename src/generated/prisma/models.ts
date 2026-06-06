@@ -10,5 +10,4 @@
  */
 export type * from './models/Plant'
 export type * from './models/Task'
-export type * from './models/Diagnosis'
 export type * from './commonInputTypes'

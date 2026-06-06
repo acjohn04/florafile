@@ -37,6 +37,10 @@ export type PlantMinAggregateOutputType = {
   careLevel: string | null
   description: string | null
   status: string | null
+  diagnosisName: string | null
+  severity: string | null
+  diagnosisDescription: string | null
+  recoverySteps: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +58,10 @@ export type PlantMaxAggregateOutputType = {
   careLevel: string | null
   description: string | null
   status: string | null
+  diagnosisName: string | null
+  severity: string | null
+  diagnosisDescription: string | null
+  recoverySteps: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,6 +79,10 @@ export type PlantCountAggregateOutputType = {
   careLevel: number
   description: number
   status: number
+  diagnosisName: number
+  severity: number
+  diagnosisDescription: number
+  recoverySteps: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -90,6 +102,10 @@ export type PlantMinAggregateInputType = {
   careLevel?: true
   description?: true
   status?: true
+  diagnosisName?: true
+  severity?: true
+  diagnosisDescription?: true
+  recoverySteps?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,6 +123,10 @@ export type PlantMaxAggregateInputType = {
   careLevel?: true
   description?: true
   status?: true
+  diagnosisName?: true
+  severity?: true
+  diagnosisDescription?: true
+  recoverySteps?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +144,10 @@ export type PlantCountAggregateInputType = {
   careLevel?: true
   description?: true
   status?: true
+  diagnosisName?: true
+  severity?: true
+  diagnosisDescription?: true
+  recoverySteps?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -214,6 +238,10 @@ export type PlantGroupByOutputType = {
   careLevel: string | null
   description: string | null
   status: string
+  diagnosisName: string | null
+  severity: string | null
+  diagnosisDescription: string | null
+  recoverySteps: string | null
   createdAt: Date
   updatedAt: Date
   _count: PlantCountAggregateOutputType | null
@@ -252,6 +280,10 @@ export type PlantWhereInput = {
   careLevel?: Prisma.StringNullableFilter<"Plant"> | string | null
   description?: Prisma.StringNullableFilter<"Plant"> | string | null
   status?: Prisma.StringFilter<"Plant"> | string
+  diagnosisName?: Prisma.StringNullableFilter<"Plant"> | string | null
+  severity?: Prisma.StringNullableFilter<"Plant"> | string | null
+  diagnosisDescription?: Prisma.StringNullableFilter<"Plant"> | string | null
+  recoverySteps?: Prisma.StringNullableFilter<"Plant"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   tasks?: Prisma.TaskListRelationFilter
@@ -270,6 +302,10 @@ export type PlantOrderByWithRelationInput = {
   careLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  diagnosisName?: Prisma.SortOrderInput | Prisma.SortOrder
+  severity?: Prisma.SortOrderInput | Prisma.SortOrder
+  diagnosisDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  recoverySteps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tasks?: Prisma.TaskOrderByRelationAggregateInput
@@ -291,6 +327,10 @@ export type PlantWhereUniqueInput = Prisma.AtLeast<{
   careLevel?: Prisma.StringNullableFilter<"Plant"> | string | null
   description?: Prisma.StringNullableFilter<"Plant"> | string | null
   status?: Prisma.StringFilter<"Plant"> | string
+  diagnosisName?: Prisma.StringNullableFilter<"Plant"> | string | null
+  severity?: Prisma.StringNullableFilter<"Plant"> | string | null
+  diagnosisDescription?: Prisma.StringNullableFilter<"Plant"> | string | null
+  recoverySteps?: Prisma.StringNullableFilter<"Plant"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   tasks?: Prisma.TaskListRelationFilter
@@ -309,6 +349,10 @@ export type PlantOrderByWithAggregationInput = {
   careLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  diagnosisName?: Prisma.SortOrderInput | Prisma.SortOrder
+  severity?: Prisma.SortOrderInput | Prisma.SortOrder
+  diagnosisDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  recoverySteps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PlantCountOrderByAggregateInput
@@ -332,6 +376,10 @@ export type PlantScalarWhereWithAggregatesInput = {
   careLevel?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Plant"> | string
+  diagnosisName?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
+  severity?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
+  diagnosisDescription?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
+  recoverySteps?: Prisma.StringNullableWithAggregatesFilter<"Plant"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Plant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Plant"> | Date | string
 }
@@ -349,6 +397,10 @@ export type PlantCreateInput = {
   careLevel?: string | null
   description?: string | null
   status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.TaskCreateNestedManyWithoutPlantInput
@@ -367,6 +419,10 @@ export type PlantUncheckedCreateInput = {
   careLevel?: string | null
   description?: string | null
   status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutPlantInput
@@ -385,6 +441,10 @@ export type PlantUpdateInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUpdateManyWithoutPlantNestedInput
@@ -403,6 +463,10 @@ export type PlantUncheckedUpdateInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutPlantNestedInput
@@ -421,6 +485,10 @@ export type PlantCreateManyInput = {
   careLevel?: string | null
   description?: string | null
   status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -438,6 +506,10 @@ export type PlantUpdateManyMutationInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,6 +527,10 @@ export type PlantUncheckedUpdateManyInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -472,6 +548,10 @@ export type PlantCountOrderByAggregateInput = {
   careLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  diagnosisName?: Prisma.SortOrder
+  severity?: Prisma.SortOrder
+  diagnosisDescription?: Prisma.SortOrder
+  recoverySteps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -489,6 +569,10 @@ export type PlantMaxOrderByAggregateInput = {
   careLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  diagnosisName?: Prisma.SortOrder
+  severity?: Prisma.SortOrder
+  diagnosisDescription?: Prisma.SortOrder
+  recoverySteps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -506,6 +590,10 @@ export type PlantMinOrderByAggregateInput = {
   careLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  diagnosisName?: Prisma.SortOrder
+  severity?: Prisma.SortOrder
+  diagnosisDescription?: Prisma.SortOrder
+  recoverySteps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -554,6 +642,10 @@ export type PlantCreateWithoutTasksInput = {
   careLevel?: string | null
   description?: string | null
   status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -571,6 +663,10 @@ export type PlantUncheckedCreateWithoutTasksInput = {
   careLevel?: string | null
   description?: string | null
   status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -604,6 +700,10 @@ export type PlantUpdateWithoutTasksInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -621,6 +721,10 @@ export type PlantUncheckedUpdateWithoutTasksInput = {
   careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -669,6 +773,10 @@ export type PlantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   careLevel?: boolean
   description?: boolean
   status?: boolean
+  diagnosisName?: boolean
+  severity?: boolean
+  diagnosisDescription?: boolean
+  recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tasks?: boolean | Prisma.Plant$tasksArgs<ExtArgs>
@@ -688,6 +796,10 @@ export type PlantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   careLevel?: boolean
   description?: boolean
   status?: boolean
+  diagnosisName?: boolean
+  severity?: boolean
+  diagnosisDescription?: boolean
+  recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["plant"]>
@@ -705,6 +817,10 @@ export type PlantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   careLevel?: boolean
   description?: boolean
   status?: boolean
+  diagnosisName?: boolean
+  severity?: boolean
+  diagnosisDescription?: boolean
+  recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["plant"]>
@@ -722,11 +838,15 @@ export type PlantSelectScalar = {
   careLevel?: boolean
   description?: boolean
   status?: boolean
+  diagnosisName?: boolean
+  severity?: boolean
+  diagnosisDescription?: boolean
+  recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PlantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nickname" | "commonName" | "scientificName" | "imageUrl" | "room" | "light" | "water" | "toxicity" | "careLevel" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["plant"]>
+export type PlantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nickname" | "commonName" | "scientificName" | "imageUrl" | "room" | "light" | "water" | "toxicity" | "careLevel" | "description" | "status" | "diagnosisName" | "severity" | "diagnosisDescription" | "recoverySteps" | "createdAt" | "updatedAt", ExtArgs["result"]["plant"]>
 export type PlantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tasks?: boolean | Prisma.Plant$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.PlantCountOutputTypeDefaultArgs<ExtArgs>
@@ -752,6 +872,10 @@ export type $PlantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     careLevel: string | null
     description: string | null
     status: string
+    diagnosisName: string | null
+    severity: string | null
+    diagnosisDescription: string | null
+    recoverySteps: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["plant"]>
@@ -1190,6 +1314,10 @@ export interface PlantFieldRefs {
   readonly careLevel: Prisma.FieldRef<"Plant", 'String'>
   readonly description: Prisma.FieldRef<"Plant", 'String'>
   readonly status: Prisma.FieldRef<"Plant", 'String'>
+  readonly diagnosisName: Prisma.FieldRef<"Plant", 'String'>
+  readonly severity: Prisma.FieldRef<"Plant", 'String'>
+  readonly diagnosisDescription: Prisma.FieldRef<"Plant", 'String'>
+  readonly recoverySteps: Prisma.FieldRef<"Plant", 'String'>
   readonly createdAt: Prisma.FieldRef<"Plant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Plant", 'DateTime'>
 }

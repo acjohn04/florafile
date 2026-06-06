@@ -6,12 +6,13 @@ import { ImageUploader } from "@/components/ImageUploader";
 import { CareSummaryGrid } from "@/components/CareSummaryGrid";
 import { Icon } from "@/components/Icon";
 import { useTranslation } from "@/i18n/client";
+import type { PlantData } from "@/types";
 
 export default function IdentifyPage() {
   const router = useRouter();
   const { t } = useTranslation();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<PlantData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
 
@@ -36,8 +37,8 @@ export default function IdentifyPage() {
 
       const data = await res.json();
       setResult(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setIsProcessing(false);
     }

@@ -2,14 +2,16 @@ export const en = {
   navigation: {
     garden: "Garden",
     identify: "Identify",
-    schedule: "Schedule",
-    doctor: "Doctor"
+    schedule: "Schedule"
   },
   dashboard: {
-    title: "My Conservatory",
+    title: "My Garden",
     plantsThriving: "{count} {plantWord} thriving", // Needs logic in helper
     plantsThrivingSingle: "plant",
     plantsThrivingPlural: "plants",
+    plantsAttention: ", {count} {attentionWord}",
+    plantsAttentionSingle: "plant needs attention",
+    plantsAttentionPlural: "plants need attention",
     addNewPlant: "Add New Plant",
     addNewPlantDesc: "Snap a photo and AI will identify it instantly.",
     weeklyPlaybook: "Weekly Playbook",
@@ -50,6 +52,7 @@ export const en = {
     title: "Weekly Playbook",
     subtitle: "Your smart schedule for plant care.",
     sync: "Sync",
+    update: "Update Schedule",
     loading: "Loading schedule...",
     noPlaybookTitle: "No Playbook Generated",
     noPlaybookDesc: "Let AI create a customized care schedule for your plants.",
@@ -65,14 +68,6 @@ export const en = {
       friday: "Friday",
       saturday: "Saturday"
     }
-  },
-  doctor: {
-    title: "Plant Doctor",
-    subtitle: "Take a photo of a sick plant to get an AI diagnosis and recovery plan.",
-    failedError: "Failed to diagnose plant",
-    severity: "Severity",
-    whatsHappening: "What's Happening",
-    recoveryPlan: "Recovery Plan"
   },
   components: {
     imageUploader: {
@@ -92,18 +87,25 @@ export const en = {
     },
     statusBadge: {
       healthy: "Healthy",
+      sick: "Sick",
       needsWater: "Needs Water",
       pruneSoon: "Prune Soon"
     }
   },
   plantDetail: {
-    editTitle: "Edit Plant",
+    editTitle: "Plant Details",
     nicknameLabel: "Nickname",
     locationLabel: "Location",
     saveButton: "Save Changes",
     savingButton: "Saving...",
     failedSave: "Failed to save changes",
     successSave: "Changes saved successfully",
-    backToDashboard: "Back to Dashboard"
+    backToDashboard: "Back to Dashboard",
+    diagnosing: "Checking plant health...",
+    diagnosisTitle: "Health Diagnosis",
+    whatsHappening: "What's Happening",
+    recoveryPlan: "Recovery Plan",
+    severity: "Severity",
+    healthyStatus: "Your plant looks healthy! No issues detected."
   }
 };

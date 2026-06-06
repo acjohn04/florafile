@@ -51,8 +51,3 @@ export type Plant = Prisma.PlantModel
  * A care task assigned to a plant for a specific day of the week.
  */
 export type Task = Prisma.TaskModel
-/**
- * Model Diagnosis
- * A Gemini-generated diagnosis for a sick plant.
- */
-export type Diagnosis = Prisma.DiagnosisModel

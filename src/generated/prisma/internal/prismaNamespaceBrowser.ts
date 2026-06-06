@@ -52,8 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Plant: 'Plant',
-  Task: 'Task',
-  Diagnosis: 'Diagnosis'
+  Task: 'Task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +81,10 @@ export const PlantScalarFieldEnum = {
   careLevel: 'careLevel',
   description: 'description',
   status: 'status',
+  diagnosisName: 'diagnosisName',
+  severity: 'severity',
+  diagnosisDescription: 'diagnosisDescription',
+  recoverySteps: 'recoverySteps',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -102,20 +105,6 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
-
-
-export const DiagnosisScalarFieldEnum = {
-  id: 'id',
-  plantId: 'plantId',
-  imageUrl: 'imageUrl',
-  diagnosisName: 'diagnosisName',
-  severity: 'severity',
-  description: 'description',
-  recoverySteps: 'recoverySteps',
-  createdAt: 'createdAt'
-} as const
-
-export type DiagnosisScalarFieldEnum = (typeof DiagnosisScalarFieldEnum)[keyof typeof DiagnosisScalarFieldEnum]
 
 
 export const SortOrder = {

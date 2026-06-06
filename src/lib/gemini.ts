@@ -58,7 +58,13 @@ export async function identifyPlant(imageBase64: string, mimeType: string): Prom
   return IdentificationSchema.parse(JSON.parse(text));
 }
 
+/**
+ * Diagnosis result from Gemini AI.
+ * `status` is "healthy" when no issues are found, "sick" otherwise.
+ * When healthy, diagnosisName will be "Healthy" and recoverySteps will be empty.
+ */
 const DiagnosisSchema = z.object({
+  status: z.string(),
   diagnosisName: z.string(),
   severity: z.string(),
   description: z.string(),
@@ -67,12 +73,32 @@ const DiagnosisSchema = z.object({
 
 export type PlantDiagnosis = z.infer<typeof DiagnosisSchema>;
 
+/**
+ * Analyze a plant image for health issues.
+ * Returns a diagnosis with status "healthy" or "sick".
+ */
 export async function diagnosePlant(imageBase64: string, mimeType: string): Promise<PlantDiagnosis> {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("GEMINI_API_KEY is not set.");
   }
   
-  const prompt = `You are a plant pathologist. Diagnose the issue in this photo and return JSON with the following properties: diagnosisName, severity (low/medium/high), description (what is happening and why), recoverySteps (array of strings, each string is an actionable step to fix the problem).`;
+  const prompt = `You are a plant pathologist. Analyze this plant photo carefully.
+
+If the plant appears healthy with no visible issues, return:
+- status: "healthy"
+- diagnosisName: "Healthy"
+- severity: "none"
+- description: a brief note that the plant looks healthy
+- recoverySteps: empty array
+
+If the plant has visible health issues (disease, pests, nutrient deficiency, overwatering, underwatering, sun damage, etc.), return:
+- status: "sick"
+- diagnosisName: the name of the condition
+- severity: "low", "medium", or "high"
+- description: what is happening and why
+- recoverySteps: array of actionable steps to fix the problem
+
+Return JSON with properties: status, diagnosisName, severity, description, recoverySteps.`;
   
   const response = await ai.models.generateContent({
     model,
@@ -90,6 +116,7 @@ export async function diagnosePlant(imageBase64: string, mimeType: string): Prom
       responseSchema: {
         type: "OBJECT",
         properties: {
+          status: { type: "STRING" },
           diagnosisName: { type: "STRING" },
           severity: { type: "STRING" },
           description: { type: "STRING" },
@@ -98,7 +125,7 @@ export async function diagnosePlant(imageBase64: string, mimeType: string): Prom
             items: { type: "STRING" }
           }
         },
-        required: ["diagnosisName", "severity", "description", "recoverySteps"]
+        required: ["status", "diagnosisName", "severity", "description", "recoverySteps"]
       }
     }
   });

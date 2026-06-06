@@ -12,15 +12,26 @@ export default async function Dashboard() {
   });
   const t = await getDictionary();
 
+  const healthyCount = plants.filter(p => p.status === 'healthy').length;
+  const attentionCount = plants.length - healthyCount;
+
+  const thrivingText = t.dashboard.plantsThriving
+    .replace('{count}', healthyCount.toString())
+    .replace('{plantWord}', healthyCount === 1 ? t.dashboard.plantsThrivingSingle : t.dashboard.plantsThrivingPlural);
+
+  const attentionText = attentionCount > 0 
+    ? t.dashboard.plantsAttention
+        .replace('{count}', attentionCount.toString())
+        .replace('{attentionWord}', attentionCount === 1 ? t.dashboard.plantsAttentionSingle : t.dashboard.plantsAttentionPlural)
+    : '';
+
   return (
     <div className="space-y-8">
       <header className="flex items-end justify-between">
         <div>
           <h1 className="text-3xl font-heading font-bold text-on-surface">{t.dashboard.title}</h1>
           <p className="text-on-surface-variant mt-1">
-            {t.dashboard.plantsThriving
-              .replace('{count}', plants.length.toString())
-              .replace('{plantWord}', plants.length === 1 ? t.dashboard.plantsThrivingSingle : t.dashboard.plantsThrivingPlural)}
+            {thrivingText}{attentionText}
           </p>
         </div>
       </header>

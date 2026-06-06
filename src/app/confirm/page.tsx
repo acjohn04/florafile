@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import { useTranslation } from "@/i18n/client";
+import type { PlantData } from "@/types";
 
 export default function ConfirmPage() {
   const router = useRouter();
   const { t } = useTranslation();
-  const [plantData, setPlantData] = useState<any>(null);
+  const [plantData, setPlantData] = useState<PlantData | null>(null);
   const [image, setImage] = useState<string | null>(null);
   
   const [nickname, setNickname] = useState("");
@@ -19,7 +20,9 @@ export default function ConfirmPage() {
     const savedPlant = sessionStorage.getItem("florafile_new_plant");
     const savedImage = sessionStorage.getItem("florafile_new_image");
     
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (savedPlant) setPlantData(JSON.parse(savedPlant));
+     
     if (savedImage) setImage(savedImage);
     
     if (savedPlant) {

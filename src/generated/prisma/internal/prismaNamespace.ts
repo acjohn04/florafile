@@ -385,8 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Plant: 'Plant',
-  Task: 'Task',
-  Diagnosis: 'Diagnosis'
+  Task: 'Task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +401,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "plant" | "task" | "diagnosis"
+    modelProps: "plant" | "task"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -554,80 +553,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Diagnosis: {
-      payload: Prisma.$DiagnosisPayload<ExtArgs>
-      fields: Prisma.DiagnosisFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.DiagnosisFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.DiagnosisFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        findFirst: {
-          args: Prisma.DiagnosisFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.DiagnosisFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        findMany: {
-          args: Prisma.DiagnosisFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>[]
-        }
-        create: {
-          args: Prisma.DiagnosisCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        createMany: {
-          args: Prisma.DiagnosisCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.DiagnosisCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>[]
-        }
-        delete: {
-          args: Prisma.DiagnosisDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        update: {
-          args: Prisma.DiagnosisUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        deleteMany: {
-          args: Prisma.DiagnosisDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.DiagnosisUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.DiagnosisUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>[]
-        }
-        upsert: {
-          args: Prisma.DiagnosisUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiagnosisPayload>
-        }
-        aggregate: {
-          args: Prisma.DiagnosisAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateDiagnosis>
-        }
-        groupBy: {
-          args: Prisma.DiagnosisGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DiagnosisGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.DiagnosisCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DiagnosisCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -677,6 +602,10 @@ export const PlantScalarFieldEnum = {
   careLevel: 'careLevel',
   description: 'description',
   status: 'status',
+  diagnosisName: 'diagnosisName',
+  severity: 'severity',
+  diagnosisDescription: 'diagnosisDescription',
+  recoverySteps: 'recoverySteps',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -697,20 +626,6 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
-
-
-export const DiagnosisScalarFieldEnum = {
-  id: 'id',
-  plantId: 'plantId',
-  imageUrl: 'imageUrl',
-  diagnosisName: 'diagnosisName',
-  severity: 'severity',
-  description: 'description',
-  recoverySteps: 'recoverySteps',
-  createdAt: 'createdAt'
-} as const
-
-export type DiagnosisScalarFieldEnum = (typeof DiagnosisScalarFieldEnum)[keyof typeof DiagnosisScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -881,7 +796,6 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   plant?: Prisma.PlantOmit
   task?: Prisma.TaskOmit
-  diagnosis?: Prisma.DiagnosisOmit
 }
 
 /* Types for Logging */

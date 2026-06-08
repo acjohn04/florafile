@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { Icon } from "./Icon";
 import { useTranslation } from "@/i18n/client";
 
 export function Navigation() {
   const pathname = usePathname();
   const { t } = useTranslation();
+  const { data: session } = useSession();
 
   const navItems = [
     { name: t.navigation.garden, path: "/", icon: "potted_plant" },
@@ -37,13 +39,30 @@ export function Navigation() {
               </Link>
             );
           })}
-          {/* <div className="w-px h-6 bg-surface-container-high mx-2" />
-          <button className="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
-            <Icon name="notifications" />
-          </button>
-          <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold ml-2">
-            U
-          </div> */}
+          {session?.user && (
+            <>
+              <div className="w-px h-6 bg-surface-container-high mx-2 hidden md:block" />
+              <div className="flex items-center gap-3 ml-2 hidden md:flex">
+                <span className="text-sm font-medium text-on-surface hidden lg:block">
+                  {session.user.name || session.user.email}
+                </span>
+                {session.user.image ? (
+                  <img src={session.user.image} alt={session.user.name || "User"} className="w-8 h-8 rounded-full object-cover" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">
+                    {(session.user.name || session.user.email || "U").charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <button
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors cursor-pointer"
+                  title={t.navigation?.signOut || "Sign Out"}
+                >
+                  <Icon name="logout" className="text-[20px]" />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </nav>
 

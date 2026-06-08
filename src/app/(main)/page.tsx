@@ -4,9 +4,17 @@ import { PlantCard } from "@/components/PlantCard";
 import { prisma } from "@/lib/db";
 import { getDictionary } from "@/i18n";
 
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
 export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect('/login');
+  }
+
   const plants = await prisma.plant.findMany({
     orderBy: { createdAt: "desc" }
   });

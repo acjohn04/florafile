@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/Navigation";
+import AuthSessionProvider from "@/components/AuthSessionProvider";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -36,10 +36,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-on-background">
-        <Navigation />
-        <main className="flex-grow w-full max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] pt-6 md:pt-8 pb-24 md:pb-16">
+        <AuthSessionProvider>
           {children}
-        </main>
+        </AuthSessionProvider>
       </body>
     </html>
   );

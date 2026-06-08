@@ -46,29 +46,5 @@ export const { handlers, signIn, signOut, auth: nextAuth } = NextAuth({
       }
       return session
     },
-    /**
-     * Bootstrap household on first sign-in.
-     *
-     * The PrismaAdapter creates the User row before this callback fires,
-     * so we can safely look it up. If the user already has a
-     * HouseholdMember record (returning user) this is a no-op.
-     */
-    async signIn({ user }) {
-      if (!user?.id) return true
-
-      const existing = await prisma.householdMember.findUnique({
-        where: { userId: user.id },
-      })
-
-      if (!existing) {
-        // First sign-in — create a fresh household and link this user to it
-        const household = await prisma.household.create({ data: {} })
-        await prisma.householdMember.create({
-          data: { userId: user.id, householdId: household.id },
-        })
-      }
-
-      return true
-    },
   },
 })

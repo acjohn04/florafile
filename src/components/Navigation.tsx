@@ -15,6 +15,7 @@ export function Navigation() {
     { name: t.navigation.garden, path: "/", icon: "potted_plant" },
     { name: t.navigation.identify, path: "/identify", icon: "photo_camera" },
     { name: t.navigation.schedule, path: "/playbook", icon: "calendar_month" },
+    { name: t.navigation.settings, path: "/settings", icon: "settings" },
   ];
 
   return (

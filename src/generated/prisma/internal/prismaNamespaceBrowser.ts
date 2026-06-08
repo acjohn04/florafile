@@ -55,6 +55,8 @@ export const ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  Household: 'Household',
+  HouseholdMember: 'HouseholdMember',
   Plant: 'Plant',
   Task: 'Task'
 } as const
@@ -126,8 +128,27 @@ export const VerificationTokenScalarFieldEnum = {
 export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+export const HouseholdScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt'
+} as const
+
+export type HouseholdScalarFieldEnum = (typeof HouseholdScalarFieldEnum)[keyof typeof HouseholdScalarFieldEnum]
+
+
+export const HouseholdMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  householdId: 'householdId',
+  joinedAt: 'joinedAt'
+} as const
+
+export type HouseholdMemberScalarFieldEnum = (typeof HouseholdMemberScalarFieldEnum)[keyof typeof HouseholdMemberScalarFieldEnum]
+
+
 export const PlantScalarFieldEnum = {
   id: 'id',
+  householdId: 'householdId',
   nickname: 'nickname',
   commonName: 'commonName',
   scientificName: 'scientificName',
@@ -152,6 +173,7 @@ export type PlantScalarFieldEnum = (typeof PlantScalarFieldEnum)[keyof typeof Pl
 
 export const TaskScalarFieldEnum = {
   id: 'id',
+  householdId: 'householdId',
   plantId: 'plantId',
   type: 'type',
   label: 'label',

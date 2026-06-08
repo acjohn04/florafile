@@ -36,6 +36,7 @@ export type TaskSumAggregateOutputType = {
 
 export type TaskMinAggregateOutputType = {
   id: string | null
+  householdId: string | null
   plantId: string | null
   type: string | null
   label: string | null
@@ -48,6 +49,7 @@ export type TaskMinAggregateOutputType = {
 
 export type TaskMaxAggregateOutputType = {
   id: string | null
+  householdId: string | null
   plantId: string | null
   type: string | null
   label: string | null
@@ -60,6 +62,7 @@ export type TaskMaxAggregateOutputType = {
 
 export type TaskCountAggregateOutputType = {
   id: number
+  householdId: number
   plantId: number
   type: number
   label: number
@@ -82,6 +85,7 @@ export type TaskSumAggregateInputType = {
 
 export type TaskMinAggregateInputType = {
   id?: true
+  householdId?: true
   plantId?: true
   type?: true
   label?: true
@@ -94,6 +98,7 @@ export type TaskMinAggregateInputType = {
 
 export type TaskMaxAggregateInputType = {
   id?: true
+  householdId?: true
   plantId?: true
   type?: true
   label?: true
@@ -106,6 +111,7 @@ export type TaskMaxAggregateInputType = {
 
 export type TaskCountAggregateInputType = {
   id?: true
+  householdId?: true
   plantId?: true
   type?: true
   label?: true
@@ -205,6 +211,7 @@ export type TaskGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type TaskGroupByOutputType = {
   id: string
+  householdId: string
   plantId: string
   type: string
   label: string
@@ -240,6 +247,7 @@ export type TaskWhereInput = {
   OR?: Prisma.TaskWhereInput[]
   NOT?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
   id?: Prisma.StringFilter<"Task"> | string
+  householdId?: Prisma.StringFilter<"Task"> | string
   plantId?: Prisma.StringFilter<"Task"> | string
   type?: Prisma.StringFilter<"Task"> | string
   label?: Prisma.StringFilter<"Task"> | string
@@ -248,11 +256,13 @@ export type TaskWhereInput = {
   completed?: Prisma.BoolFilter<"Task"> | boolean
   weekStart?: Prisma.DateTimeFilter<"Task"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
   plant?: Prisma.XOR<Prisma.PlantScalarRelationFilter, Prisma.PlantWhereInput>
 }
 
 export type TaskOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   plantId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
@@ -261,6 +271,7 @@ export type TaskOrderByWithRelationInput = {
   completed?: Prisma.SortOrder
   weekStart?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  household?: Prisma.HouseholdOrderByWithRelationInput
   plant?: Prisma.PlantOrderByWithRelationInput
 }
 
@@ -269,6 +280,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
   OR?: Prisma.TaskWhereInput[]
   NOT?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
+  householdId?: Prisma.StringFilter<"Task"> | string
   plantId?: Prisma.StringFilter<"Task"> | string
   type?: Prisma.StringFilter<"Task"> | string
   label?: Prisma.StringFilter<"Task"> | string
@@ -277,11 +289,13 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   completed?: Prisma.BoolFilter<"Task"> | boolean
   weekStart?: Prisma.DateTimeFilter<"Task"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
   plant?: Prisma.XOR<Prisma.PlantScalarRelationFilter, Prisma.PlantWhereInput>
 }, "id">
 
 export type TaskOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   plantId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
@@ -302,6 +316,7 @@ export type TaskScalarWhereWithAggregatesInput = {
   OR?: Prisma.TaskScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TaskScalarWhereWithAggregatesInput | Prisma.TaskScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Task"> | string
+  householdId?: Prisma.StringWithAggregatesFilter<"Task"> | string
   plantId?: Prisma.StringWithAggregatesFilter<"Task"> | string
   type?: Prisma.StringWithAggregatesFilter<"Task"> | string
   label?: Prisma.StringWithAggregatesFilter<"Task"> | string
@@ -321,11 +336,13 @@ export type TaskCreateInput = {
   completed?: boolean
   weekStart: Date | string
   createdAt?: Date | string
+  household: Prisma.HouseholdCreateNestedOneWithoutTasksInput
   plant: Prisma.PlantCreateNestedOneWithoutTasksInput
 }
 
 export type TaskUncheckedCreateInput = {
   id?: string
+  householdId: string
   plantId: string
   type: string
   label: string
@@ -345,11 +362,13 @@ export type TaskUpdateInput = {
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  household?: Prisma.HouseholdUpdateOneRequiredWithoutTasksNestedInput
   plant?: Prisma.PlantUpdateOneRequiredWithoutTasksNestedInput
 }
 
 export type TaskUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   plantId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
@@ -362,6 +381,7 @@ export type TaskUncheckedUpdateInput = {
 
 export type TaskCreateManyInput = {
   id?: string
+  householdId: string
   plantId: string
   type: string
   label: string
@@ -385,6 +405,7 @@ export type TaskUpdateManyMutationInput = {
 
 export type TaskUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   plantId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
@@ -407,6 +428,7 @@ export type TaskOrderByRelationAggregateInput = {
 
 export type TaskCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   plantId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
@@ -423,6 +445,7 @@ export type TaskAvgOrderByAggregateInput = {
 
 export type TaskMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   plantId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
@@ -435,6 +458,7 @@ export type TaskMaxOrderByAggregateInput = {
 
 export type TaskMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   plantId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
@@ -447,6 +471,48 @@ export type TaskMinOrderByAggregateInput = {
 
 export type TaskSumOrderByAggregateInput = {
   dayOfWeek?: Prisma.SortOrder
+}
+
+export type TaskCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput> | Prisma.TaskCreateWithoutHouseholdInput[] | Prisma.TaskUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutHouseholdInput | Prisma.TaskCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.TaskCreateManyHouseholdInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUncheckedCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput> | Prisma.TaskCreateWithoutHouseholdInput[] | Prisma.TaskUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutHouseholdInput | Prisma.TaskCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.TaskCreateManyHouseholdInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput> | Prisma.TaskCreateWithoutHouseholdInput[] | Prisma.TaskUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutHouseholdInput | Prisma.TaskCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.TaskUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.TaskCreateManyHouseholdInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.TaskUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutHouseholdInput | Prisma.TaskUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
+export type TaskUncheckedUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput> | Prisma.TaskCreateWithoutHouseholdInput[] | Prisma.TaskUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutHouseholdInput | Prisma.TaskCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.TaskUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.TaskCreateManyHouseholdInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.TaskUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutHouseholdInput | Prisma.TaskUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
 }
 
 export type TaskCreateNestedManyWithoutPlantInput = {
@@ -503,8 +569,21 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type TaskCreateWithoutPlantInput = {
+export type TaskCreateWithoutHouseholdInput = {
   id?: string
+  type: string
+  label: string
+  description?: string | null
+  dayOfWeek: number
+  completed?: boolean
+  weekStart: Date | string
+  createdAt?: Date | string
+  plant: Prisma.PlantCreateNestedOneWithoutTasksInput
+}
+
+export type TaskUncheckedCreateWithoutHouseholdInput = {
+  id?: string
+  plantId: string
   type: string
   label: string
   description?: string | null
@@ -514,8 +593,62 @@ export type TaskCreateWithoutPlantInput = {
   createdAt?: Date | string
 }
 
+export type TaskCreateOrConnectWithoutHouseholdInput = {
+  where: Prisma.TaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput>
+}
+
+export type TaskCreateManyHouseholdInputEnvelope = {
+  data: Prisma.TaskCreateManyHouseholdInput | Prisma.TaskCreateManyHouseholdInput[]
+}
+
+export type TaskUpsertWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.TaskWhereUniqueInput
+  update: Prisma.XOR<Prisma.TaskUpdateWithoutHouseholdInput, Prisma.TaskUncheckedUpdateWithoutHouseholdInput>
+  create: Prisma.XOR<Prisma.TaskCreateWithoutHouseholdInput, Prisma.TaskUncheckedCreateWithoutHouseholdInput>
+}
+
+export type TaskUpdateWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.TaskWhereUniqueInput
+  data: Prisma.XOR<Prisma.TaskUpdateWithoutHouseholdInput, Prisma.TaskUncheckedUpdateWithoutHouseholdInput>
+}
+
+export type TaskUpdateManyWithWhereWithoutHouseholdInput = {
+  where: Prisma.TaskScalarWhereInput
+  data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyWithoutHouseholdInput>
+}
+
+export type TaskScalarWhereInput = {
+  AND?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+  OR?: Prisma.TaskScalarWhereInput[]
+  NOT?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+  id?: Prisma.StringFilter<"Task"> | string
+  householdId?: Prisma.StringFilter<"Task"> | string
+  plantId?: Prisma.StringFilter<"Task"> | string
+  type?: Prisma.StringFilter<"Task"> | string
+  label?: Prisma.StringFilter<"Task"> | string
+  description?: Prisma.StringNullableFilter<"Task"> | string | null
+  dayOfWeek?: Prisma.IntFilter<"Task"> | number
+  completed?: Prisma.BoolFilter<"Task"> | boolean
+  weekStart?: Prisma.DateTimeFilter<"Task"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+}
+
+export type TaskCreateWithoutPlantInput = {
+  id?: string
+  type: string
+  label: string
+  description?: string | null
+  dayOfWeek: number
+  completed?: boolean
+  weekStart: Date | string
+  createdAt?: Date | string
+  household: Prisma.HouseholdCreateNestedOneWithoutTasksInput
+}
+
 export type TaskUncheckedCreateWithoutPlantInput = {
   id?: string
+  householdId: string
   type: string
   label: string
   description?: string | null
@@ -550,23 +683,57 @@ export type TaskUpdateManyWithWhereWithoutPlantInput = {
   data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyWithoutPlantInput>
 }
 
-export type TaskScalarWhereInput = {
-  AND?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
-  OR?: Prisma.TaskScalarWhereInput[]
-  NOT?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
-  id?: Prisma.StringFilter<"Task"> | string
-  plantId?: Prisma.StringFilter<"Task"> | string
-  type?: Prisma.StringFilter<"Task"> | string
-  label?: Prisma.StringFilter<"Task"> | string
-  description?: Prisma.StringNullableFilter<"Task"> | string | null
-  dayOfWeek?: Prisma.IntFilter<"Task"> | number
-  completed?: Prisma.BoolFilter<"Task"> | boolean
-  weekStart?: Prisma.DateTimeFilter<"Task"> | Date | string
-  createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+export type TaskCreateManyHouseholdInput = {
+  id?: string
+  plantId: string
+  type: string
+  label: string
+  description?: string | null
+  dayOfWeek: number
+  completed?: boolean
+  weekStart: Date | string
+  createdAt?: Date | string
+}
+
+export type TaskUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
+  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  plant?: Prisma.PlantUpdateOneRequiredWithoutTasksNestedInput
+}
+
+export type TaskUncheckedUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  plantId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
+  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TaskUncheckedUpdateManyWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  plantId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
+  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskCreateManyPlantInput = {
   id?: string
+  householdId: string
   type: string
   label: string
   description?: string | null
@@ -585,10 +752,12 @@ export type TaskUpdateWithoutPlantInput = {
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  household?: Prisma.HouseholdUpdateOneRequiredWithoutTasksNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutPlantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -600,6 +769,7 @@ export type TaskUncheckedUpdateWithoutPlantInput = {
 
 export type TaskUncheckedUpdateManyWithoutPlantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -613,6 +783,7 @@ export type TaskUncheckedUpdateManyWithoutPlantInput = {
 
 export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   plantId?: boolean
   type?: boolean
   label?: boolean
@@ -621,11 +792,13 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   completed?: boolean
   weekStart?: boolean
   createdAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   plantId?: boolean
   type?: boolean
   label?: boolean
@@ -634,11 +807,13 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   completed?: boolean
   weekStart?: boolean
   createdAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   plantId?: boolean
   type?: boolean
   label?: boolean
@@ -647,11 +822,13 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   completed?: boolean
   weekStart?: boolean
   createdAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
 export type TaskSelectScalar = {
   id?: boolean
+  householdId?: boolean
   plantId?: boolean
   type?: boolean
   label?: boolean
@@ -662,24 +839,29 @@ export type TaskSelectScalar = {
   createdAt?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "plantId" | "type" | "label" | "description" | "dayOfWeek" | "completed" | "weekStart" | "createdAt", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "householdId" | "plantId" | "type" | "label" | "description" | "dayOfWeek" | "completed" | "weekStart" | "createdAt", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }
 export type TaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }
 export type TaskIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   plant?: boolean | Prisma.PlantDefaultArgs<ExtArgs>
 }
 
 export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Task"
   objects: {
+    household: Prisma.$HouseholdPayload<ExtArgs>
     plant: Prisma.$PlantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    householdId: string
     plantId: string
     type: string
     label: string
@@ -1082,6 +1264,7 @@ readonly fields: TaskFieldRefs;
  */
 export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  household<T extends Prisma.HouseholdDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HouseholdDefaultArgs<ExtArgs>>): Prisma.Prisma__HouseholdClient<runtime.Types.Result.GetResult<Prisma.$HouseholdPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   plant<T extends Prisma.PlantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlantDefaultArgs<ExtArgs>>): Prisma.Prisma__PlantClient<runtime.Types.Result.GetResult<Prisma.$PlantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1113,6 +1296,7 @@ export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface TaskFieldRefs {
   readonly id: Prisma.FieldRef<"Task", 'String'>
+  readonly householdId: Prisma.FieldRef<"Task", 'String'>
   readonly plantId: Prisma.FieldRef<"Task", 'String'>
   readonly type: Prisma.FieldRef<"Task", 'String'>
   readonly label: Prisma.FieldRef<"Task", 'String'>

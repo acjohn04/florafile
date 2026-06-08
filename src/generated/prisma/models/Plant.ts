@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Plant
- * A plant in the user's collection.
+ * A plant in the household's collection.
  */
 export type PlantModel = runtime.Types.Result.DefaultSelection<Prisma.$PlantPayload>
 
@@ -26,6 +26,7 @@ export type AggregatePlant = {
 
 export type PlantMinAggregateOutputType = {
   id: string | null
+  householdId: string | null
   nickname: string | null
   commonName: string | null
   scientificName: string | null
@@ -47,6 +48,7 @@ export type PlantMinAggregateOutputType = {
 
 export type PlantMaxAggregateOutputType = {
   id: string | null
+  householdId: string | null
   nickname: string | null
   commonName: string | null
   scientificName: string | null
@@ -68,6 +70,7 @@ export type PlantMaxAggregateOutputType = {
 
 export type PlantCountAggregateOutputType = {
   id: number
+  householdId: number
   nickname: number
   commonName: number
   scientificName: number
@@ -91,6 +94,7 @@ export type PlantCountAggregateOutputType = {
 
 export type PlantMinAggregateInputType = {
   id?: true
+  householdId?: true
   nickname?: true
   commonName?: true
   scientificName?: true
@@ -112,6 +116,7 @@ export type PlantMinAggregateInputType = {
 
 export type PlantMaxAggregateInputType = {
   id?: true
+  householdId?: true
   nickname?: true
   commonName?: true
   scientificName?: true
@@ -133,6 +138,7 @@ export type PlantMaxAggregateInputType = {
 
 export type PlantCountAggregateInputType = {
   id?: true
+  householdId?: true
   nickname?: true
   commonName?: true
   scientificName?: true
@@ -227,6 +233,7 @@ export type PlantGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type PlantGroupByOutputType = {
   id: string
+  householdId: string
   nickname: string
   commonName: string
   scientificName: string
@@ -269,6 +276,7 @@ export type PlantWhereInput = {
   OR?: Prisma.PlantWhereInput[]
   NOT?: Prisma.PlantWhereInput | Prisma.PlantWhereInput[]
   id?: Prisma.StringFilter<"Plant"> | string
+  householdId?: Prisma.StringFilter<"Plant"> | string
   nickname?: Prisma.StringFilter<"Plant"> | string
   commonName?: Prisma.StringFilter<"Plant"> | string
   scientificName?: Prisma.StringFilter<"Plant"> | string
@@ -286,11 +294,13 @@ export type PlantWhereInput = {
   recoverySteps?: Prisma.StringNullableFilter<"Plant"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
   tasks?: Prisma.TaskListRelationFilter
 }
 
 export type PlantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   commonName?: Prisma.SortOrder
   scientificName?: Prisma.SortOrder
@@ -308,6 +318,7 @@ export type PlantOrderByWithRelationInput = {
   recoverySteps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  household?: Prisma.HouseholdOrderByWithRelationInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
 }
 
@@ -316,6 +327,7 @@ export type PlantWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PlantWhereInput | Prisma.PlantWhereInput[]
   OR?: Prisma.PlantWhereInput[]
   NOT?: Prisma.PlantWhereInput | Prisma.PlantWhereInput[]
+  householdId?: Prisma.StringFilter<"Plant"> | string
   nickname?: Prisma.StringFilter<"Plant"> | string
   commonName?: Prisma.StringFilter<"Plant"> | string
   scientificName?: Prisma.StringFilter<"Plant"> | string
@@ -333,11 +345,13 @@ export type PlantWhereUniqueInput = Prisma.AtLeast<{
   recoverySteps?: Prisma.StringNullableFilter<"Plant"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
   tasks?: Prisma.TaskListRelationFilter
 }, "id">
 
 export type PlantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   commonName?: Prisma.SortOrder
   scientificName?: Prisma.SortOrder
@@ -365,6 +379,7 @@ export type PlantScalarWhereWithAggregatesInput = {
   OR?: Prisma.PlantScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PlantScalarWhereWithAggregatesInput | Prisma.PlantScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Plant"> | string
+  householdId?: Prisma.StringWithAggregatesFilter<"Plant"> | string
   nickname?: Prisma.StringWithAggregatesFilter<"Plant"> | string
   commonName?: Prisma.StringWithAggregatesFilter<"Plant"> | string
   scientificName?: Prisma.StringWithAggregatesFilter<"Plant"> | string
@@ -403,11 +418,13 @@ export type PlantCreateInput = {
   recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  household: Prisma.HouseholdCreateNestedOneWithoutPlantsInput
   tasks?: Prisma.TaskCreateNestedManyWithoutPlantInput
 }
 
 export type PlantUncheckedCreateInput = {
   id?: string
+  householdId: string
   nickname: string
   commonName: string
   scientificName: string
@@ -447,11 +464,13 @@ export type PlantUpdateInput = {
   recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  household?: Prisma.HouseholdUpdateOneRequiredWithoutPlantsNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutPlantNestedInput
 }
 
 export type PlantUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   commonName?: Prisma.StringFieldUpdateOperationsInput | string
   scientificName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -474,6 +493,7 @@ export type PlantUncheckedUpdateInput = {
 
 export type PlantCreateManyInput = {
   id?: string
+  householdId: string
   nickname: string
   commonName: string
   scientificName: string
@@ -516,6 +536,7 @@ export type PlantUpdateManyMutationInput = {
 
 export type PlantUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   commonName?: Prisma.StringFieldUpdateOperationsInput | string
   scientificName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -535,8 +556,19 @@ export type PlantUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type PlantListRelationFilter = {
+  every?: Prisma.PlantWhereInput
+  some?: Prisma.PlantWhereInput
+  none?: Prisma.PlantWhereInput
+}
+
+export type PlantOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type PlantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   commonName?: Prisma.SortOrder
   scientificName?: Prisma.SortOrder
@@ -558,6 +590,7 @@ export type PlantCountOrderByAggregateInput = {
 
 export type PlantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   commonName?: Prisma.SortOrder
   scientificName?: Prisma.SortOrder
@@ -579,6 +612,7 @@ export type PlantMaxOrderByAggregateInput = {
 
 export type PlantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   commonName?: Prisma.SortOrder
   scientificName?: Prisma.SortOrder
@@ -603,6 +637,48 @@ export type PlantScalarRelationFilter = {
   isNot?: Prisma.PlantWhereInput
 }
 
+export type PlantCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput> | Prisma.PlantCreateWithoutHouseholdInput[] | Prisma.PlantUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.PlantCreateOrConnectWithoutHouseholdInput | Prisma.PlantCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.PlantCreateManyHouseholdInputEnvelope
+  connect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+}
+
+export type PlantUncheckedCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput> | Prisma.PlantCreateWithoutHouseholdInput[] | Prisma.PlantUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.PlantCreateOrConnectWithoutHouseholdInput | Prisma.PlantCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.PlantCreateManyHouseholdInputEnvelope
+  connect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+}
+
+export type PlantUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput> | Prisma.PlantCreateWithoutHouseholdInput[] | Prisma.PlantUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.PlantCreateOrConnectWithoutHouseholdInput | Prisma.PlantCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.PlantUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.PlantUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.PlantCreateManyHouseholdInputEnvelope
+  set?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  disconnect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  delete?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  connect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  update?: Prisma.PlantUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.PlantUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.PlantUpdateManyWithWhereWithoutHouseholdInput | Prisma.PlantUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.PlantScalarWhereInput | Prisma.PlantScalarWhereInput[]
+}
+
+export type PlantUncheckedUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput> | Prisma.PlantCreateWithoutHouseholdInput[] | Prisma.PlantUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.PlantCreateOrConnectWithoutHouseholdInput | Prisma.PlantCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.PlantUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.PlantUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.PlantCreateManyHouseholdInputEnvelope
+  set?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  disconnect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  delete?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  connect?: Prisma.PlantWhereUniqueInput | Prisma.PlantWhereUniqueInput[]
+  update?: Prisma.PlantUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.PlantUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.PlantUpdateManyWithWhereWithoutHouseholdInput | Prisma.PlantUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.PlantScalarWhereInput | Prisma.PlantScalarWhereInput[]
+}
+
 export type PlantCreateNestedOneWithoutTasksInput = {
   create?: Prisma.XOR<Prisma.PlantCreateWithoutTasksInput, Prisma.PlantUncheckedCreateWithoutTasksInput>
   connectOrCreate?: Prisma.PlantCreateOrConnectWithoutTasksInput
@@ -615,6 +691,100 @@ export type PlantUpdateOneRequiredWithoutTasksNestedInput = {
   upsert?: Prisma.PlantUpsertWithoutTasksInput
   connect?: Prisma.PlantWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PlantUpdateToOneWithWhereWithoutTasksInput, Prisma.PlantUpdateWithoutTasksInput>, Prisma.PlantUncheckedUpdateWithoutTasksInput>
+}
+
+export type PlantCreateWithoutHouseholdInput = {
+  id?: string
+  nickname: string
+  commonName: string
+  scientificName: string
+  imageUrl?: string | null
+  room: string
+  light?: string | null
+  water?: string | null
+  toxicity?: string | null
+  careLevel?: string | null
+  description?: string | null
+  status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.TaskCreateNestedManyWithoutPlantInput
+}
+
+export type PlantUncheckedCreateWithoutHouseholdInput = {
+  id?: string
+  nickname: string
+  commonName: string
+  scientificName: string
+  imageUrl?: string | null
+  room: string
+  light?: string | null
+  water?: string | null
+  toxicity?: string | null
+  careLevel?: string | null
+  description?: string | null
+  status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutPlantInput
+}
+
+export type PlantCreateOrConnectWithoutHouseholdInput = {
+  where: Prisma.PlantWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput>
+}
+
+export type PlantCreateManyHouseholdInputEnvelope = {
+  data: Prisma.PlantCreateManyHouseholdInput | Prisma.PlantCreateManyHouseholdInput[]
+}
+
+export type PlantUpsertWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.PlantWhereUniqueInput
+  update: Prisma.XOR<Prisma.PlantUpdateWithoutHouseholdInput, Prisma.PlantUncheckedUpdateWithoutHouseholdInput>
+  create: Prisma.XOR<Prisma.PlantCreateWithoutHouseholdInput, Prisma.PlantUncheckedCreateWithoutHouseholdInput>
+}
+
+export type PlantUpdateWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.PlantWhereUniqueInput
+  data: Prisma.XOR<Prisma.PlantUpdateWithoutHouseholdInput, Prisma.PlantUncheckedUpdateWithoutHouseholdInput>
+}
+
+export type PlantUpdateManyWithWhereWithoutHouseholdInput = {
+  where: Prisma.PlantScalarWhereInput
+  data: Prisma.XOR<Prisma.PlantUpdateManyMutationInput, Prisma.PlantUncheckedUpdateManyWithoutHouseholdInput>
+}
+
+export type PlantScalarWhereInput = {
+  AND?: Prisma.PlantScalarWhereInput | Prisma.PlantScalarWhereInput[]
+  OR?: Prisma.PlantScalarWhereInput[]
+  NOT?: Prisma.PlantScalarWhereInput | Prisma.PlantScalarWhereInput[]
+  id?: Prisma.StringFilter<"Plant"> | string
+  householdId?: Prisma.StringFilter<"Plant"> | string
+  nickname?: Prisma.StringFilter<"Plant"> | string
+  commonName?: Prisma.StringFilter<"Plant"> | string
+  scientificName?: Prisma.StringFilter<"Plant"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Plant"> | string | null
+  room?: Prisma.StringFilter<"Plant"> | string
+  light?: Prisma.StringNullableFilter<"Plant"> | string | null
+  water?: Prisma.StringNullableFilter<"Plant"> | string | null
+  toxicity?: Prisma.StringNullableFilter<"Plant"> | string | null
+  careLevel?: Prisma.StringNullableFilter<"Plant"> | string | null
+  description?: Prisma.StringNullableFilter<"Plant"> | string | null
+  status?: Prisma.StringFilter<"Plant"> | string
+  diagnosisName?: Prisma.StringNullableFilter<"Plant"> | string | null
+  severity?: Prisma.StringNullableFilter<"Plant"> | string | null
+  diagnosisDescription?: Prisma.StringNullableFilter<"Plant"> | string | null
+  recoverySteps?: Prisma.StringNullableFilter<"Plant"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Plant"> | Date | string
 }
 
 export type PlantCreateWithoutTasksInput = {
@@ -636,10 +806,12 @@ export type PlantCreateWithoutTasksInput = {
   recoverySteps?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  household: Prisma.HouseholdCreateNestedOneWithoutPlantsInput
 }
 
 export type PlantUncheckedCreateWithoutTasksInput = {
   id?: string
+  householdId: string
   nickname: string
   commonName: string
   scientificName: string
@@ -694,9 +866,97 @@ export type PlantUpdateWithoutTasksInput = {
   recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  household?: Prisma.HouseholdUpdateOneRequiredWithoutPlantsNestedInput
 }
 
 export type PlantUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  commonName?: Prisma.StringFieldUpdateOperationsInput | string
+  scientificName?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  room?: Prisma.StringFieldUpdateOperationsInput | string
+  light?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  water?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toxicity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PlantCreateManyHouseholdInput = {
+  id?: string
+  nickname: string
+  commonName: string
+  scientificName: string
+  imageUrl?: string | null
+  room: string
+  light?: string | null
+  water?: string | null
+  toxicity?: string | null
+  careLevel?: string | null
+  description?: string | null
+  status?: string
+  diagnosisName?: string | null
+  severity?: string | null
+  diagnosisDescription?: string | null
+  recoverySteps?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PlantUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  commonName?: Prisma.StringFieldUpdateOperationsInput | string
+  scientificName?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  room?: Prisma.StringFieldUpdateOperationsInput | string
+  light?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  water?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toxicity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUpdateManyWithoutPlantNestedInput
+}
+
+export type PlantUncheckedUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  commonName?: Prisma.StringFieldUpdateOperationsInput | string
+  scientificName?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  room?: Prisma.StringFieldUpdateOperationsInput | string
+  light?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  water?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toxicity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  careLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  diagnosisName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosisDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recoverySteps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutPlantNestedInput
+}
+
+export type PlantUncheckedUpdateManyWithoutHouseholdInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   commonName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -750,6 +1010,7 @@ export type PlantCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Ext
 
 export type PlantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   nickname?: boolean
   commonName?: boolean
   scientificName?: boolean
@@ -767,12 +1028,14 @@ export type PlantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.Plant$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.PlantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["plant"]>
 
 export type PlantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   nickname?: boolean
   commonName?: boolean
   scientificName?: boolean
@@ -790,10 +1053,12 @@ export type PlantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["plant"]>
 
 export type PlantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   nickname?: boolean
   commonName?: boolean
   scientificName?: boolean
@@ -811,10 +1076,12 @@ export type PlantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   recoverySteps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["plant"]>
 
 export type PlantSelectScalar = {
   id?: boolean
+  householdId?: boolean
   nickname?: boolean
   commonName?: boolean
   scientificName?: boolean
@@ -834,21 +1101,28 @@ export type PlantSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PlantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nickname" | "commonName" | "scientificName" | "imageUrl" | "room" | "light" | "water" | "toxicity" | "careLevel" | "description" | "status" | "diagnosisName" | "severity" | "diagnosisDescription" | "recoverySteps" | "createdAt" | "updatedAt", ExtArgs["result"]["plant"]>
+export type PlantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "householdId" | "nickname" | "commonName" | "scientificName" | "imageUrl" | "room" | "light" | "water" | "toxicity" | "careLevel" | "description" | "status" | "diagnosisName" | "severity" | "diagnosisDescription" | "recoverySteps" | "createdAt" | "updatedAt", ExtArgs["result"]["plant"]>
 export type PlantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.Plant$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.PlantCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PlantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type PlantIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PlantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
+}
+export type PlantIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
+}
 
 export type $PlantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Plant"
   objects: {
+    household: Prisma.$HouseholdPayload<ExtArgs>
     tasks: Prisma.$TaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    householdId: string
     nickname: string
     commonName: string
     scientificName: string
@@ -1260,6 +1534,7 @@ readonly fields: PlantFieldRefs;
  */
 export interface Prisma__PlantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  household<T extends Prisma.HouseholdDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HouseholdDefaultArgs<ExtArgs>>): Prisma.Prisma__HouseholdClient<runtime.Types.Result.GetResult<Prisma.$HouseholdPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tasks<T extends Prisma.Plant$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Plant$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1291,6 +1566,7 @@ export interface Prisma__PlantClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface PlantFieldRefs {
   readonly id: Prisma.FieldRef<"Plant", 'String'>
+  readonly householdId: Prisma.FieldRef<"Plant", 'String'>
   readonly nickname: Prisma.FieldRef<"Plant", 'String'>
   readonly commonName: Prisma.FieldRef<"Plant", 'String'>
   readonly scientificName: Prisma.FieldRef<"Plant", 'String'>
@@ -1560,6 +1836,10 @@ export type PlantCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many Plants.
    */
   data: Prisma.PlantCreateManyInput | Prisma.PlantCreateManyInput[]
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlantIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1630,6 +1910,10 @@ export type PlantUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Plants to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlantIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

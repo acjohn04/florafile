@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { requireHousehold } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
 import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 
 export async function GET() {
+  const householdId = await requireHousehold();
   const plants = await prisma.plant.findMany({
+    where: { householdId },
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(plants);
@@ -81,6 +84,7 @@ async function runDiagnosis(base64: string, mimeType: string) {
 }
 
 export async function POST(request: Request) {
+  const householdId = await requireHousehold();
   const data = await request.json();
   const { imageData, ...plantData } = data;
 
@@ -106,6 +110,7 @@ export async function POST(request: Request) {
   const plant = await prisma.plant.create({
     data: {
       ...plantData,
+      householdId,
       ...(imageUrl && { imageUrl }),
       ...diagnosisFields,
     },

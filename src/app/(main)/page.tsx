@@ -4,7 +4,7 @@ import { PlantCard } from "@/components/PlantCard";
 import { prisma } from "@/lib/db";
 import { getDictionary } from "@/i18n";
 
-import { auth } from "@/lib/auth";
+import { auth, requireHousehold } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
@@ -15,7 +15,11 @@ export default async function Dashboard() {
     redirect('/login');
   }
 
+  // requireHousehold is safe here: session is guaranteed above.
+  // It will lazy-create a household if one doesn't exist yet.
+  const householdId = await requireHousehold();
   const plants = await prisma.plant.findMany({
+    where: { householdId },
     orderBy: { createdAt: "desc" }
   });
   const t = await getDictionary();

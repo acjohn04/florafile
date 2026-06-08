@@ -2,7 +2,9 @@ export const en = {
   navigation: {
     garden: "Garden",
     identify: "Identify",
-    schedule: "Schedule"
+    schedule: "Schedule",
+    settings: "Settings",
+    signOut: "Sign Out"
   },
   dashboard: {
     title: "My Garden",
@@ -107,5 +109,22 @@ export const en = {
     recoveryPlan: "Recovery Plan",
     severity: "Severity",
     healthyStatus: "Your plant looks healthy! No issues detected."
+  },
+  settings: {
+    title: "Settings",
+    householdTitle: "Your Household",
+    householdIdLabel: "Household ID",
+    householdIdDesc: "Share this ID with others in your home so they can join your household.",
+    copyButton: "Copy",
+    copiedButton: "Copied!",
+    joinTitle: "Join a Household",
+    joinDesc: "Enter a household ID from someone in your home to share their plants and schedule.",
+    joinPlaceholder: "Paste household ID here",
+    joinButton: "Join Household",
+    joiningButton: "Joining...",
+    joinSuccess: "You have joined the household!",
+    joinError: "Household not found. Check the ID and try again.",
+    profileTitle: "Your Profile",
+    signOut: "Sign Out"
   }
 };

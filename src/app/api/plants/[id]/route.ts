@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { requireHousehold } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
 import fs from "fs/promises";
 import path from "path";
@@ -9,9 +10,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const householdId = await requireHousehold();
   const { id } = await params;
-  const plant = await prisma.plant.findUnique({
-    where: { id },
+  const plant = await prisma.plant.findFirst({
+    where: { id, householdId },
     include: { tasks: true },
   });
   if (!plant) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -22,10 +24,12 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const householdId = await requireHousehold();
   const { id } = await params;
-  await prisma.plant.delete({
-    where: { id },
-  });
+  // Guard: only allow deletion of plants belonging to the user's household
+  const plant = await prisma.plant.findFirst({ where: { id, householdId } });
+  if (!plant) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  await prisma.plant.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }
 
@@ -102,7 +106,13 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const householdId = await requireHousehold();
     const { id } = await params;
+
+    // Guard: only allow updates to plants belonging to the user's household
+    const existing = await prisma.plant.findFirst({ where: { id, householdId } });
+    if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
     const body = await request.json();
     const { nickname, room, imageData } = body;
     

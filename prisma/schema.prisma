@@ -14,13 +14,14 @@ generator client {
 // ─── Auth.js Models ───────────────────────────────────────────────────────────
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id              String           @id @default(cuid())
+  name            String?
+  email           String?          @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
+  householdMember HouseholdMember?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,11 +68,36 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// ─── Household Models ─────────────────────────────────────────────────────────
+
+/// A household groups users so they share the same plants and care schedule.
+/// Created automatically when a new user signs in for the first time.
+model Household {
+  id        String            @id @default(cuid())
+  members   HouseholdMember[]
+  plants    Plant[]
+  tasks     Task[]
+  createdAt DateTime          @default(now())
+}
+
+/// Join table linking users to their household (one active household per user).
+/// The unique constraint on userId enforces the one-household-at-a-time rule.
+model HouseholdMember {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  householdId String
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  joinedAt    DateTime  @default(now())
+}
+
 // ─── Application Models ───────────────────────────────────────────────────────
 
-/// A plant in the user's collection.
+/// A plant in the household's collection.
 model Plant {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
+  householdId    String
+  household      Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
   nickname       String
   commonName     String
   scientificName String
@@ -82,7 +108,7 @@ model Plant {
   toxicity       String?
   careLevel      String?
   description    String?
-  status         String   @default("healthy") // healthy | sick | needs_water | prune_soon
+  status         String    @default("healthy") // healthy | sick | needs_water | prune_soon
 
   // Diagnosis fields — populated by AI when an image is uploaded.
   // Null values mean the plant is healthy (no active diagnosis).
@@ -91,25 +117,29 @@ model Plant {
   diagnosisDescription String?
   recoverySteps        String?  // JSON array stored as text
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  tasks          Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tasks     Task[]
 
+  @@index([householdId])
   @@map("plants")
 }
 
 /// A care task assigned to a plant for a specific day of the week.
 model Task {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
+  householdId String
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
   plantId     String
-  plant       Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
-  type        String   // water | mist | rotate | prune | fertilize
+  plant       Plant     @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  type        String    // water | mist | rotate | prune | fertilize
   label       String
   description String?
-  dayOfWeek   Int      // 0=Sun … 6=Sat
-  completed   Boolean  @default(false)
-  weekStart   DateTime // ISO date of the Monday this task belongs to
-  createdAt   DateTime @default(now())
+  dayOfWeek   Int       // 0=Sun … 6=Sat
+  completed   Boolean   @default(false)
+  weekStart   DateTime  // ISO date of the Monday this task belongs to
+  createdAt   DateTime  @default(now())
 
+  @@index([householdId])
   @@map("tasks")
 }

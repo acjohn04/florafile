@@ -62,8 +62,20 @@ export type Session = Prisma.SessionModel
  */
 export type VerificationToken = Prisma.VerificationTokenModel
 /**
+ * Model Household
+ * A household groups users so they share the same plants and care schedule.
+ * Created automatically when a new user signs in for the first time.
+ */
+export type Household = Prisma.HouseholdModel
+/**
+ * Model HouseholdMember
+ * Join table linking users to their household (one active household per user).
+ * The unique constraint on userId enforces the one-household-at-a-time rule.
+ */
+export type HouseholdMember = Prisma.HouseholdMemberModel
+/**
  * Model Plant
- * A plant in the user's collection.
+ * A plant in the household's collection.
  */
 export type Plant = Prisma.PlantModel
 /**

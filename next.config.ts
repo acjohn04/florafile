@@ -4,10 +4,15 @@ const nextConfig: NextConfig = {
   output: "standalone",
   images: {
     remotePatterns: [
+      // Google OAuth avatars
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
-        pathname: "/aida-public/**",
+      },
+      // GitHub OAuth avatars
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
       },
     ],
   },

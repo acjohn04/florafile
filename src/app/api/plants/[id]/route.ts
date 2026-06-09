@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireHousehold } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
-import fs from "fs/promises";
-import path from "path";
-import crypto from "crypto";
+import {
+  uploadImage,
+  buildProfileKey,
+  parseDataUrl,
+} from "@/lib/storage";
 
 export async function GET(
   request: NextRequest,
@@ -31,34 +33,6 @@ export async function DELETE(
   if (!plant) return NextResponse.json({ error: "Not found" }, { status: 404 });
   await prisma.plant.delete({ where: { id } });
   return NextResponse.json({ success: true });
-}
-
-/**
- * Save a base64 data URL image to disk and return the public URL.
- * Returns null if imageData is missing or malformed.
- */
-async function saveImageToDisk(imageData: string): Promise<string | null> {
-  const matches = imageData.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) return null;
-
-  const ext = matches[1];
-  const base64Data = matches[2];
-  const buffer = Buffer.from(base64Data, "base64");
-  const filename = `${crypto.randomUUID()}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-  await fs.mkdir(uploadDir, { recursive: true });
-  await fs.writeFile(path.join(uploadDir, filename), buffer);
-  return `/uploads/${filename}`;
-}
-
-/**
- * Extract the raw base64 string and mime type from a data URL.
- */
-function parseDataUrl(dataUrl: string): { base64: string; mimeType: string } | null {
-  const matches = dataUrl.match(/^data:(image\/[a-zA-Z0-9]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) return null;
-  return { mimeType: matches[1]!, base64: matches[2]! };
 }
 
 /**
@@ -101,6 +75,30 @@ async function runDiagnosis(base64: string, mimeType: string) {
   }
 }
 
+/**
+ * Snapshot the plant's current image + status into the history table.
+ * Only creates a history entry if the plant already has an image.
+ * The history image is uploaded to the bucket under a separate key.
+ */
+async function snapshotToHistory(
+  plantId: string,
+  currentImageUrl: string | null,
+  currentStatus: string,
+): Promise<void> {
+  // Skip if the plant has no image yet (nothing to snapshot)
+  if (!currentImageUrl) return;
+
+  // The current image URL is already in the bucket (or a legacy /uploads/ path).
+  // We store the existing URL directly — no need to re-upload.
+  await prisma.plantHistory.create({
+    data: {
+      plantId,
+      imageUrl: currentImageUrl,
+      status: currentStatus === "sick" ? "sick" : "healthy",
+    },
+  });
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -119,12 +117,19 @@ export async function PATCH(
     let imageUrl: string | undefined;
     let diagnosisFields: Record<string, string | null> | undefined;
 
-    // When a new image is uploaded, save it and run health diagnosis
+    // When a new image is uploaded, save it to the bucket and run health diagnosis.
+    // Before updating, snapshot the current state into the history timeline.
     if (imageData) {
-      imageUrl = (await saveImageToDisk(imageData)) ?? undefined;
+      // Snapshot current image + status into history before overwriting
+      await snapshotToHistory(id, existing.imageUrl, existing.status);
 
       const parsed = parseDataUrl(imageData);
       if (parsed) {
+        // Upload new image to bucket
+        const key = buildProfileKey(id, parsed.ext);
+        imageUrl = await uploadImage(parsed.buffer, key, parsed.mimeType);
+
+        // Run AI diagnosis on the new image
         diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType);
       }
     }

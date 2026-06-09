@@ -391,7 +391,8 @@ export const ModelName = {
   Household: 'Household',
   HouseholdMember: 'HouseholdMember',
   Plant: 'Plant',
-  Task: 'Task'
+  Task: 'Task',
+  PlantHistory: 'PlantHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "household" | "householdMember" | "plant" | "task"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "household" | "householdMember" | "plant" | "task" | "plantHistory"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PlantHistory: {
+      payload: Prisma.$PlantHistoryPayload<ExtArgs>
+      fields: Prisma.PlantHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlantHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlantHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.PlantHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlantHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.PlantHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.PlantHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.PlantHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlantHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.PlantHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        update: {
+          args: Prisma.PlantHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.PlantHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlantHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlantHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.PlantHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlantHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.PlantHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlantHistory>
+        }
+        groupBy: {
+          args: Prisma.PlantHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlantHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlantHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlantHistoryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1150,6 +1225,17 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const PlantHistoryScalarFieldEnum = {
+  id: 'id',
+  plantId: 'plantId',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type PlantHistoryScalarFieldEnum = (typeof PlantHistoryScalarFieldEnum)[keyof typeof PlantHistoryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1326,6 +1412,7 @@ export type GlobalOmitConfig = {
   householdMember?: Prisma.HouseholdMemberOmit
   plant?: Prisma.PlantOmit
   task?: Prisma.TaskOmit
+  plantHistory?: Prisma.PlantHistoryOmit
 }
 
 /* Types for Logging */

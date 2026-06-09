@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireHousehold } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
-import fs from "fs/promises";
-import path from "path";
-import crypto from "crypto";
+import { uploadImage, buildProfileKey, parseDataUrl } from "@/lib/storage";
 
 export async function GET() {
   const householdId = await requireHousehold();
@@ -13,34 +11,6 @@ export async function GET() {
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(plants);
-}
-
-/**
- * Save a base64 data URL image to disk and return the public URL.
- * Returns null if imageData is missing or malformed.
- */
-async function saveImageToDisk(imageData: string): Promise<string | null> {
-  const matches = imageData.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) return null;
-
-  const ext = matches[1];
-  const base64Data = matches[2];
-  const buffer = Buffer.from(base64Data, "base64");
-  const filename = `${crypto.randomUUID()}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-  await fs.mkdir(uploadDir, { recursive: true });
-  await fs.writeFile(path.join(uploadDir, filename), buffer);
-  return `/uploads/${filename}`;
-}
-
-/**
- * Extract the raw base64 string and mime type from a data URL.
- */
-function parseDataUrl(dataUrl: string): { base64: string; mimeType: string } | null {
-  const matches = dataUrl.match(/^data:(image\/[a-zA-Z0-9]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) return null;
-  return { mimeType: matches[1]!, base64: matches[2]! };
 }
 
 /**
@@ -84,36 +54,51 @@ async function runDiagnosis(base64: string, mimeType: string) {
 }
 
 export async function POST(request: Request) {
-  const householdId = await requireHousehold();
-  const data = await request.json();
-  const { imageData, ...plantData } = data;
+  try {
+    const householdId = await requireHousehold();
+    const data = await request.json();
+    const { imageData, ...plantData } = data;
 
-  let imageUrl: string | null = null;
-  let diagnosisFields = {
-    status: "healthy",
-    diagnosisName: null as string | null,
-    severity: null as string | null,
-    diagnosisDescription: null as string | null,
-    recoverySteps: null as string | null,
-  };
+    let imageUrl: string | null = null;
+    let diagnosisFields = {
+      status: "healthy",
+      diagnosisName: null as string | null,
+      severity: null as string | null,
+      diagnosisDescription: null as string | null,
+      recoverySteps: null as string | null,
+    };
 
-  if (imageData) {
-    imageUrl = await saveImageToDisk(imageData);
+    if (imageData) {
+      // Parse the data URL into raw bytes and metadata
+      const parsed = parseDataUrl(imageData);
+      if (parsed) {
+        try {
+          // Upload the image to the Railway S3 bucket.
+          // We use a temporary ID since the plant doesn't exist yet;
+          // the key includes a UUID so it's unique regardless.
+          const key = buildProfileKey("new", parsed.ext);
+          imageUrl = await uploadImage(parsed.buffer, key, parsed.mimeType);
+        } catch (uploadError) {
+          // Non-fatal — plant saves without an image if the bucket is unreachable
+          console.error("Image upload failed, saving plant without image:", uploadError);
+        }
 
-    // Run AI health check on the uploaded image
-    const parsed = parseDataUrl(imageData);
-    if (parsed) {
-      diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType);
+        // Run AI health check on the uploaded image regardless of upload result
+        diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType);
+      }
     }
-  }
 
-  const plant = await prisma.plant.create({
-    data: {
-      ...plantData,
-      householdId,
-      ...(imageUrl && { imageUrl }),
-      ...diagnosisFields,
-    },
-  });
-  return NextResponse.json(plant);
+    const plant = await prisma.plant.create({
+      data: {
+        ...plantData,
+        householdId,
+        ...(imageUrl && { imageUrl }),
+        ...diagnosisFields,
+      },
+    });
+    return NextResponse.json(plant);
+  } catch (error) {
+    console.error("Failed to create plant:", error);
+    return NextResponse.json({ error: "Failed to create plant" }, { status: 500 });
+  }
 }

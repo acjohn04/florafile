@@ -59,3 +59,10 @@ export type Plant = Prisma.PlantModel
  * A care task assigned to a plant for a specific day of the week.
  */
 export type Task = Prisma.TaskModel
+/**
+ * Model PlantHistory
+ * A point-in-time snapshot of a plant's health — stores an image and status.
+ * Created automatically when a new photo is uploaded, capturing the plant's
+ * appearance and health at that moment.
+ */
+export type PlantHistory = Prisma.PlantHistoryModel

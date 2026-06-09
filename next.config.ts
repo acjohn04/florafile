@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      // Railway S3 bucket (plant images)
+      {
+        protocol: "https",
+        hostname: "t3.storageapi.dev",
+      },
     ],
   },
 };

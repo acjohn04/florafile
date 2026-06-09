@@ -58,7 +58,8 @@ export const ModelName = {
   Household: 'Household',
   HouseholdMember: 'HouseholdMember',
   Plant: 'Plant',
-  Task: 'Task'
+  Task: 'Task',
+  PlantHistory: 'PlantHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -185,6 +186,17 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const PlantHistoryScalarFieldEnum = {
+  id: 'id',
+  plantId: 'plantId',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type PlantHistoryScalarFieldEnum = (typeof PlantHistoryScalarFieldEnum)[keyof typeof PlantHistoryScalarFieldEnum]
 
 
 export const SortOrder = {

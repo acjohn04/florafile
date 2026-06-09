@@ -126,5 +126,12 @@ export const en = {
     joinError: "Household not found. Check the ID and try again.",
     profileTitle: "Your Profile",
     signOut: "Sign Out"
+  },
+  plantHistory: {
+    title: "Plant Timeline",
+    emptyTitle: "No History Yet",
+    emptyDescription: "Upload a new photo to start tracking your plant's journey.",
+    healthy: "Healthy",
+    sick: "Sick",
   }
 };

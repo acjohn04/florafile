@@ -120,6 +120,7 @@ model Plant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tasks     Task[]
+  history   PlantHistory[]
 
   @@index([householdId])
   @@map("plants")
@@ -142,4 +143,19 @@ model Task {
 
   @@index([householdId])
   @@map("tasks")
+}
+
+/// A point-in-time snapshot of a plant's health — stores an image and status.
+/// Created automatically when a new photo is uploaded, capturing the plant's
+/// appearance and health at that moment.
+model PlantHistory {
+  id        String   @id @default(cuid())
+  plantId   String
+  plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  imageUrl  String   // Full URL to the image in the S3 bucket
+  status    String   // "healthy" | "sick"
+  createdAt DateTime @default(now())
+
+  @@index([plantId])
+  @@map("plant_history")
 }

@@ -23,7 +23,7 @@ export async function GET(
 
     const bodyStream = response.Body?.transformToWebStream
       ? response.Body.transformToWebStream()
-      : (response.Body as any);
+      : (response.Body as ReadableStream);
 
     return new NextResponse(bodyStream, {
       headers: {
@@ -31,9 +31,9 @@ export async function GET(
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`Error fetching S3 object (key: ${key}):`, error);
-    if (error.name === "NoSuchKey") {
+    if (error instanceof Error && error.name === "NoSuchKey") {
       return new NextResponse("Not Found", { status: 404 });
     }
     return new NextResponse("Internal Server Error", { status: 500 });

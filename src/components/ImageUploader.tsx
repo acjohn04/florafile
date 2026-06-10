@@ -82,11 +82,17 @@ export function ImageUploader({ onImageSelect, isProcessing }: ImageUploaderProp
       }}
       onClick={() => inputRef.current?.click()}
     >
+      {/* 
+        Including 'application/pdf' alongside 'image/*' is a workaround for modern Android devices.
+        Using just 'image/*' forces Chrome on Android to only show the photo gallery, hiding the Camera option.
+        Adding 'application/pdf' broadens the filter enough to trigger the system's full file picker, 
+        which restores the Camera and Files options. Non-image files are safely ignored by handleFile.
+      */}
       <input 
         type="file" 
         ref={inputRef} 
         className="hidden" 
-        accept="image/*" 
+        accept="image/*,application/pdf" 
         onChange={(e) => e.target.files && handleFile(e.target.files[0])} 
       />
 

@@ -48,6 +48,7 @@ export function Navigation() {
                   {session.user.name || session.user.email}
                 </span>
                 {session.user.image ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={session.user.image} alt={session.user.name || "User"} className="w-8 h-8 rounded-full object-cover" />
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">

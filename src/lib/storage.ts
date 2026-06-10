@@ -88,6 +88,26 @@ export function getPublicUrl(key: string): string {
   return `${endpoint}/${bucketName}/${key}`;
 }
 
+/**
+ * Extract the S3 key from a public bucket URL.
+ * Returns null for non-bucket URLs (e.g. legacy /uploads/ local paths),
+ * so callers can safely skip deletion for those.
+ *
+ * Example:
+ *   "https://t3.storageapi.dev/my-bucket/florafile/plants/abc/profile/uuid.webp"
+ *   -> "florafile/plants/abc/profile/uuid.webp"
+ */
+export function extractKeyFromUrl(url: string): string | null {
+  const endpoint = process.env.AWS_ENDPOINT_URL;
+  const bucketName = process.env.AWS_S3_BUCKET_NAME;
+  if (!endpoint || !bucketName) return null;
+
+  const prefix = `${endpoint}/${bucketName}/`;
+  if (!url.startsWith(prefix)) return null;
+
+  return url.slice(prefix.length);
+}
+
 // ─── Key Builders ────────────────────────────────────────────────────────────
 
 /** Generate an S3 key for a plant's profile image. */

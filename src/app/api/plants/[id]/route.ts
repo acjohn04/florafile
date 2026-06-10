@@ -5,6 +5,8 @@ import { diagnosePlant } from "@/lib/gemini";
 import {
   uploadImage,
   buildProfileKey,
+  deleteImage,
+  extractKeyFromUrl,
   parseDataUrl,
 } from "@/lib/storage";
 
@@ -28,10 +30,33 @@ export async function DELETE(
 ) {
   const householdId = await requireHousehold();
   const { id } = await params;
-  // Guard: only allow deletion of plants belonging to the user's household
-  const plant = await prisma.plant.findFirst({ where: { id, householdId } });
+
+  // Guard: only allow deletion of plants belonging to the user's household.
+  // Fetch the plant with its history so we can clean up all bucket objects.
+  const plant = await prisma.plant.findFirst({
+    where: { id, householdId },
+    include: { history: { select: { imageUrl: true } } },
+  });
   if (!plant) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Collect all bucket image URLs: the plant's profile image + every history snapshot.
+  const imageUrls = [
+    plant.imageUrl,
+    ...plant.history.map((h) => h.imageUrl),
+  ].filter((url): url is string => !!url);
+
+  // Delete the DB record first — Cascade handles PlantHistory rows automatically.
   await prisma.plant.delete({ where: { id } });
+
+  // Best-effort bucket cleanup: delete all images, ignoring individual failures.
+  // We do this after the DB delete so a bucket error never blocks plant removal.
+  await Promise.allSettled(
+    imageUrls
+      .map(extractKeyFromUrl)           // returns null for legacy /uploads/ paths
+      .filter((key): key is string => key !== null)
+      .map((key) => deleteImage(key)),
+  );
+
   return NextResponse.json({ success: true });
 }
 

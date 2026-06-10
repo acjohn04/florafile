@@ -18,7 +18,7 @@ import crypto from "crypto";
 
 /** Lazily-initialized S3 client — avoids initialization errors during build. */
 let _client: S3Client | null = null;
-function getClient(): S3Client {
+export function getClient(): S3Client {
   if (!_client) {
     _client = new S3Client({
       // AWS SDK v3 auto-detects AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY,
@@ -56,7 +56,7 @@ export async function uploadImage(
       Key: key,
       Body: buffer,
       ContentType: contentType,
-      ACL: "public-read",
+      // Tigris buckets are private by default; ACL public-read is not implemented
     }),
   );
 
@@ -80,32 +80,34 @@ export async function deleteImage(key: string): Promise<void> {
 
 /**
  * Construct the public URL for an object in the bucket.
- * Railway buckets serve public objects at: {endpoint}/{bucket}/{key}
+ * We proxy through our Next.js API route because Tigris buckets are private.
  */
 export function getPublicUrl(key: string): string {
-  const endpoint = process.env.AWS_ENDPOINT_URL!;
-  const bucketName = process.env.AWS_S3_BUCKET_NAME!;
-  return `${endpoint}/${bucketName}/${key}`;
+  return `/api/storage/${key}`;
 }
 
 /**
  * Extract the S3 key from a public bucket URL.
- * Returns null for non-bucket URLs (e.g. legacy /uploads/ local paths),
- * so callers can safely skip deletion for those.
- *
- * Example:
- *   "https://t3.storageapi.dev/my-bucket/florafile/plants/abc/profile/uuid.webp"
- *   -> "florafile/plants/abc/profile/uuid.webp"
+ * Handles both the local proxy URLs and legacy external URLs.
  */
 export function extractKeyFromUrl(url: string): string | null {
+  // Check new proxy URL format
+  const proxyPrefix = "/api/storage/";
+  if (url.startsWith(proxyPrefix)) {
+    return url.slice(proxyPrefix.length);
+  }
+
+  // Check legacy external URL format
   const endpoint = process.env.AWS_ENDPOINT_URL;
   const bucketName = process.env.AWS_S3_BUCKET_NAME;
   if (!endpoint || !bucketName) return null;
 
-  const prefix = `${endpoint}/${bucketName}/`;
-  if (!url.startsWith(prefix)) return null;
+  const legacyPrefix = `${endpoint}/${bucketName}/`;
+  if (url.startsWith(legacyPrefix)) {
+    return url.slice(legacyPrefix.length);
+  }
 
-  return url.slice(prefix.length);
+  return null;
 }
 
 // ─── Key Builders ────────────────────────────────────────────────────────────

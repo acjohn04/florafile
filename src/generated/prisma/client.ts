@@ -74,6 +74,11 @@ export type Household = Prisma.HouseholdModel
  */
 export type HouseholdMember = Prisma.HouseholdMemberModel
 /**
+ * Model Location
+ * A custom location/room for a household's plants.
+ */
+export type Location = Prisma.LocationModel
+/**
  * Model Plant
  * A plant in the household's collection.
  */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/Icon";
 import { ImageUploader } from "@/components/ImageUploader";
@@ -73,6 +73,16 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
   
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [locations, setLocations] = useState<{id: string, name: string}[]>([]);
+
+  useEffect(() => {
+    fetch("/api/locations")
+      .then(res => res.json())
+      .then(data => {
+        setLocations(data);
+      })
+      .catch(console.error);
+  }, []);
 
   // Diagnosis state — initialized from existing plant data, updated after save
   const [diagnosis, setDiagnosis] = useState<DiagnosisData | null>(parseDiagnosis(plant));
@@ -222,11 +232,15 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
             className="px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary outline-none transition-shadow text-on-surface appearance-none cursor-pointer"
             required
           >
-            {Object.entries(t.confirm.rooms).map(([key, label]) => (
-              <option key={key} value={label}>
-                {label}
-              </option>
-            ))}
+            {(() => {
+              const options = locations.map(l => l.name);
+              if (room && !options.includes(room)) {
+                options.push(room);
+              }
+              return options.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ));
+            })()}
           </select>
         </label>
       </div>

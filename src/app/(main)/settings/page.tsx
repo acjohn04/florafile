@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Icon } from "@/components/Icon";
 import { useTranslation } from "@/i18n/client";
+import { ManageLocations } from "./ManageLocations";
 
 // ─── Settings Page ─────────────────────────────────────────────────────────────
 // Displays the user's household ID (for sharing) and lets them join another
@@ -194,6 +195,9 @@ export default function SettingsPage() {
           </button>
         </form>
       </section>
+
+      {/* ── Manage Locations card ──────────────────────────────── */}
+      <ManageLocations />
     </div>
   );
 }

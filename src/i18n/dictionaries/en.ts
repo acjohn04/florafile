@@ -124,6 +124,13 @@ export const en = {
     joiningButton: "Joining...",
     joinSuccess: "You have joined the household!",
     joinError: "Household not found. Check the ID and try again.",
+    locationsTitle: "Manage Locations",
+    locationsDesc: "Customize the list of rooms and locations where your plants live.",
+    addLocationPlaceholder: "New location name",
+    addLocationButton: "Add",
+    deleteLocationButton: "Delete",
+    saveLocationButton: "Save",
+    cancelLocationButton: "Cancel",
     profileTitle: "Your Profile",
     signOut: "Sign Out"
   },

@@ -49,7 +49,25 @@ export async function requireHousehold(): Promise<string> {
   if (existing) return existing.householdId
 
   // Slow path: bootstrap a household for users who pre-date this feature
-  const household = await prisma.household.create({ data: {} })
+  // Also seed the default locations so they have something to pick from.
+  // We explicitly set sequential createdAt dates so that orderBy: { createdAt: "asc" }
+  // preserves this logical order (SQLite timestamps are only precise to the second otherwise).
+  const now = Date.now();
+  const household = await prisma.household.create({
+    data: {
+      locations: {
+        create: [
+          { name: "Living Room", createdAt: new Date(now + 1000) },
+          { name: "Bedroom", createdAt: new Date(now + 2000) },
+          { name: "Office", createdAt: new Date(now + 3000) },
+          { name: "Kitchen", createdAt: new Date(now + 4000) },
+          { name: "Bathroom", createdAt: new Date(now + 5000) },
+          { name: "Balcony", createdAt: new Date(now + 6000) },
+          { name: "Hallway", createdAt: new Date(now + 7000) },
+        ],
+      },
+    },
+  })
   await prisma.householdMember.create({
     data: { userId, householdId: household.id },
   })

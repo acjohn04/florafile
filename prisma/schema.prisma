@@ -77,6 +77,7 @@ model Household {
   members   HouseholdMember[]
   plants    Plant[]
   tasks     Task[]
+  locations Location[]
   createdAt DateTime          @default(now())
 }
 
@@ -89,6 +90,19 @@ model HouseholdMember {
   householdId String
   household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
   joinedAt    DateTime  @default(now())
+}
+
+/// A custom location/room for a household's plants.
+model Location {
+  id          String    @id @default(cuid())
+  householdId String
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([householdId, name])
+  @@map("locations")
 }
 
 // ─── Application Models ───────────────────────────────────────────────────────

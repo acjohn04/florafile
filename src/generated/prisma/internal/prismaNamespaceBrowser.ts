@@ -57,6 +57,7 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Household: 'Household',
   HouseholdMember: 'HouseholdMember',
+  Location: 'Location',
   Plant: 'Plant',
   Task: 'Task',
   PlantHistory: 'PlantHistory'
@@ -145,6 +146,17 @@ export const HouseholdMemberScalarFieldEnum = {
 } as const
 
 export type HouseholdMemberScalarFieldEnum = (typeof HouseholdMemberScalarFieldEnum)[keyof typeof HouseholdMemberScalarFieldEnum]
+
+
+export const LocationScalarFieldEnum = {
+  id: 'id',
+  householdId: 'householdId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LocationScalarFieldEnum = (typeof LocationScalarFieldEnum)[keyof typeof LocationScalarFieldEnum]
 
 
 export const PlantScalarFieldEnum = {

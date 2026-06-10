@@ -162,6 +162,7 @@ export type HouseholdWhereInput = {
   members?: Prisma.HouseholdMemberListRelationFilter
   plants?: Prisma.PlantListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
+  locations?: Prisma.LocationListRelationFilter
 }
 
 export type HouseholdOrderByWithRelationInput = {
@@ -170,6 +171,7 @@ export type HouseholdOrderByWithRelationInput = {
   members?: Prisma.HouseholdMemberOrderByRelationAggregateInput
   plants?: Prisma.PlantOrderByRelationAggregateInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
+  locations?: Prisma.LocationOrderByRelationAggregateInput
 }
 
 export type HouseholdWhereUniqueInput = Prisma.AtLeast<{
@@ -181,6 +183,7 @@ export type HouseholdWhereUniqueInput = Prisma.AtLeast<{
   members?: Prisma.HouseholdMemberListRelationFilter
   plants?: Prisma.PlantListRelationFilter
   tasks?: Prisma.TaskListRelationFilter
+  locations?: Prisma.LocationListRelationFilter
 }, "id">
 
 export type HouseholdOrderByWithAggregationInput = {
@@ -205,6 +208,7 @@ export type HouseholdCreateInput = {
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdUncheckedCreateInput = {
@@ -213,6 +217,7 @@ export type HouseholdUncheckedCreateInput = {
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdUpdateInput = {
@@ -221,6 +226,7 @@ export type HouseholdUpdateInput = {
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdUncheckedUpdateInput = {
@@ -229,6 +235,7 @@ export type HouseholdUncheckedUpdateInput = {
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdCreateManyInput = {
@@ -280,6 +287,20 @@ export type HouseholdUpdateOneRequiredWithoutMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.HouseholdUpdateToOneWithWhereWithoutMembersInput, Prisma.HouseholdUpdateWithoutMembersInput>, Prisma.HouseholdUncheckedUpdateWithoutMembersInput>
 }
 
+export type HouseholdCreateNestedOneWithoutLocationsInput = {
+  create?: Prisma.XOR<Prisma.HouseholdCreateWithoutLocationsInput, Prisma.HouseholdUncheckedCreateWithoutLocationsInput>
+  connectOrCreate?: Prisma.HouseholdCreateOrConnectWithoutLocationsInput
+  connect?: Prisma.HouseholdWhereUniqueInput
+}
+
+export type HouseholdUpdateOneRequiredWithoutLocationsNestedInput = {
+  create?: Prisma.XOR<Prisma.HouseholdCreateWithoutLocationsInput, Prisma.HouseholdUncheckedCreateWithoutLocationsInput>
+  connectOrCreate?: Prisma.HouseholdCreateOrConnectWithoutLocationsInput
+  upsert?: Prisma.HouseholdUpsertWithoutLocationsInput
+  connect?: Prisma.HouseholdWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HouseholdUpdateToOneWithWhereWithoutLocationsInput, Prisma.HouseholdUpdateWithoutLocationsInput>, Prisma.HouseholdUncheckedUpdateWithoutLocationsInput>
+}
+
 export type HouseholdCreateNestedOneWithoutPlantsInput = {
   create?: Prisma.XOR<Prisma.HouseholdCreateWithoutPlantsInput, Prisma.HouseholdUncheckedCreateWithoutPlantsInput>
   connectOrCreate?: Prisma.HouseholdCreateOrConnectWithoutPlantsInput
@@ -313,6 +334,7 @@ export type HouseholdCreateWithoutMembersInput = {
   createdAt?: Date | string
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdUncheckedCreateWithoutMembersInput = {
@@ -320,6 +342,7 @@ export type HouseholdUncheckedCreateWithoutMembersInput = {
   createdAt?: Date | string
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdCreateOrConnectWithoutMembersInput = {
@@ -343,11 +366,61 @@ export type HouseholdUpdateWithoutMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdUncheckedUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
+}
+
+export type HouseholdCreateWithoutLocationsInput = {
+  id?: string
+  createdAt?: Date | string
+  members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
+  plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutHouseholdInput
+}
+
+export type HouseholdUncheckedCreateWithoutLocationsInput = {
+  id?: string
+  createdAt?: Date | string
+  members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
+  plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHouseholdInput
+}
+
+export type HouseholdCreateOrConnectWithoutLocationsInput = {
+  where: Prisma.HouseholdWhereUniqueInput
+  create: Prisma.XOR<Prisma.HouseholdCreateWithoutLocationsInput, Prisma.HouseholdUncheckedCreateWithoutLocationsInput>
+}
+
+export type HouseholdUpsertWithoutLocationsInput = {
+  update: Prisma.XOR<Prisma.HouseholdUpdateWithoutLocationsInput, Prisma.HouseholdUncheckedUpdateWithoutLocationsInput>
+  create: Prisma.XOR<Prisma.HouseholdCreateWithoutLocationsInput, Prisma.HouseholdUncheckedCreateWithoutLocationsInput>
+  where?: Prisma.HouseholdWhereInput
+}
+
+export type HouseholdUpdateToOneWithWhereWithoutLocationsInput = {
+  where?: Prisma.HouseholdWhereInput
+  data: Prisma.XOR<Prisma.HouseholdUpdateWithoutLocationsInput, Prisma.HouseholdUncheckedUpdateWithoutLocationsInput>
+}
+
+export type HouseholdUpdateWithoutLocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
+  plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutHouseholdNestedInput
+}
+
+export type HouseholdUncheckedUpdateWithoutLocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutHouseholdNestedInput
 }
@@ -357,6 +430,7 @@ export type HouseholdCreateWithoutPlantsInput = {
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdUncheckedCreateWithoutPlantsInput = {
@@ -364,6 +438,7 @@ export type HouseholdUncheckedCreateWithoutPlantsInput = {
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdCreateOrConnectWithoutPlantsInput = {
@@ -387,6 +462,7 @@ export type HouseholdUpdateWithoutPlantsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdUncheckedUpdateWithoutPlantsInput = {
@@ -394,6 +470,7 @@ export type HouseholdUncheckedUpdateWithoutPlantsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdCreateWithoutTasksInput = {
@@ -401,6 +478,7 @@ export type HouseholdCreateWithoutTasksInput = {
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdUncheckedCreateWithoutTasksInput = {
@@ -408,6 +486,7 @@ export type HouseholdUncheckedCreateWithoutTasksInput = {
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
+  locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
 }
 
 export type HouseholdCreateOrConnectWithoutTasksInput = {
@@ -431,6 +510,7 @@ export type HouseholdUpdateWithoutTasksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
 }
 
 export type HouseholdUncheckedUpdateWithoutTasksInput = {
@@ -438,6 +518,7 @@ export type HouseholdUncheckedUpdateWithoutTasksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
+  locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
 }
 
 
@@ -449,12 +530,14 @@ export type HouseholdCountOutputType = {
   members: number
   plants: number
   tasks: number
+  locations: number
 }
 
 export type HouseholdCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | HouseholdCountOutputTypeCountMembersArgs
   plants?: boolean | HouseholdCountOutputTypeCountPlantsArgs
   tasks?: boolean | HouseholdCountOutputTypeCountTasksArgs
+  locations?: boolean | HouseholdCountOutputTypeCountLocationsArgs
 }
 
 /**
@@ -488,6 +571,13 @@ export type HouseholdCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types
   where?: Prisma.TaskWhereInput
 }
 
+/**
+ * HouseholdCountOutputType without action
+ */
+export type HouseholdCountOutputTypeCountLocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LocationWhereInput
+}
+
 
 export type HouseholdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -495,6 +585,7 @@ export type HouseholdSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   members?: boolean | Prisma.Household$membersArgs<ExtArgs>
   plants?: boolean | Prisma.Household$plantsArgs<ExtArgs>
   tasks?: boolean | Prisma.Household$tasksArgs<ExtArgs>
+  locations?: boolean | Prisma.Household$locationsArgs<ExtArgs>
   _count?: boolean | Prisma.HouseholdCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["household"]>
 
@@ -518,6 +609,7 @@ export type HouseholdInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   members?: boolean | Prisma.Household$membersArgs<ExtArgs>
   plants?: boolean | Prisma.Household$plantsArgs<ExtArgs>
   tasks?: boolean | Prisma.Household$tasksArgs<ExtArgs>
+  locations?: boolean | Prisma.Household$locationsArgs<ExtArgs>
   _count?: boolean | Prisma.HouseholdCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HouseholdIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -529,6 +621,7 @@ export type $HouseholdPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     members: Prisma.$HouseholdMemberPayload<ExtArgs>[]
     plants: Prisma.$PlantPayload<ExtArgs>[]
     tasks: Prisma.$TaskPayload<ExtArgs>[]
+    locations: Prisma.$LocationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -930,6 +1023,7 @@ export interface Prisma__HouseholdClient<T, Null = never, ExtArgs extends runtim
   members<T extends Prisma.Household$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Household$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HouseholdMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   plants<T extends Prisma.Household$plantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Household$plantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tasks<T extends Prisma.Household$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Household$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  locations<T extends Prisma.Household$locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Household$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1421,6 +1515,30 @@ export type Household$tasksArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
+}
+
+/**
+ * Household.locations
+ */
+export type Household$locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Location
+   */
+  select?: Prisma.LocationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Location
+   */
+  omit?: Prisma.LocationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LocationInclude<ExtArgs> | null
+  where?: Prisma.LocationWhereInput
+  orderBy?: Prisma.LocationOrderByWithRelationInput | Prisma.LocationOrderByWithRelationInput[]
+  cursor?: Prisma.LocationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LocationScalarFieldEnum | Prisma.LocationScalarFieldEnum[]
 }
 
 /**

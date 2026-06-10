@@ -13,7 +13,8 @@ export default function ConfirmPage() {
   const [image, setImage] = useState<string | null>(null);
   
   const [nickname, setNickname] = useState("");
-  const [room, setRoom] = useState("Living Room");
+  const [locations, setLocations] = useState<{id: string, name: string}[]>([]);
+  const [room, setRoom] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,17 @@ export default function ConfirmPage() {
       const p = JSON.parse(savedPlant);
       setNickname(p.commonName);
     }
+
+    // Fetch dynamic locations
+    fetch("/api/locations")
+      .then(res => res.json())
+      .then(data => {
+        setLocations(data);
+        if (data.length > 0) {
+          setRoom(data[0].name);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -69,15 +81,10 @@ export default function ConfirmPage() {
 
   if (!plantData) return <div className="p-8 text-center text-on-surface-variant">{t.confirm.loading}</div>;
 
-  const rooms = [
-    t.confirm.rooms.livingRoom,
-    t.confirm.rooms.bedroom,
-    t.confirm.rooms.office,
-    t.confirm.rooms.kitchen,
-    t.confirm.rooms.bathroom,
-    t.confirm.rooms.balcony,
-    t.confirm.rooms.hallway
-  ];
+  const rooms = locations.map(l => l.name);
+  if (room && !rooms.includes(room)) {
+    rooms.push(room); // Ensure currently set room is always an option
+  }
 
   return (
     <div className="max-w-md mx-auto space-y-6">

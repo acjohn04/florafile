@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { Icon } from "@/components/Icon";
 import { useTranslation } from "@/i18n/client";
@@ -242,23 +242,33 @@ export function PlantHistoryTimeline({ plantId }: PlantHistoryTimelineProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedEntry, setSelectedEntry] = useState<HistoryEntry | null>(null);
 
-  // Fetch history entries on mount
-  useEffect(() => {
-    async function fetchHistory() {
-      try {
-        const res = await fetch(`/api/plants/${plantId}/history`);
-        if (res.ok) {
-          const data = await res.json();
-          setHistory(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch plant history:", err);
-      } finally {
-        setIsLoading(false);
+  // Fetch history entries — extracted so it can be called on mount and on updates
+  const fetchHistory = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/plants/${plantId}/history`);
+      if (res.ok) {
+        const data = await res.json();
+        setHistory(data);
       }
+    } catch (err) {
+      console.error("Failed to fetch plant history:", err);
+    } finally {
+      setIsLoading(false);
     }
-    fetchHistory();
   }, [plantId]);
+
+  // Fetch on mount
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
+
+  // Re-fetch when EditPlantForm dispatches a "plant-history-updated" event
+  // after a successful image upload + save
+  useEffect(() => {
+    const handler = () => { fetchHistory(); };
+    window.addEventListener("plant-history-updated", handler);
+    return () => window.removeEventListener("plant-history-updated", handler);
+  }, [fetchHistory]);
 
   return (
     <>

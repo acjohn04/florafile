@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/Icon";
-import { ImageUploader } from "@/components/ImageUploader";
 import { useTranslation } from "@/i18n/client";
 import Image from "next/image";
 
@@ -61,16 +60,75 @@ function parseDiagnosis(plant: {
   };
 }
 
+/**
+ * Read a File into a resized WebP base64 string + blob, matching ImageUploader logic.
+ * Returns { base64, mimeType } or null if the file isn't an image.
+ */
+function resizeImageFile(file: File): Promise<{ base64: string; mimeType: string } | null> {
+  return new Promise((resolve) => {
+    if (!file.type.startsWith("image/")) {
+      resolve(null);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      const img = document.createElement("img");
+      img.onload = () => {
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const mimeType = "image/webp";
+        const dataUrl = canvas.toDataURL(mimeType, 0.8);
+        const base64 = dataUrl.split(",")[1];
+        resolve({ base64, mimeType });
+      };
+      img.src = result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 export function EditPlantForm({ plant }: EditPlantFormProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const [isEditingImage, setIsEditingImage] = useState(false);
+  // Hidden file input ref — clicking the image directly opens the file picker
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [nickname, setNickname] = useState(plant.nickname);
   const [room, setRoom] = useState(plant.room);
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
-  const [mimeType, setMimeType] = useState<string | null>(null);
-  
+
+  // Tracks the *persisted* image URL returned by the server after a successful save.
+  // Falls back to the initial prop value until the user uploads a new image.
+  const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(plant.imageUrl);
+  // Tracks the current plant status (updated after save with diagnosis)
+  const [currentStatus, setCurrentStatus] = useState(plant.status);
+
+  // Preview data URL shown immediately after selecting a file, before the server responds
+  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
+
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [locations, setLocations] = useState<{id: string, name: string}[]>([]);
@@ -88,19 +146,17 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
   const [diagnosis, setDiagnosis] = useState<DiagnosisData | null>(parseDiagnosis(plant));
   const [isDiagnosing, setIsDiagnosing] = useState(false);
 
-  const handleImageSelect = (base64: string, mime: string) => {
-    setImageBase64(base64);
-    setMimeType(mime);
-    setIsEditingImage(false);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  /**
+   * Sends a PATCH to save the plant. When `imagePayload` is provided, it includes
+   * the base64 image data so the server can upload, run diagnosis, and snapshot history.
+   * After a successful save, refreshes the server component cache so navigation
+   * (dashboard, back button) always shows the latest data.
+   */
+  const savePlant = useCallback(async (imagePayload?: { base64: string; mimeType: string }) => {
     setIsSaving(true);
     setError(null);
 
-    // Show diagnosing state if a new image is being uploaded
-    if (imageBase64) {
+    if (imagePayload) {
       setIsDiagnosing(true);
     }
 
@@ -108,7 +164,9 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
       const payload = {
         nickname,
         room,
-        ...(imageBase64 && { imageData: `data:${mimeType};base64,${imageBase64}` })
+        ...(imagePayload && {
+          imageData: `data:${imagePayload.mimeType};base64,${imagePayload.base64}`,
+        }),
       };
 
       const res = await fetch(`/api/plants/${plant.id}`, {
@@ -121,19 +179,24 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
         throw new Error(t.plantDetail.failedSave);
       }
 
-      // Parse diagnosis from the updated plant response
       const updatedPlant = await res.json();
+
+      // Update local state with the server-persisted values so the UI is in sync
+      setCurrentImageUrl(updatedPlant.imageUrl);
+      setCurrentStatus(updatedPlant.status);
+      setPreviewDataUrl(null); // clear preview; use the persisted URL now
+
       const newDiagnosis = parseDiagnosis(updatedPlant);
       setDiagnosis(newDiagnosis);
       setIsDiagnosing(false);
+      setIsSaving(false);
 
-      // If no new image was uploaded, navigate back to dashboard
-      if (!imageBase64) {
-        router.push("/");
-        router.refresh();
-      } else {
-        // Stay on page to show diagnosis results, then allow user to navigate
-        setIsSaving(false);
+      // Refresh server component cache so dashboard/navigation shows the new data
+      router.refresh();
+
+      // Signal the PlantHistoryTimeline to refetch (new history entry was created)
+      if (imagePayload) {
+        window.dispatchEvent(new CustomEvent("plant-history-updated"));
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -144,7 +207,45 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
       setIsSaving(false);
       setIsDiagnosing(false);
     }
+  }, [nickname, room, plant.id, router, t.plantDetail.failedSave]);
+
+  /**
+   * Handles file selection from the hidden input.
+   * Resizes the image, shows an instant preview, then auto-saves via PATCH.
+   */
+  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset the input so re-selecting the same file still triggers onChange
+    e.target.value = "";
+
+    const result = await resizeImageFile(file);
+    if (!result) return;
+
+    // Show instant preview while the save + diagnosis runs
+    setPreviewDataUrl(`data:${result.mimeType};base64,${result.base64}`);
+
+    // Auto-save the new image (uploads, runs AI diagnosis, snapshots history)
+    await savePlant({ base64: result.base64, mimeType: result.mimeType });
+  }, [savePlant]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // The save button only saves text fields (nickname, room).
+    // Images are auto-saved on selection via handleFileChange.
+    await savePlant();
+
+    // Navigate back to dashboard after saving text-only changes
+    router.push("/");
   };
+
+  /**
+   * The image to display: preview (while saving) → persisted URL → nothing.
+   * This ensures the UI always shows the most up-to-date image.
+   */
+  const displayImageSrc = previewDataUrl || currentImageUrl;
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-md mx-auto w-full">
@@ -161,46 +262,81 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
         </h1>
       </div>
 
-      {/* Image section */}
+      {/* Hidden file input — shared by both the existing-image overlay and the empty-state uploader */}
+      {/* 
+        Including 'application/pdf' alongside 'image/*' is a workaround for modern Android devices.
+        Using just 'image/*' forces Chrome on Android to only show the photo gallery, hiding the Camera option.
+        Adding 'application/pdf' broadens the filter enough to trigger the system's full file picker, 
+        which restores the Camera and Files options. Non-image files are safely ignored by resizeImageFile.
+      */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        accept="image/*,application/pdf"
+        onChange={handleFileChange}
+      />
+
+      {/* Image section — single click opens the file picker directly */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium text-on-surface-variant">Photo</span>
-        {!isEditingImage && (plant.imageUrl || imageBase64) ? (
-          <div className="relative aspect-square w-full rounded-3xl overflow-hidden bg-surface-container border border-surface-container-high group">
+        {displayImageSrc ? (
+          <div
+            className={`relative aspect-square w-full rounded-3xl overflow-hidden bg-surface-container border border-surface-container-high group cursor-pointer ${
+              isSaving ? "pointer-events-none" : ""
+            }`}
+            onClick={() => fileInputRef.current?.click()}
+          >
             <Image
-              src={imageBase64 ? `data:${mimeType};base64,${imageBase64}` : plant.imageUrl!}
+              src={displayImageSrc}
               alt={nickname || plant.commonName}
               fill
               sizes="(max-width: 768px) 100vw, 448px"
               className="object-cover"
             />
+            {/* Hover overlay with "Change Photo" prompt */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <button
-                type="button"
-                onClick={() => setIsEditingImage(true)}
-                className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 text-white font-medium cursor-pointer"
-              >
-                <Icon name="edit" /> Edit Photo
-              </button>
+              <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 text-white font-medium">
+                <Icon name="cameraswitch" /> Change Photo
+              </div>
             </div>
+            {/* Diagnosing / uploading overlay */}
+            {isDiagnosing && (
+              <div className="absolute inset-0 z-10">
+                <div className="scan-line" />
+                <div className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center">
+                  <div className="glass-panel px-6 py-3 rounded-2xl flex items-center gap-3 text-primary animate-pulse">
+                    <Icon name="search" /> {t.plantDetail.diagnosing}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
-          <ImageUploader onImageSelect={handleImageSelect} />
+          /* No image yet — show the empty-state upload prompt */
+          <div
+            className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group border-outline-variant bg-surface-container-lowest hover:border-primary/50"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <div className="flex flex-col items-center gap-4 text-center px-6">
+              <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <Icon name="add_a_photo" className="text-3xl" />
+              </div>
+              <div>
+                <p className="text-on-surface font-medium text-lg">{t.components.imageUploader.tapToSnap}</p>
+                <p className="text-on-surface-variant text-sm mt-1">{t.components.imageUploader.makeSureLeavesVisible}</p>
+              </div>
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Diagnosis card — shown when plant has an active diagnosis */}
-      {isDiagnosing && (
-        <div className="bg-surface-container-low border border-surface-container p-6 rounded-3xl flex items-center justify-center gap-3">
-          <Icon name="progress_activity" className="animate-spin text-primary" />
-          <span className="text-on-surface-variant font-medium">{t.plantDetail.diagnosing}</span>
-        </div>
-      )}
-
+      {/* Diagnosis card — shown after AI analysis completes */}
       {!isDiagnosing && diagnosis && (
         <DiagnosisCard diagnosis={diagnosis} />
       )}
 
-      {!isDiagnosing && !diagnosis && plant.status === "healthy" && plant.imageUrl && (
+      {!isDiagnosing && !diagnosis && currentStatus === "healthy" && currentImageUrl && (
         <div className="bg-primary-container/30 border border-primary-container p-4 rounded-2xl flex items-center gap-3">
           <Icon name="check_circle" className="text-primary text-xl" filled />
           <span className="text-on-surface text-sm font-medium">{t.plantDetail.healthyStatus}</span>

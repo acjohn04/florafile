@@ -135,3 +135,62 @@ Return JSON with properties: status, diagnosisName, severity, description, recov
   
   return DiagnosisSchema.parse(JSON.parse(text));
 }
+
+const ScheduleTaskSchema = z.object({
+  label: z.string(),
+  description: z.string(),
+  dateStr: z.string(), // YYYY-MM-DD format
+});
+
+export type ScheduleTask = z.infer<typeof ScheduleTaskSchema>;
+
+export async function generateCareSchedule(plants: any[], startDate: Date): Promise<ScheduleTask[]> {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is not set.");
+  }
+  
+  const prompt = `You are a master gardener. Generate a 3-month care schedule for these plants.
+Today is ${startDate.toISOString().split('T')[0]}.
+The schedule should space out tasks so the owner isn't overwhelmed on any single day.
+Consider the 'water' frequency and 'careLevel' for each plant.
+
+Plants:
+${JSON.stringify(plants.map(p => ({
+  name: p.nickname || p.commonName,
+  water: p.water,
+  careLevel: p.careLevel,
+  room: p.room
+})), null, 2)}
+
+Return a JSON array of tasks. Each task must have:
+- label: e.g. "Water Monstera"
+- description: e.g. "Check top 2 inches of soil first."
+- dateStr: exact date in YYYY-MM-DD format
+Limit to max 50 events total to keep the calendar clean.`;
+
+  const response = await ai.models.generateContent({
+    model,
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "ARRAY",
+        items: {
+          type: "OBJECT",
+          properties: {
+            label: { type: "STRING" },
+            description: { type: "STRING" },
+            dateStr: { type: "STRING" }
+          },
+          required: ["label", "description", "dateStr"]
+        }
+      }
+    }
+  });
+
+  const text = response.text;
+  if (!text) throw new Error("No response from Gemini.");
+  
+  const parsed = JSON.parse(text);
+  return z.array(ScheduleTaskSchema).parse(parsed);
+}

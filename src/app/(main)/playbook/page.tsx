@@ -1,162 +1,68 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { Icon } from "@/components/Icon";
-import { TaskItem } from "@/components/TaskItem";
 import { useTranslation } from "@/i18n/client";
-import type { Task } from "@/types";
 
 export default function PlaybookPage() {
   const { t } = useTranslation();
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeDay, setActiveDay] = useState(new Date().getDay());
+  const [loading, setLoading] = useState(false);
 
-  const days = [
-    t.playbook.days.sunday,
-    t.playbook.days.monday,
-    t.playbook.days.tuesday,
-    t.playbook.days.wednesday,
-    t.playbook.days.thursday,
-    t.playbook.days.friday,
-    t.playbook.days.saturday
-  ];
-
-  const fetchTasks = async () => {
-    try {
-      const res = await fetch("/api/playbook");
-      const data = await res.json();
-      setTasks(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchTasks();
-  }, []);
-
-  const handleGenerate = async () => {
+  const handleDownload = () => {
     setLoading(true);
-    try {
-      await fetch("/api/playbook", { method: "POST" });
-      await fetchTasks();
-    } catch (e) {
-      console.error(e);
-      setLoading(false);
-    }
+    // Use an iframe or direct window location to trigger the download,
+    // which allows the browser to download the file without navigating away.
+    window.location.href = "/api/playbook/export";
+    
+    // Reset loading state after a short delay since we can't easily hook into native download completion
+    setTimeout(() => setLoading(false), 3000);
   };
-
-  const handleToggle = async (id: string, completed: boolean) => {
-    try {
-      await fetch(`/api/playbook/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completed }),
-      });
-      setTasks(prev => prev.map(t => t.id === id ? { ...t, completed } : t));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const activeTasks = tasks.filter(t => t.dayOfWeek === activeDay);
 
   return (
-    <div className="space-y-8">
-      <header className="flex items-end justify-between">
-        <div>
-          <h1 className="text-3xl font-heading font-bold text-on-surface">{t.playbook.title}</h1>
-          <p className="text-on-surface-variant mt-1">{t.playbook.subtitle}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          {tasks.length > 0 && (
-            <button
-              onClick={handleGenerate}
-              disabled={loading}
-              className="bg-surface-container-high text-on-surface px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-surface-container-highest transition-colors disabled:opacity-50 cursor-pointer"
-            >
-              <Icon name="refresh" /> {t.playbook.update}
-            </button>
-          )}
-          <Link 
-            href="/api/playbook/export"
-            target="_blank"
-            className="bg-surface-container-high text-on-surface px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-surface-container-highest transition-colors"
-          >
-            <Icon name="calendar_month" /> {t.playbook.sync}
-          </Link>
-        </div>
+    <div className="space-y-8 max-w-2xl mx-auto mt-8">
+      <header className="text-center">
+        <h1 className="text-4xl font-heading font-bold text-on-surface mb-2">{t.playbook.title}</h1>
+        <p className="text-on-surface-variant text-lg">{t.playbook.subtitle}</p>
       </header>
 
-      {loading ? (
-        <div className="text-center py-12 text-on-surface-variant">{t.playbook.loading}</div>
-      ) : tasks.length === 0 ? (
-        <div className="text-center py-12 bg-surface-container-low rounded-3xl border border-surface-container border-dashed">
-          <Icon name="auto_awesome" className="text-6xl text-primary mb-4" />
-          <h3 className="text-lg font-medium text-on-surface mb-2">{t.playbook.noPlaybookTitle}</h3>
-          <p className="text-on-surface-variant mb-6">{t.playbook.noPlaybookDesc}</p>
-          <button 
-            onClick={handleGenerate}
-            className="bg-primary text-on-primary px-6 py-3 rounded-full font-bold inline-block hover:bg-primary-fixed transition-colors cursor-pointer"
-          >
-            {t.playbook.generateButton}
-          </button>
-        </div>
-      ) : (
-        <div className="grid md:grid-cols-[200px_1fr] gap-8">
-          {/* Days Sidebar */}
-          <div className="flex overflow-x-auto md:flex-col gap-2 pb-4 md:pb-0 scrollbar-hide">
-            {days.map((day, idx) => {
-              const count = tasks.filter(t => t.dayOfWeek === idx && !t.completed).length;
-              const isActive = activeDay === idx;
-              
-              return (
-                <button
-                  key={day}
-                  onClick={() => setActiveDay(idx)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-2xl whitespace-nowrap transition-colors flex-shrink-0 md:w-full cursor-pointer
-                    ${isActive ? 'bg-primary-container text-on-primary-container font-bold' : 'bg-surface-container-low text-on-surface hover:bg-surface-container'}
-                  `}
-                >
-                  {day}
-                  {count > 0 && (
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-                      ${isActive ? 'bg-on-primary-container text-primary-container' : 'bg-surface-container-highest text-on-surface'}
-                    `}>
-                      {count}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+      <div className="bg-surface-container-low border border-surface-container rounded-3xl p-8 text-center space-y-6">
+        <div className="flex justify-center">
+          <div className="w-24 h-24 bg-primary-container rounded-full flex items-center justify-center">
+            <Icon name="calendar_month" className="text-5xl text-on-primary-container" />
           </div>
+        </div>
+        
+        <div>
+          <h3 className="text-2xl font-bold text-on-surface mb-2">{t.playbook.noPlaybookTitle}</h3>
+          <p className="text-on-surface-variant max-w-md mx-auto">
+            {t.playbook.noPlaybookDesc}
+          </p>
+        </div>
 
-          {/* Tasks List */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-heading font-bold text-on-surface mb-4">
-              {days[activeDay]} <span className="text-on-surface-variant font-medium text-base ml-2">{t.playbook.tasksCount.replace('{count}', activeTasks.length.toString())}</span>
-            </h2>
-            
-            {activeTasks.length === 0 ? (
-              <div className="bg-surface-container-low p-6 rounded-2xl text-center text-on-surface-variant border border-surface-container">
-                <Icon name="park" className="text-4xl mb-2 opacity-50" />
-                <p>{t.playbook.noTasks}</p>
-              </div>
+        <div className="pt-4">
+          <button 
+            onClick={handleDownload}
+            disabled={loading}
+            className="bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-lg inline-flex items-center gap-3 hover:bg-primary-fixed transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <>
+                <Icon name="progress_activity" className="animate-spin" /> 
+                {t.playbook.loading}
+              </>
             ) : (
-              <div className="space-y-3">
-                {activeTasks.map(task => (
-                  <TaskItem key={task.id} task={task} onToggle={handleToggle} />
-                ))}
-              </div>
+              <>
+                <Icon name="download" /> 
+                {t.playbook.generateButton}
+              </>
             )}
-          </div>
+          </button>
+          
+          <p className="text-sm text-on-surface-variant mt-4 opacity-75">
+            Imports directly into Google Calendar, Apple Calendar, and Outlook.
+          </p>
         </div>
-      )}
+      </div>
     </div>
   );
 }

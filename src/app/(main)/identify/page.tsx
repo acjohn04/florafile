@@ -95,7 +95,7 @@ export default function IdentifyPage() {
 
             <button
               onClick={handleSaveToGarden}
-              className="w-full mt-6 bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors"
+              className="w-full mt-6 bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors cursor-pointer"
             >
               <Icon name="add" /> {t.identify.addToGarden}
             </button>

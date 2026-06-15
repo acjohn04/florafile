@@ -76,7 +76,6 @@ model Household {
   id        String            @id @default(cuid())
   members   HouseholdMember[]
   plants    Plant[]
-  tasks     Task[]
   locations Location[]
   createdAt DateTime          @default(now())
 }
@@ -133,31 +132,12 @@ model Plant {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tasks     Task[]
   history   PlantHistory[]
 
   @@index([householdId])
   @@map("plants")
 }
 
-/// A care task assigned to a plant for a specific day of the week.
-model Task {
-  id          String    @id @default(cuid())
-  householdId String
-  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
-  plantId     String
-  plant       Plant     @relation(fields: [plantId], references: [id], onDelete: Cascade)
-  type        String    // water | mist | rotate | prune | fertilize
-  label       String
-  description String?
-  dayOfWeek   Int       // 0=Sun … 6=Sat
-  completed   Boolean   @default(false)
-  weekStart   DateTime  // ISO date of the Monday this task belongs to
-  createdAt   DateTime  @default(now())
-
-  @@index([householdId])
-  @@map("tasks")
-}
 
 /// A point-in-time snapshot of a plant's health — stores an image and status.
 /// Created automatically when a new photo is uploaded, capturing the plant's

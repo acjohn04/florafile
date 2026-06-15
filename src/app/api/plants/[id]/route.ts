@@ -18,7 +18,7 @@ export async function GET(
   const { id } = await params;
   const plant = await prisma.plant.findFirst({
     where: { id, householdId },
-    include: { tasks: true },
+    include: { history: { orderBy: { createdAt: "desc" } } },
   });
   if (!plant) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(plant);

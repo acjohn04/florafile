@@ -139,7 +139,7 @@ export default function ConfirmPage() {
         <button 
           type="submit"
           disabled={isSaving}
-          className="w-full bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors disabled:opacity-50"
+          className="w-full bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors disabled:opacity-50 cursor-pointer"
         >
           {isSaving ? (
             <>{t.confirm.savingButton}</>

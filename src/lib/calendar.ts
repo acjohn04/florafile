@@ -1,24 +1,18 @@
 export interface CalendarTask {
   label: string;
   description?: string | null;
-  dayOfWeek: number; // 0-6
-  weekStart: Date;
+  date: Date;
 }
 
 export function generateICS(tasks: CalendarTask[]): string {
   let ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//FloraFile//EN\n`;
   
   for (const task of tasks) {
-    const taskDate = new Date(task.weekStart);
-    // weekStart is Monday, so taskDate.getDay() is 1.
-    // We want to add (task.dayOfWeek - 1) days. If dayOfWeek is 0 (Sunday), we add 6 days to get the Sunday of that week.
-    let offset = task.dayOfWeek - 1;
-    if (offset < 0) offset += 7; // Sunday becomes +6 days from Monday.
-    taskDate.setDate(taskDate.getDate() + offset);
+    const taskDate = new Date(task.date);
     
     // Format YYYYMMDDTHHMMSSZ
     const d = taskDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    // Let's make it an all-day event or just set a time like 0900.
+    // All-day event or 0900 local equivalent. Using UTC 09:00 for simplicity.
     const startStr = d.replace(/T.*/, 'T090000Z');
     const endStr = d.replace(/T.*/, 'T100000Z');
 

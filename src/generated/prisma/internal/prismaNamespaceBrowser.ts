@@ -59,7 +59,6 @@ export const ModelName = {
   HouseholdMember: 'HouseholdMember',
   Location: 'Location',
   Plant: 'Plant',
-  Task: 'Task',
   PlantHistory: 'PlantHistory'
 } as const
 
@@ -182,22 +181,6 @@ export const PlantScalarFieldEnum = {
 } as const
 
 export type PlantScalarFieldEnum = (typeof PlantScalarFieldEnum)[keyof typeof PlantScalarFieldEnum]
-
-
-export const TaskScalarFieldEnum = {
-  id: 'id',
-  householdId: 'householdId',
-  plantId: 'plantId',
-  type: 'type',
-  label: 'label',
-  description: 'description',
-  dayOfWeek: 'dayOfWeek',
-  completed: 'completed',
-  weekStart: 'weekStart',
-  createdAt: 'createdAt'
-} as const
-
-export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
 export const PlantHistoryScalarFieldEnum = {

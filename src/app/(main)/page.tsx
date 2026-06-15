@@ -56,7 +56,7 @@ export default async function Dashboard() {
               <Icon name="add_a_photo" className="text-2xl" />
             </div>
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.addNewPlant}</h2>
-            <p className="text-sm opacity-90">{t.dashboard.addNewPlantDesc}</p>
+            <p className="text-sm">{t.dashboard.addNewPlantDesc}</p>
           </div>
           <Icon name="eco" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
         </Link>
@@ -67,7 +67,7 @@ export default async function Dashboard() {
               <Icon name="auto_awesome" className="text-2xl" />
             </div>
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.weeklyPlaybook}</h2>
-            <p className="text-sm opacity-90">{t.dashboard.weeklyPlaybookDesc}</p>
+            <p className="text-sm">{t.dashboard.weeklyPlaybookDesc}</p>
           </div>
           <Icon name="calendar_month" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
         </Link>

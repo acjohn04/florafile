@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/Icon";
+import { StatusBadge } from "@/components/StatusBadge";
 import { useTranslation } from "@/i18n/client";
 import Image from "next/image";
 
@@ -12,7 +13,13 @@ interface PlantData {
   room: string;
   imageUrl: string | null;
   commonName: string;
+  scientificName: string;
   status: string;
+  light: string | null;
+  water: string | null;
+  toxicity: string | null;
+  careLevel: string | null;
+  description: string | null;
   diagnosisName: string | null;
   severity: string | null;
   diagnosisDescription: string | null;
@@ -110,6 +117,9 @@ function resizeImageFile(file: File): Promise<{ base64: string; mimeType: string
   });
 }
 
+/** Debounce delay (ms) for auto-saving text field changes */
+const AUTOSAVE_DELAY = 800;
+
 export function EditPlantForm({ plant }: EditPlantFormProps) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -152,7 +162,10 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
    * After a successful save, refreshes the server component cache so navigation
    * (dashboard, back button) always shows the latest data.
    */
-  const savePlant = useCallback(async (imagePayload?: { base64: string; mimeType: string }) => {
+  const savePlant = useCallback(async (
+    overrides?: { nickname?: string; room?: string },
+    imagePayload?: { base64: string; mimeType: string }
+  ) => {
     setIsSaving(true);
     setError(null);
 
@@ -162,8 +175,8 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
 
     try {
       const payload = {
-        nickname,
-        room,
+        nickname: overrides?.nickname ?? nickname,
+        room: overrides?.room ?? room,
         ...(imagePayload && {
           imageData: `data:${imagePayload.mimeType};base64,${imagePayload.base64}`,
         }),
@@ -210,6 +223,44 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
   }, [nickname, room, plant.id, router, t.plantDetail.failedSave]);
 
   /**
+   * Debounced auto-save for the nickname field.
+   * Saves after the user stops typing for AUTOSAVE_DELAY ms.
+   */
+  const nicknameTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleNicknameChange = useCallback((value: string) => {
+    setNickname(value);
+
+    // Clear any pending debounce timer
+    if (nicknameTimerRef.current) {
+      clearTimeout(nicknameTimerRef.current);
+    }
+
+    // Schedule a new auto-save after the debounce delay
+    nicknameTimerRef.current = setTimeout(() => {
+      if (value.trim()) {
+        savePlant({ nickname: value });
+      }
+    }, AUTOSAVE_DELAY);
+  }, [savePlant]);
+
+  // Clean up pending timer on unmount
+  useEffect(() => {
+    return () => {
+      if (nicknameTimerRef.current) clearTimeout(nicknameTimerRef.current);
+    };
+  }, []);
+
+  /**
+   * Auto-save when the location dropdown value changes.
+   * No debounce needed — dropdowns produce discrete, intentional changes.
+   */
+  const handleRoomChange = useCallback((value: string) => {
+    setRoom(value);
+    savePlant({ room: value });
+  }, [savePlant]);
+
+  /**
    * Handles file selection from the hidden input.
    * Resizes the image, shows an instant preview, then auto-saves via PATCH.
    */
@@ -227,19 +278,8 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
     setPreviewDataUrl(`data:${result.mimeType};base64,${result.base64}`);
 
     // Auto-save the new image (uploads, runs AI diagnosis, snapshots history)
-    await savePlant({ base64: result.base64, mimeType: result.mimeType });
+    await savePlant(undefined, { base64: result.base64, mimeType: result.mimeType });
   }, [savePlant]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // The save button only saves text fields (nickname, room).
-    // Images are auto-saved on selection via handleFileChange.
-    await savePlant();
-
-    // Navigate back to dashboard after saving text-only changes
-    router.push("/");
-  };
 
   /**
    * The image to display: preview (while saving) → persisted URL → nothing.
@@ -248,8 +288,9 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
   const displayImageSrc = previewDataUrl || currentImageUrl;
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-md mx-auto w-full">
-      <div className="flex items-center gap-4 mb-4">
+    <div className="flex flex-col gap-6 w-full">
+      {/* Header with back button and page title */}
+      <div className="flex items-center gap-4 mb-2">
         <button
           type="button"
           onClick={() => router.push("/")}
@@ -260,6 +301,13 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
         <h1 className="text-3xl font-heading font-bold text-on-surface">
           {t.plantDetail.editTitle}
         </h1>
+        {/* Subtle saving indicator */}
+        {isSaving && !isDiagnosing && (
+          <div className="ml-auto flex items-center gap-1.5 text-on-surface-variant text-sm">
+            <Icon name="progress_activity" className="animate-spin text-base" />
+            {t.plantDetail.savingButton}
+          </div>
+        )}
       </div>
 
       {/* Hidden file input — shared by both the existing-image overlay and the empty-state uploader */}
@@ -277,95 +325,37 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
         onChange={handleFileChange}
       />
 
-      {/* Image section — single click opens the file picker directly */}
-      <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-on-surface-variant">Photo</span>
-        {displayImageSrc ? (
-          <div
-            className={`relative aspect-square w-full rounded-3xl overflow-hidden bg-surface-container border border-surface-container-high group cursor-pointer ${
-              isSaving ? "pointer-events-none" : ""
-            }`}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Image
-              src={displayImageSrc}
-              alt={nickname || plant.commonName}
-              fill
-              sizes="(max-width: 768px) 100vw, 448px"
-              className="object-cover"
-            />
-            {/* Hover overlay with "Change Photo" prompt */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 text-white font-medium">
-                <Icon name="cameraswitch" /> Change Photo
-              </div>
-            </div>
-            {/* Diagnosing / uploading overlay */}
-            {isDiagnosing && (
-              <div className="absolute inset-0 z-10">
-                <div className="scan-line" />
-                <div className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center">
-                  <div className="glass-panel px-6 py-3 rounded-2xl flex items-center gap-3 text-primary animate-pulse">
-                    <Icon name="search" /> {t.plantDetail.diagnosing}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          /* No image yet — show the empty-state upload prompt */
-          <div
-            className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group border-outline-variant bg-surface-container-lowest hover:border-primary/50"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <div className="flex flex-col items-center gap-4 text-center px-6">
-              <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                <Icon name="add_a_photo" className="text-3xl" />
-              </div>
-              <div>
-                <p className="text-on-surface font-medium text-lg">{t.components.imageUploader.tapToSnap}</p>
-                <p className="text-on-surface-variant text-sm mt-1">{t.components.imageUploader.makeSureLeavesVisible}</p>
-              </div>
-            </div>
-          </div>
-        )}
+      {/* Common name — display only */}
+      <div className="flex flex-col gap-1">
+        <span className="text-xl font-bold text-on-surface-variant">
+          {plant.commonName}
+        </span>
       </div>
 
-      {/* Diagnosis card — shown after AI analysis completes */}
-      {!isDiagnosing && diagnosis && (
-        <DiagnosisCard diagnosis={diagnosis} />
-      )}
+      {/* Nickname — editable input, auto-saves on change (debounced) */}
+      <label className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-on-surface-variant">
+          {t.plantDetail.nicknameLabel}
+        </span>
+        <input
+          type="text"
+          value={nickname}
+          onChange={(e) => handleNicknameChange(e.target.value)}
+          className="px-4 py-3 rounded-xl bg-surface-container-low border border-surface-container focus:ring-2 focus:ring-primary outline-none transition-shadow text-on-surface text-lg font-medium placeholder:text-on-surface-variant/50"
+          required
+        />
+      </label>
 
-      {!isDiagnosing && !diagnosis && currentStatus === "healthy" && currentImageUrl && (
-        <div className="bg-primary-container/30 border border-primary-container p-4 rounded-2xl flex items-center gap-3">
-          <Icon name="check_circle" className="text-primary text-xl" filled />
-          <span className="text-on-surface text-sm font-medium">{t.plantDetail.healthyStatus}</span>
-        </div>
-      )}
-
-      {/* Form fields */}
-      <div className="flex flex-col gap-4 bg-surface-container-low p-6 rounded-3xl border border-surface-container">
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-on-surface-variant">
-            {t.plantDetail.nicknameLabel}
-          </span>
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className="px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary outline-none transition-shadow text-on-surface placeholder:text-on-surface-variant/50"
-            required
-          />
-        </label>
-
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-on-surface-variant">
-            {t.plantDetail.locationLabel}
-          </span>
+      {/* Location — dropdown, auto-saves on change */}
+      <label className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-on-surface-variant">
+          {t.plantDetail.locationLabel}
+        </span>
+        <div className="relative">
           <select
             value={room}
-            onChange={(e) => setRoom(e.target.value)}
-            className="px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary outline-none transition-shadow text-on-surface appearance-none cursor-pointer"
+            onChange={(e) => handleRoomChange(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-surface-container focus:ring-2 focus:ring-primary outline-none transition-shadow text-on-surface appearance-none cursor-pointer"
             required
           >
             {(() => {
@@ -378,34 +368,78 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
               ));
             })()}
           </select>
-        </label>
-      </div>
+          <Icon name="expand_more" className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+        </div>
+      </label>
 
+      {/* Image section with status badge overlay — single click opens the file picker */}
+      {displayImageSrc ? (
+        <div
+          className={`relative aspect-square w-full rounded-3xl overflow-hidden bg-surface-container border border-surface-container-high group cursor-pointer ${
+            isSaving ? "pointer-events-none" : ""
+          }`}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Image
+            src={displayImageSrc}
+            alt={nickname || plant.commonName}
+            fill
+            sizes="(max-width: 768px) 100vw, 448px"
+            className="object-cover"
+          />
+          {/* Status badge — top-left, matching dashboard PlantCard layout */}
+          <div className="absolute top-3 left-3">
+            <StatusBadge status={currentStatus} />
+          </div>
+          {/* Hover overlay with "Change Photo" prompt */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 text-white font-medium">
+              <Icon name="cameraswitch" /> Change Photo
+            </div>
+          </div>
+          {/* Diagnosing / uploading overlay */}
+          {isDiagnosing && (
+            <div className="absolute inset-0 z-10">
+              <div className="scan-line" />
+              <div className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center">
+                <div className="glass-panel px-6 py-3 rounded-2xl flex items-center gap-3 text-primary animate-pulse">
+                  <Icon name="search" /> {t.plantDetail.diagnosing}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* No image yet — show the empty-state upload prompt */
+        <div
+          className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group border-outline-variant bg-surface-container-lowest hover:border-primary/50"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <div className="flex flex-col items-center gap-4 text-center px-6">
+            <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+              <Icon name="add_a_photo" className="text-3xl" />
+            </div>
+            <div>
+              <p className="text-on-surface font-medium text-lg">{t.components.imageUploader.tapToSnap}</p>
+              <p className="text-on-surface-variant text-sm mt-1">{t.components.imageUploader.makeSureLeavesVisible}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Diagnosis card — shown after AI analysis completes */}
+      {!isDiagnosing && diagnosis && (
+        <DiagnosisCard diagnosis={diagnosis} />
+      )}
+
+      {/* Error message */}
       {error && (
         <div className="p-4 rounded-xl bg-error/10 text-error flex items-center gap-3">
           <Icon name="error" />
           <p className="text-sm font-medium">{error}</p>
         </div>
       )}
-
-      <button
-        type="submit"
-        disabled={isSaving}
-        className="w-full py-4 rounded-2xl bg-primary text-on-primary font-bold text-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-ambient cursor-pointer"
-      >
-        {isSaving ? (
-          <>
-            <Icon name="progress_activity" className="animate-spin" />
-            {t.plantDetail.savingButton}
-          </>
-        ) : (
-          <>
-            <Icon name="save" />
-            {t.plantDetail.saveButton}
-          </>
-        )}
-      </button>
-    </form>
+    </div>
   );
 }
 

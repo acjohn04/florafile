@@ -108,7 +108,8 @@ export const en = {
     whatsHappening: "What's Happening",
     recoveryPlan: "Recovery Plan",
     severity: "Severity",
-    healthyStatus: "Your plant looks healthy! No issues detected."
+    healthyStatus: "Your plant looks healthy! No issues detected.",
+    careSummaryTitle: "Care Summary"
   },
   settings: {
     title: "Settings",

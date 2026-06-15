@@ -60,7 +60,8 @@ export function PlantCard({ plant }: PlantCardProps) {
         <div className="p-4 flex justify-between items-end gap-2">
           <div className="min-w-0 flex-1">
             <h3 className="font-heading font-bold text-lg text-on-surface truncate">{plant.nickname || plant.commonName}</h3>
-            <p className="text-on-surface-variant text-sm italic truncate mb-2">{plant.commonName}({plant.scientificName})</p>
+            <p className="text-on-surface-variant text-sm italic truncate mb-2">{plant.commonName}</p>
+            <p className="text-on-surface-variant text-sm italic truncate mb-2">{plant.scientificName}</p>
 
             <div className="flex items-center gap-1 text-on-surface-variant text-xs font-medium">
               <Icon name="location_on" className="text-[16px]" />

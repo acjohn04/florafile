@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-const model = "gemini-2.5-flash";
+const model = "gemini-3.1-flash-lite";
 
 const IdentificationSchema = z.object({
   commonName: z.string(),

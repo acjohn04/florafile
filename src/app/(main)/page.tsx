@@ -58,18 +58,18 @@ export default async function Dashboard() {
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.addNewPlant}</h2>
             <p className="text-sm">{t.dashboard.addNewPlantDesc}</p>
           </div>
-          <Icon name="eco" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
+          <Icon name="potted_plant" className="absolute -bottom-4 -right-4 !text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
         </Link>
 
         <Link href="/playbook" className="bg-secondary-container text-on-secondary-container rounded-3xl p-6 relative overflow-hidden group">
           <div className="relative z-10 w-2/3">
             <div className="w-12 h-12 bg-on-secondary-container/10 rounded-2xl flex items-center justify-center mb-4">
-              <Icon name="auto_awesome" className="text-2xl" />
+              <Icon name="calendar_month" className="text-2xl" />
             </div>
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.weeklyPlaybook}</h2>
             <p className="text-sm">{t.dashboard.weeklyPlaybookDesc}</p>
           </div>
-          <Icon name="calendar_month" className="absolute -bottom-4 -right-4 text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500" />
+          <Icon name="auto_awesome" className="absolute -bottom-4 -right-4 !text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
         </Link>
       </div>
 

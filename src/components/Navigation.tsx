@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Icon } from "./Icon";
+import { FloraFileIcon } from "./FloraFileIcon";
 import { useTranslation } from "@/i18n/client";
 
 export function Navigation() {
@@ -13,7 +14,7 @@ export function Navigation() {
 
   const navItems = [
     { name: t.navigation.garden, path: "/", icon: "potted_plant" },
-    { name: t.navigation.identify, path: "/identify", icon: "photo_camera" },
+    { name: t.navigation.identify, path: "/identify", icon: "add_a_photo" },
     { name: t.navigation.schedule, path: "/playbook", icon: "calendar_month" },
     { name: t.navigation.settings, path: "/settings", icon: "settings" },
   ];
@@ -23,7 +24,7 @@ export function Navigation() {
       {/* Desktop Top Bar */}
       <nav className="hidden md:flex sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-surface-container w-full h-16 items-center px-[var(--spacing-margin-desktop)]">
         <Link href="/" className="text-primary font-heading font-bold text-xl flex items-center gap-2">
-          <Icon name="spa" filled /> FloraFile
+          <FloraFileIcon /> FloraFile
         </Link>
         <div className="flex-1" />
         <div className="flex items-center gap-6">

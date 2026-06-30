@@ -50,7 +50,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           </div>
 
           {/* Right column — care summary + plant history timeline */}
-          <aside className="w-full lg:w-80 xl:w-96 flex-shrink-0">
+          <aside className="w-full lg:w-80 xl:w-96 shrink-0">
             <div className="lg:sticky lg:top-6 space-y-6">
               {/* Care summary card */}
               {hasCareData && (

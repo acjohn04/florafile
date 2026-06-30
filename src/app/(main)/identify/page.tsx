@@ -75,7 +75,7 @@ export default function IdentifyPage() {
         <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="glass-panel p-6 rounded-3xl">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary flex-shrink-0">
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary shrink-0">
                 <Icon name="psychology" className="text-2xl" />
               </div>
               <div>

@@ -122,7 +122,7 @@ export default function ConfirmPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-on-surface-variant mb-2">{t.confirm.locationLabel}</label>
+            <label className="block text-sm font-medium text-on-surface-variant mb-2">{t.confirm.roomLabel}</label>
             <div className="relative">
               <select 
                 value={room}

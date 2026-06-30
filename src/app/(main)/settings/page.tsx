@@ -132,7 +132,7 @@ export default function SettingsPage() {
         <h2 className="text-lg font-heading font-semibold text-on-surface">{t.settings.profileTitle}</h2>
         <div className="flex items-center gap-4">
           {session?.user?.image ? (
-            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/30 flex-shrink-0">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/30 shrink-0">
               <Image
                 src={session.user.image}
                 alt={session.user.name || "User"}

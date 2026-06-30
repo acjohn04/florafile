@@ -58,7 +58,7 @@ export default async function Dashboard() {
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.addNewPlant}</h2>
             <p className="text-sm">{t.dashboard.addNewPlantDesc}</p>
           </div>
-          <Icon name="potted_plant" className="absolute -bottom-4 -right-4 !text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
+          <Icon name="potted_plant" className="absolute -bottom-4 -right-4 text-9xl! opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
         </Link>
 
         <Link href="/playbook" className="bg-secondary-container text-on-secondary-container rounded-3xl p-6 relative overflow-hidden group">
@@ -69,7 +69,7 @@ export default async function Dashboard() {
             <h2 className="text-xl font-heading font-bold mb-2">{t.dashboard.weeklyPlaybook}</h2>
             <p className="text-sm">{t.dashboard.weeklyPlaybookDesc}</p>
           </div>
-          <Icon name="auto_awesome" className="absolute -bottom-4 -right-4 !text-9xl opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
+          <Icon name="auto_awesome" className="absolute -bottom-4 -right-4 text-9xl! opacity-10 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
         </Link>
       </div>
 

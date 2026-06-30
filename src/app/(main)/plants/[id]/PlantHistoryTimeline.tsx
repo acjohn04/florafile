@@ -54,7 +54,7 @@ function StatusDot({ status }: { status: string }) {
 
   return (
     <span
-      className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
+      className={`inline-block w-2 h-2 rounded-full shrink-0 ${
         isSick ? "bg-error" : "bg-primary"
       }`}
       title={isSick ? "Sick" : "Healthy"}
@@ -176,7 +176,7 @@ function TimelineEntry({
       <div className="flex flex-col items-center pt-1">
         {/* Status dot on the timeline */}
         <div
-          className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${
+          className={`w-3 h-3 rounded-full shrink-0 border-2 ${
             isSick
               ? "bg-error border-error/30"
               : "bg-primary border-primary/30"
@@ -195,7 +195,7 @@ function TimelineEntry({
         className="flex-1 mb-3 flex items-center gap-3 p-2 rounded-2xl bg-surface-container-low border border-surface-container hover:bg-surface-container hover:border-surface-container-high transition-all group cursor-pointer"
       >
         {/* Thumbnail */}
-        <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+        <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-surface-container">
           <Image
             src={entry.imageUrl}
             alt="Plant snapshot"

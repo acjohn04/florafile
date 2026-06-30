@@ -294,7 +294,7 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
         <button
           type="button"
           onClick={() => router.push("/")}
-          className="w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface cursor-pointer"
+          className="w-10 h-10 flex items-center justify-center shrink-0 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface cursor-pointer"
         >
           <Icon name="arrow_back" />
         </button>
@@ -349,7 +349,7 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
       {/* Location — dropdown, auto-saves on change */}
       <label className="flex flex-col gap-2">
         <span className="text-sm font-medium text-on-surface-variant">
-          {t.plantDetail.locationLabel}
+          {t.plantDetail.roomLabel}
         </span>
         <div className="relative">
           <select
@@ -412,7 +412,7 @@ export function EditPlantForm({ plant }: EditPlantFormProps) {
       ) : (
         /* No image yet — show the empty-state upload prompt */
         <div
-          className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group border-outline-variant bg-surface-container-lowest hover:border-primary/50"
+          className="relative w-full aspect-4/3 rounded-3xl overflow-hidden border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer group border-outline-variant bg-surface-container-lowest hover:border-primary/50"
           onClick={() => fileInputRef.current?.click()}
         >
           <div className="flex flex-col items-center gap-4 text-center px-6">
@@ -462,7 +462,7 @@ function DiagnosisCard({ diagnosis }: { diagnosis: DiagnosisData }) {
       <div className="bg-surface-container-low border border-surface-container p-6 rounded-3xl">
         {/* Header: severity + diagnosis name */}
         <div className="flex items-start gap-4 mb-6 pb-6 border-b border-surface-container">
-          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${severityColor}`}>
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${severityColor}`}>
             <Icon name="warning" className="text-2xl" />
           </div>
           <div>
@@ -490,7 +490,7 @@ function DiagnosisCard({ diagnosis }: { diagnosis: DiagnosisData }) {
             <ol className="space-y-3">
               {diagnosis.recoverySteps.map((step: string, i: number) => (
                 <li key={i} className="flex items-start gap-3 bg-surface-container-lowest p-3 rounded-xl border border-surface-container">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold mt-0.5">
+                  <span className="shrink-0 w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold mt-0.5">
                     {i + 1}
                   </span>
                   <span className="text-on-surface">{step}</span>

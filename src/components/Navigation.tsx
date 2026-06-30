@@ -22,7 +22,7 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Top Bar */}
-      <nav className="hidden md:flex sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-surface-container w-full h-16 items-center px-[var(--spacing-margin-desktop)]">
+      <nav className="hidden md:flex sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-surface-container w-full h-16 items-center px-margin-desktop">
         <Link href="/" className="text-primary font-heading font-bold text-xl flex items-center gap-2">
           <FloraFileIcon /> FloraFile
         </Link>
@@ -44,7 +44,7 @@ export function Navigation() {
           {session?.user && (
             <>
               <div className="w-px h-6 bg-surface-container-high mx-2 hidden md:block" />
-              <div className="flex items-center gap-3 ml-2 hidden md:flex">
+              <div className="hidden md:flex items-center gap-3 ml-2">
                 <span className="text-sm font-medium text-on-surface hidden lg:block">
                   {session.user.name || session.user.email}
                 </span>

@@ -91,8 +91,8 @@ export function ManageLocations() {
 
   return (
     <section className="bg-surface-container-low rounded-3xl p-6 space-y-4">
-      <h2 className="text-lg font-heading font-semibold text-on-surface">{t.settings.locationsTitle}</h2>
-      <p className="text-sm text-on-surface-variant">{t.settings.locationsDesc}</p>
+      <h2 className="text-lg font-heading font-semibold text-on-surface">{t.settings.roomsTitle}</h2>
+      <p className="text-sm text-on-surface-variant">{t.settings.roomsDesc}</p>
 
       <ul className="space-y-2">
         {locations.map((loc) => (
@@ -113,14 +113,14 @@ export function ManageLocations() {
                 <button
                   onClick={handleSaveEdit}
                   className="text-primary hover:bg-primary/10 p-2 rounded-full cursor-pointer transition-colors"
-                  aria-label={t.settings.saveLocationButton}
+                  aria-label={t.settings.saveRoomButton}
                 >
                   <Icon name="check" className="text-[18px]" />
                 </button>
                 <button
                   onClick={() => setEditingId(null)}
                   className="text-on-surface-variant hover:bg-on-surface/10 p-2 rounded-full cursor-pointer transition-colors"
-                  aria-label={t.settings.cancelLocationButton}
+                  aria-label={t.settings.cancelRoomButton}
                 >
                   <Icon name="close" className="text-[18px]" />
                 </button>
@@ -138,7 +138,7 @@ export function ManageLocations() {
                   <button
                     onClick={() => handleDelete(loc.id)}
                     className="text-error hover:bg-error/10 p-2 rounded-full cursor-pointer transition-colors"
-                    aria-label={t.settings.deleteLocationButton}
+                    aria-label={t.settings.deleteRoomButton}
                   >
                     <Icon name="delete" className="text-[18px]" />
                   </button>
@@ -154,7 +154,7 @@ export function ManageLocations() {
           type="text"
           value={newLocation}
           onChange={(e) => setNewLocation(e.target.value)}
-          placeholder={t.settings.addLocationPlaceholder}
+          placeholder={t.settings.addRoomPlaceholder}
           className="flex-1 bg-surface-container rounded-2xl px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 outline-none focus:ring-2 focus:ring-primary/50 transition-all"
         />
         <button
@@ -163,7 +163,7 @@ export function ManageLocations() {
           className="bg-secondary text-on-secondary px-5 py-3 rounded-2xl font-medium text-sm transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 cursor-pointer flex items-center gap-2"
         >
           <Icon name="add" className="text-[18px]" />
-          {t.settings.addLocationButton}
+          {t.settings.addRoomButton}
         </button>
       </form>
     </section>

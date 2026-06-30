@@ -16,12 +16,15 @@ const IdentificationSchema = z.object({
 
 export type PlantIdentification = z.infer<typeof IdentificationSchema>;
 
-export async function identifyPlant(imageBase64: string, mimeType: string): Promise<PlantIdentification> {
+export async function identifyPlant(imageBase64: string, mimeType: string, hardinessZone?: string | null): Promise<PlantIdentification> {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("GEMINI_API_KEY is not set.");
   }
   
-  const prompt = `You are a botanist. Identify this plant and return JSON with the following properties: commonName, scientificName, light (requirements), water (frequency), toxicity (e.g. toxic to pets), careLevel (e.g. Beginner friendly), description (brief).`;
+  let prompt = `You are a botanist. Identify this plant and return JSON with the following properties: commonName, scientificName, light (requirements), water (frequency), toxicity (e.g. toxic to pets), careLevel (e.g. Beginner friendly), description (brief).`;
+  if (hardinessZone) {
+    prompt += `\nThe plant is located in USDA Hardiness Zone ${hardinessZone}. Take local climate into account.`;
+  }
   
   const response = await ai.models.generateContent({
     model,
@@ -77,12 +80,12 @@ export type PlantDiagnosis = z.infer<typeof DiagnosisSchema>;
  * Analyze a plant image for health issues.
  * Returns a diagnosis with status "healthy" or "sick".
  */
-export async function diagnosePlant(imageBase64: string, mimeType: string): Promise<PlantDiagnosis> {
+export async function diagnosePlant(imageBase64: string, mimeType: string, hardinessZone?: string | null): Promise<PlantDiagnosis> {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("GEMINI_API_KEY is not set.");
   }
   
-  const prompt = `You are a plant pathologist. Analyze this plant photo carefully.
+  let prompt = `You are a plant pathologist. Analyze this plant photo carefully.
 
 If the plant appears healthy with no visible issues, return:
 - status: "healthy"
@@ -99,6 +102,10 @@ If the plant has visible health issues (disease, pests, nutrient deficiency, ove
 - recoverySteps: array of actionable steps to fix the problem
 
 Return JSON with properties: status, diagnosisName, severity, description, recoverySteps.`;
+
+  if (hardinessZone) {
+    prompt += `\nConsider that the plant is located in USDA Hardiness Zone ${hardinessZone} when assessing environmental issues.`;
+  }
   
   const response = await ai.models.generateContent({
     model,
@@ -144,12 +151,12 @@ const ScheduleTaskSchema = z.object({
 
 export type ScheduleTask = z.infer<typeof ScheduleTaskSchema>;
 
-export async function generateCareSchedule(plants: any[], startDate: Date): Promise<ScheduleTask[]> {
+export async function generateCareSchedule(plants: any[], startDate: Date, hardinessZone?: string | null): Promise<ScheduleTask[]> {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("GEMINI_API_KEY is not set.");
   }
   
-  const prompt = `You are a master gardener. Generate a 3-month care schedule for these plants.
+  let prompt = `You are a master gardener. Generate a 3-month care schedule for these plants.
 Today is ${startDate.toISOString().split('T')[0]}.
 The schedule should space out tasks so the owner isn't overwhelmed on any single day.
 Consider the 'water' frequency and 'careLevel' for each plant.
@@ -167,6 +174,10 @@ Return a JSON array of tasks. Each task must have:
 - description: e.g. "Check top 2 inches of soil first."
 - dateStr: exact date in YYYY-MM-DD format
 Limit to max 50 events total to keep the calendar clean.`;
+
+  if (hardinessZone) {
+    prompt += `\nThe plants are located in USDA Hardiness Zone ${hardinessZone}. Adjust care schedules based on this climate context.`;
+  }
 
   const response = await ai.models.generateContent({
     model,
@@ -193,4 +204,21 @@ Limit to max 50 events total to keep the calendar clean.`;
   
   const parsed = JSON.parse(text);
   return z.array(ScheduleTaskSchema).parse(parsed);
+}
+
+export async function getHardinessZone(zipCode: string): Promise<string> {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is not set.");
+  }
+  
+  const prompt = `What is the USDA hardiness zone for the US ZIP code ${zipCode}?
+Return ONLY the zone number/letter (e.g. "10b"). If you cannot determine it or if it is not a valid US zip code, return "Unknown".`;
+
+  const response = await ai.models.generateContent({
+    model,
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+  });
+
+  const text = response.text?.trim() || "Unknown";
+  return text;
 }

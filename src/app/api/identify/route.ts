@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { identifyPlant } from "@/lib/gemini";
+import { requireHouseholdData } from "@/lib/auth";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
@@ -11,7 +12,8 @@ export async function POST(request: Request) {
   const mimeType = image.type;
 
   try {
-    const result = await identifyPlant(base64, mimeType);
+    const household = await requireHouseholdData();
+    const result = await identifyPlant(base64, mimeType, household.hardinessZone);
     return NextResponse.json(result);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "An unknown error occurred";

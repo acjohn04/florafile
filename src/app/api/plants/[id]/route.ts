@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { requireHousehold } from "@/lib/auth";
+import { requireHousehold, requireHouseholdData } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
 import {
   uploadImage,
@@ -64,9 +64,9 @@ export async function DELETE(
  * Run AI diagnosis on an image and return the fields to store on the Plant.
  * Returns healthy defaults if the diagnosis API fails (graceful degradation).
  */
-async function runDiagnosis(base64: string, mimeType: string) {
+async function runDiagnosis(base64: string, mimeType: string, hardinessZone?: string | null) {
   try {
-    const result = await diagnosePlant(base64, mimeType);
+    const result = await diagnosePlant(base64, mimeType, hardinessZone);
 
     // Healthy plant — clear diagnosis fields
     if (result.status === "healthy") {
@@ -129,7 +129,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const householdId = await requireHousehold();
+    const household = await requireHouseholdData();
+    const householdId = household.id;
     const { id } = await params;
 
     // Guard: only allow updates to plants belonging to the user's household
@@ -155,7 +156,7 @@ export async function PATCH(
         imageUrl = await uploadImage(parsed.buffer, key, parsed.mimeType);
 
         // Run AI diagnosis on the new image
-        diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType);
+        diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType, household.hardinessZone);
       }
     }
 

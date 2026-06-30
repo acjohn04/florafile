@@ -1170,6 +1170,8 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 
 export const HouseholdScalarFieldEnum = {
   id: 'id',
+  zipCode: 'zipCode',
+  hardinessZone: 'hardinessZone',
   createdAt: 'createdAt'
 } as const
 

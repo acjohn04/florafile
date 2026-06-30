@@ -27,16 +27,22 @@ export type AggregateHousehold = {
 
 export type HouseholdMinAggregateOutputType = {
   id: string | null
+  zipCode: string | null
+  hardinessZone: string | null
   createdAt: Date | null
 }
 
 export type HouseholdMaxAggregateOutputType = {
   id: string | null
+  zipCode: string | null
+  hardinessZone: string | null
   createdAt: Date | null
 }
 
 export type HouseholdCountAggregateOutputType = {
   id: number
+  zipCode: number
+  hardinessZone: number
   createdAt: number
   _all: number
 }
@@ -44,16 +50,22 @@ export type HouseholdCountAggregateOutputType = {
 
 export type HouseholdMinAggregateInputType = {
   id?: true
+  zipCode?: true
+  hardinessZone?: true
   createdAt?: true
 }
 
 export type HouseholdMaxAggregateInputType = {
   id?: true
+  zipCode?: true
+  hardinessZone?: true
   createdAt?: true
 }
 
 export type HouseholdCountAggregateInputType = {
   id?: true
+  zipCode?: true
+  hardinessZone?: true
   createdAt?: true
   _all?: true
 }
@@ -132,6 +144,8 @@ export type HouseholdGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type HouseholdGroupByOutputType = {
   id: string
+  zipCode: string | null
+  hardinessZone: string | null
   createdAt: Date
   _count: HouseholdCountAggregateOutputType | null
   _min: HouseholdMinAggregateOutputType | null
@@ -158,6 +172,8 @@ export type HouseholdWhereInput = {
   OR?: Prisma.HouseholdWhereInput[]
   NOT?: Prisma.HouseholdWhereInput | Prisma.HouseholdWhereInput[]
   id?: Prisma.StringFilter<"Household"> | string
+  zipCode?: Prisma.StringNullableFilter<"Household"> | string | null
+  hardinessZone?: Prisma.StringNullableFilter<"Household"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Household"> | Date | string
   members?: Prisma.HouseholdMemberListRelationFilter
   plants?: Prisma.PlantListRelationFilter
@@ -166,6 +182,8 @@ export type HouseholdWhereInput = {
 
 export type HouseholdOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  hardinessZone?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   members?: Prisma.HouseholdMemberOrderByRelationAggregateInput
   plants?: Prisma.PlantOrderByRelationAggregateInput
@@ -177,6 +195,8 @@ export type HouseholdWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.HouseholdWhereInput | Prisma.HouseholdWhereInput[]
   OR?: Prisma.HouseholdWhereInput[]
   NOT?: Prisma.HouseholdWhereInput | Prisma.HouseholdWhereInput[]
+  zipCode?: Prisma.StringNullableFilter<"Household"> | string | null
+  hardinessZone?: Prisma.StringNullableFilter<"Household"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Household"> | Date | string
   members?: Prisma.HouseholdMemberListRelationFilter
   plants?: Prisma.PlantListRelationFilter
@@ -185,6 +205,8 @@ export type HouseholdWhereUniqueInput = Prisma.AtLeast<{
 
 export type HouseholdOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  hardinessZone?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.HouseholdCountOrderByAggregateInput
   _max?: Prisma.HouseholdMaxOrderByAggregateInput
@@ -196,11 +218,15 @@ export type HouseholdScalarWhereWithAggregatesInput = {
   OR?: Prisma.HouseholdScalarWhereWithAggregatesInput[]
   NOT?: Prisma.HouseholdScalarWhereWithAggregatesInput | Prisma.HouseholdScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Household"> | string
+  zipCode?: Prisma.StringNullableWithAggregatesFilter<"Household"> | string | null
+  hardinessZone?: Prisma.StringNullableWithAggregatesFilter<"Household"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Household"> | Date | string
 }
 
 export type HouseholdCreateInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
@@ -209,6 +235,8 @@ export type HouseholdCreateInput = {
 
 export type HouseholdUncheckedCreateInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
@@ -217,6 +245,8 @@ export type HouseholdUncheckedCreateInput = {
 
 export type HouseholdUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
@@ -225,6 +255,8 @@ export type HouseholdUpdateInput = {
 
 export type HouseholdUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
@@ -233,31 +265,43 @@ export type HouseholdUncheckedUpdateInput = {
 
 export type HouseholdCreateManyInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
 }
 
 export type HouseholdUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HouseholdUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HouseholdCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  hardinessZone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type HouseholdMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  hardinessZone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type HouseholdMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  hardinessZone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -310,6 +354,8 @@ export type HouseholdUpdateOneRequiredWithoutPlantsNestedInput = {
 
 export type HouseholdCreateWithoutMembersInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
   locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
@@ -317,6 +363,8 @@ export type HouseholdCreateWithoutMembersInput = {
 
 export type HouseholdUncheckedCreateWithoutMembersInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
   locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
@@ -340,6 +388,8 @@ export type HouseholdUpdateToOneWithWhereWithoutMembersInput = {
 
 export type HouseholdUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
   locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
@@ -347,6 +397,8 @@ export type HouseholdUpdateWithoutMembersInput = {
 
 export type HouseholdUncheckedUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
   locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
@@ -354,6 +406,8 @@ export type HouseholdUncheckedUpdateWithoutMembersInput = {
 
 export type HouseholdCreateWithoutLocationsInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantCreateNestedManyWithoutHouseholdInput
@@ -361,6 +415,8 @@ export type HouseholdCreateWithoutLocationsInput = {
 
 export type HouseholdUncheckedCreateWithoutLocationsInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   plants?: Prisma.PlantUncheckedCreateNestedManyWithoutHouseholdInput
@@ -384,6 +440,8 @@ export type HouseholdUpdateToOneWithWhereWithoutLocationsInput = {
 
 export type HouseholdUpdateWithoutLocationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUpdateManyWithoutHouseholdNestedInput
@@ -391,6 +449,8 @@ export type HouseholdUpdateWithoutLocationsInput = {
 
 export type HouseholdUncheckedUpdateWithoutLocationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   plants?: Prisma.PlantUncheckedUpdateManyWithoutHouseholdNestedInput
@@ -398,6 +458,8 @@ export type HouseholdUncheckedUpdateWithoutLocationsInput = {
 
 export type HouseholdCreateWithoutPlantsInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberCreateNestedManyWithoutHouseholdInput
   locations?: Prisma.LocationCreateNestedManyWithoutHouseholdInput
@@ -405,6 +467,8 @@ export type HouseholdCreateWithoutPlantsInput = {
 
 export type HouseholdUncheckedCreateWithoutPlantsInput = {
   id?: string
+  zipCode?: string | null
+  hardinessZone?: string | null
   createdAt?: Date | string
   members?: Prisma.HouseholdMemberUncheckedCreateNestedManyWithoutHouseholdInput
   locations?: Prisma.LocationUncheckedCreateNestedManyWithoutHouseholdInput
@@ -428,6 +492,8 @@ export type HouseholdUpdateToOneWithWhereWithoutPlantsInput = {
 
 export type HouseholdUpdateWithoutPlantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUpdateManyWithoutHouseholdNestedInput
   locations?: Prisma.LocationUpdateManyWithoutHouseholdNestedInput
@@ -435,6 +501,8 @@ export type HouseholdUpdateWithoutPlantsInput = {
 
 export type HouseholdUncheckedUpdateWithoutPlantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hardinessZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.HouseholdMemberUncheckedUpdateManyWithoutHouseholdNestedInput
   locations?: Prisma.LocationUncheckedUpdateManyWithoutHouseholdNestedInput
@@ -491,6 +559,8 @@ export type HouseholdCountOutputTypeCountLocationsArgs<ExtArgs extends runtime.T
 
 export type HouseholdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  zipCode?: boolean
+  hardinessZone?: boolean
   createdAt?: boolean
   members?: boolean | Prisma.Household$membersArgs<ExtArgs>
   plants?: boolean | Prisma.Household$plantsArgs<ExtArgs>
@@ -500,20 +570,26 @@ export type HouseholdSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type HouseholdSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  zipCode?: boolean
+  hardinessZone?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["household"]>
 
 export type HouseholdSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  zipCode?: boolean
+  hardinessZone?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["household"]>
 
 export type HouseholdSelectScalar = {
   id?: boolean
+  zipCode?: boolean
+  hardinessZone?: boolean
   createdAt?: boolean
 }
 
-export type HouseholdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt", ExtArgs["result"]["household"]>
+export type HouseholdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "zipCode" | "hardinessZone" | "createdAt", ExtArgs["result"]["household"]>
 export type HouseholdInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Household$membersArgs<ExtArgs>
   plants?: boolean | Prisma.Household$plantsArgs<ExtArgs>
@@ -532,6 +608,8 @@ export type $HouseholdPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    zipCode: string | null
+    hardinessZone: string | null
     createdAt: Date
   }, ExtArgs["result"]["household"]>
   composites: {}
@@ -960,6 +1038,8 @@ export interface Prisma__HouseholdClient<T, Null = never, ExtArgs extends runtim
  */
 export interface HouseholdFieldRefs {
   readonly id: Prisma.FieldRef<"Household", 'String'>
+  readonly zipCode: Prisma.FieldRef<"Household", 'String'>
+  readonly hardinessZone: Prisma.FieldRef<"Household", 'String'>
   readonly createdAt: Prisma.FieldRef<"Household", 'DateTime'>
 }
     

@@ -22,7 +22,8 @@ describe('PlantCard', () => {
 
     render(<PlantCard plant={plant} />)
     expect(screen.getByText('Bob')).toBeInTheDocument()
-    expect(screen.getByText('Ficus(Ficus lyrata)')).toBeInTheDocument()
+    expect(screen.getByText('Ficus')).toBeInTheDocument()
+    expect(screen.getByText('Ficus lyrata')).toBeInTheDocument()
     expect(screen.getByText('Living Room')).toBeInTheDocument()
     expect(screen.getByText('Healthy')).toBeInTheDocument()
   })

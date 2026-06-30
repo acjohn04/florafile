@@ -73,3 +73,17 @@ export async function requireHousehold(): Promise<string> {
   })
   return household.id
 }
+
+/**
+ * Returns the household details (like hardinessZone) for the current user.
+ */
+export async function requireHouseholdData(): Promise<{ id: string; hardinessZone: string | null }> {
+  const householdId = await requireHousehold();
+  const household = await prisma.household.findUnique({
+    where: { id: householdId },
+    select: { id: true, hardinessZone: true }
+  });
+  if (!household) throw new Error("Household not found");
+  return household;
+}
+

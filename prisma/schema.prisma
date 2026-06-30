@@ -73,11 +73,13 @@ model VerificationToken {
 /// A household groups users so they share the same plants and care schedule.
 /// Created automatically when a new user signs in for the first time.
 model Household {
-  id        String            @id @default(cuid())
-  members   HouseholdMember[]
-  plants    Plant[]
-  locations Location[]
-  createdAt DateTime          @default(now())
+  id            String            @id @default(cuid())
+  zipCode       String?
+  hardinessZone String?
+  members       HouseholdMember[]
+  plants        Plant[]
+  locations     Location[]
+  createdAt     DateTime          @default(now())
 }
 
 /// Join table linking users to their household (one active household per user).

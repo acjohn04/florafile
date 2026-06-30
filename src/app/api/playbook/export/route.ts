@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { generateICS, CalendarTask } from "@/lib/calendar";
 import { generateCareSchedule } from "@/lib/gemini";
-import { requireHousehold } from "@/lib/auth";
+import { requireHouseholdData } from "@/lib/auth";
 
 export async function GET() {
-  const householdId = await requireHousehold();
+  const { id: householdId, hardinessZone } = await requireHouseholdData();
 
   // 1. Fetch all plants for the user
   const plants = await prisma.plant.findMany({
@@ -25,7 +25,7 @@ export async function GET() {
 
   // 2. Generate AI Schedule
   const now = new Date();
-  const aiTasks = await generateCareSchedule(plants, now);
+  const aiTasks = await generateCareSchedule(plants, now, hardinessZone);
 
   // 3. Map to CalendarTask format
   const calendarTasks: CalendarTask[] = aiTasks.map((t) => {

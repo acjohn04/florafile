@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { requireHousehold } from "@/lib/auth";
+import { requireHousehold, requireHouseholdData } from "@/lib/auth";
 import { diagnosePlant } from "@/lib/gemini";
 import { uploadImage, buildProfileKey, parseDataUrl } from "@/lib/storage";
 
@@ -17,9 +17,9 @@ export async function GET() {
  * Run AI diagnosis on an image and return the fields to store on the Plant.
  * Returns healthy defaults if the diagnosis API fails (graceful degradation).
  */
-async function runDiagnosis(base64: string, mimeType: string) {
+async function runDiagnosis(base64: string, mimeType: string, hardinessZone?: string | null) {
   try {
-    const result = await diagnosePlant(base64, mimeType);
+    const result = await diagnosePlant(base64, mimeType, hardinessZone);
 
     // Healthy plant — clear diagnosis fields
     if (result.status === "healthy") {
@@ -55,7 +55,8 @@ async function runDiagnosis(base64: string, mimeType: string) {
 
 export async function POST(request: Request) {
   try {
-    const householdId = await requireHousehold();
+    const household = await requireHouseholdData();
+    const householdId = household.id;
     const data = await request.json();
     const { imageData, ...plantData } = data;
 
@@ -84,7 +85,7 @@ export async function POST(request: Request) {
         }
 
         // Run AI health check on the uploaded image regardless of upload result
-        diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType);
+        diagnosisFields = await runDiagnosis(parsed.base64, parsed.mimeType, household.hardinessZone);
       }
     }
 

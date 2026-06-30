@@ -20,6 +20,11 @@ export default function SettingsPage() {
   const [joinInput, setJoinInput] = useState("");
   const [joining, setJoining] = useState(false);
   const [joinStatus, setJoinStatus] = useState<"idle" | "success" | "error">("idle");
+  const [zipInput, setZipInput] = useState("");
+  const [zipCode, setZipCode] = useState<string | null>(null);
+  const [hardinessZone, setHardinessZone] = useState<string | null>(null);
+  const [zipSaving, setZipSaving] = useState(false);
+  const [zipStatus, setZipStatus] = useState<"idle" | "success" | "error">("idle");
 
   // Fetch the current household ID on mount
   useEffect(() => {
@@ -27,6 +32,11 @@ export default function SettingsPage() {
       .then((r) => r.json())
       .then((data) => {
         if (data.householdId) setHouseholdId(data.householdId);
+        if (data.zipCode) {
+          setZipInput(data.zipCode);
+          setZipCode(data.zipCode);
+        }
+        if (data.hardinessZone) setHardinessZone(data.hardinessZone);
       })
       .catch(console.error);
   }, []);
@@ -77,6 +87,37 @@ export default function SettingsPage() {
       setJoinStatus("error");
     } finally {
       setJoining(false);
+    }
+  };
+
+  // Save ZIP code
+  const handleZipSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = zipInput.trim();
+    if (trimmed === zipCode) return;
+    setZipSaving(true);
+    setZipStatus("idle");
+
+    try {
+      const res = await fetch("/api/household", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ zipCode: trimmed }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setZipCode(data.zipCode);
+        setHardinessZone(data.hardinessZone);
+        setZipStatus("success");
+        setTimeout(() => setZipStatus("idle"), 3000);
+      } else {
+        setZipStatus("error");
+      }
+    } catch {
+      setZipStatus("error");
+    } finally {
+      setZipSaving(false);
     }
   };
 
@@ -196,7 +237,62 @@ export default function SettingsPage() {
         </form>
       </section>
 
-      {/* ── Manage Locations card ──────────────────────────────── */}
+      {/* ── Climate Context card ──────────────────────────────── */}
+      <section className="bg-surface-container-low rounded-3xl p-6 space-y-4">
+        <h2 className="text-lg font-heading font-semibold text-on-surface">{t.settings.climateTitle}</h2>
+        <p className="text-sm text-on-surface-variant">{t.settings.climateDesc}</p>
+
+        <form id="settings-climate-form" onSubmit={handleZipSave} className="space-y-3">
+          <div className="flex items-center gap-3">
+            <input
+              id="settings-zip-input"
+              type="text"
+              autoComplete="postal-code"
+              value={zipInput}
+              onChange={(e) => {
+                setZipInput(e.target.value);
+                setZipStatus("idle");
+              }}
+              placeholder={t.settings.zipCodePlaceholder}
+              className="flex-1 bg-surface-container rounded-2xl px-4 py-3 font-mono text-sm text-on-surface placeholder:text-on-surface-variant/50 outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            />
+            <button
+              id="settings-zip-button"
+              type="submit"
+              disabled={zipSaving || zipInput.trim() === zipCode}
+              className="flex items-center gap-2 bg-primary text-on-primary px-5 rounded-2xl font-medium text-sm py-3 transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 cursor-pointer"
+            >
+              <Icon name={zipSaving ? "autorenew" : "save"} className={`text-[18px] ${zipSaving ? "animate-spin" : ""}`} />
+              {zipSaving ? t.settings.zipCodeSaving : t.settings.zipCodeButton}
+            </button>
+          </div>
+
+          {zipStatus === "success" && (
+            <p className="text-sm text-primary flex items-center gap-1">
+              <Icon name="check_circle" className="text-[16px]" />
+              Saved successfully.
+            </p>
+          )}
+          {zipStatus === "error" && (
+            <p className="text-sm text-error flex items-center gap-1">
+              <Icon name="error" className="text-[16px]" />
+              {t.settings.hardinessError}
+            </p>
+          )}
+
+          {hardinessZone && (
+            <div className="mt-4 p-4 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase font-semibold tracking-wider opacity-80">{t.settings.hardinessZoneLabel}</p>
+                <p className="text-lg font-bold">{hardinessZone}</p>
+              </div>
+              <Icon name="park" className="text-3xl opacity-50" />
+            </div>
+          )}
+        </form>
+      </section>
+
+      {/* ── Manage Rooms card ──────────────────────────────── */}
       <ManageLocations />
     </div>
   );
